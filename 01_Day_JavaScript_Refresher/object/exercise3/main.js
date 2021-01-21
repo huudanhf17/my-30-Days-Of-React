@@ -102,10 +102,22 @@ const products = [
 ];
 
 // 2a: Imagine you are getting the above users collection from a MongoDB database. a. Create a function called signUp which allows user to add to the collection. If user exists, inform the user that he has already an account.
-
 function signUp(username) {
-  users.forEach((user) => user.username == username);
+  users.map(function (value) {
+    if (value.username === username) {
+      console.log("You already have an account.");
+    }
+  });
 }
 
-a = users.map((user) => user.username == "Alex");
-console.log(a);
+// 2b: Create a function called signIn which allows user to sign in to the application
+function signIn(username, password) {
+  users.map(function (value) {
+    if (value.username === username && value.password == password) {
+      console.log("Login successs");
+    }
+  });
+}
+
+// 3a: The products array has three elements and each of them has six properties. a. Create a function called rateProduct which rates the product
+function rateProduct() {}
