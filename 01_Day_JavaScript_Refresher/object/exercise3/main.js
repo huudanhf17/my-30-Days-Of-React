@@ -120,4 +120,42 @@ function signIn(username, password) {
 }
 
 // 3a: The products array has three elements and each of them has six properties. a. Create a function called rateProduct which rates the product
-function rateProduct() {}
+function rateProduct(productId, userID, number) {
+  products.map((value) => {
+    if (value._id === productId) {
+      value.ratings.push({ userID: userID, rate: number });
+    }
+  });
+}
+
+// 3b: Create a function called averageRating which calculate the average rating of a product
+function averageRating(productId) {
+  let a = 0;
+  let i = 0;
+  products.map((value) => {
+    if (value._id === productId) {
+      value.ratings.map((valueProduct) => {
+        a += valueProduct.rate;
+        i++;
+      });
+    }
+  });
+  let res = 0;
+  res = a / i;
+  return res;
+}
+
+// 4: Create a function called likeProduct. This function will helps to like to the product if it is not liked and remove like if it was liked.
+function likeProduct(productId, userId) {
+  products.map((value) => {
+    if (value._id === productId) {
+      value.likes.map((valueLike, key) => {
+        if (valueLike === userId) {
+          value.likes.splice(key, 1);
+        } else {
+          value.likes.push(userId);
+        }
+      });
+    }
+  });
+}

@@ -1,0 +1,110 @@
+html {
+  background-color: #f2f2f6;
+}
+
+li {
+  list-style: none;
+}
+
+p {
+  margin: 0;
+}
+
+h2 {
+  margin: 0;
+}
+
+.note {
+  max-width: 1024px;
+}
+
+.note-main-ul {
+  background-color: white;
+  border-radius: 15px;
+  margin: 20px;
+  padding: 0;
+}
+
+.note-main-li {
+  padding: 20px;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+}
+
+.note-main-li:after {
+  content: "";
+  border-bottom: 1px #c6c6c8 solid;
+  position: absolute;
+  bottom: 0px;
+  left: 15px;
+  right: 15px;
+}
+
+.note-main-ul-li-p {
+  color: #8a8a8d;
+}
+
+.note-main-ul-li-h2 {
+  color: #282c34;
+}
+
+.note-footer {
+  background-color: #20232a;
+  font-weight: bolder;
+  color: white;
+  display: flex;
+  min-height: 50px;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px #c6c6c8 solid;
+  padding-right: 20px;
+}
+
+.note-pre-header {
+  text-align: center;
+}
+
+.note-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 20px;
+  padding-left: 20px;
+}
+
+.note-header-list {
+  padding-right: 20px;
+}
+
+.note-header-view {
+  background-color: white;
+  padding: 12px;
+  border-radius: 15px;
+}
+
+.single-note-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 20px;
+  padding-left: 20px;
+  background-color: #20232a;
+}
+
+.single-note-header-h1 {
+  color: #61dafb;
+}
+
+.single-note-main {
+  background-color: white;
+  padding: 20px;
+}
+
+.single-note-header-tools-insert {
+  padding-right: 20px;
+}
+
+.single-note-main-title {
+  padding: 20px;
+}
