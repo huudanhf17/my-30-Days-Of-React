@@ -51,20 +51,30 @@ function generateColors(color, number) {
 
 // 3: Call your function shuffleArray, it takes an array as a parameter and it returns a shuffled array
 function shuffleArray(array) {
-  let newArray = array.slice();
-  let listIndexRandom = [];
-  for (let j = 0; j < array.length; j++) {
-    listIndexRandom.push(j);
+  var j, x, i;
+  for (i = array.length - 1; i > 0; i--) {
+    j = Math.floor(Math.random() * (i + 1));
+    x = array[i];
+    array[i] = array[j];
+    array[j] = x;
   }
-  for (let i = 0; i < array.length; i++) {
-    let a = Math.floor(Math.random() * array.length);
-    if (listIndexRandom.indexOf(a)) {
-      listIndexRandom.splice(listIndexRandom.indexOf(a), 1);
-    } else {
-      array[i] = newArray[a];
-    }
-  }
-  console.log(newArray);
+  console.log(array);
 }
 
-shuffleArray([0, 1, 2, 3, 4, 5]);
+// 4: Call your function factorial, it takes a whole number as a parameter and it return a factorial of the number
+function factorial(number) {
+  let far = 1;
+  for (i = 2; i <= number; i++) {
+    far *= i;
+  }
+  console.log(far);
+}
+
+// 5: Call your function isEmpty, it takes a parameter and it checks if it is empty or not
+function isEmpty(parameter) {
+  if (parameter == "") {
+    console.log("Empty");
+  } else {
+    console.log("Not");
+  }
+}
