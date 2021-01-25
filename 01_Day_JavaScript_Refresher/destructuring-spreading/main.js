@@ -37,5 +37,5 @@ const {
 } = person;
 
 console.log(
-  `${firstName} ${lastName} lives in ${country}. He is  ${age}. He is an ${job}. He teaches ${s1}, ${s2}, ${s3}, ${s4}, ${s5}, ${s6}, ${s7}, ${s8} and ${s9}. He speaks ${l1}, ${l2} and a litte bit of ${l3}.`,
+  `${firstName} ${lastName} lives in ${country}. He is  ${age}. He is an ${job}. He teaches ${s1}, ${s2}, ${s3}, ${s4}, ${s5}, ${s6}, ${s7}, ${s8} and ${s9}. He speaks ${l1}, ${l2} and a litte bit of ${l3}.`
 );
