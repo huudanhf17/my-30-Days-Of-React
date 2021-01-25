@@ -1,0 +1,27 @@
+[
+  {
+    "uuid": 1,
+    "title": "Hello World",
+    "content": "The smallest React example looks like this:"
+  },
+  {
+    "uuid": 2,
+    "title": "Introducing JSX",
+    "content": "Consider this variable declaration:"
+  },
+  {
+    "uuid": 3,
+    "title": "Rendering Elements",
+    "content": "Elements are the smallest building blocks of React apps."
+  },
+  {
+    "uuid": 4,
+    "title": "Components and Props",
+    "content": "Components let you split the UI into independent, reusable pieces, and think about each piece in isolation. This page provides an introduction to the idea of components."
+  },
+  {
+    "uuid": 5,
+    "title": "State and Lifecycle",
+    "content": "This page introduces the concept of state and lifecycle in a React component."
+  }
+]

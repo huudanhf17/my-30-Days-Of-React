@@ -1,3 +1,36 @@
+.App-logo {
+  height: 50px;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 html {
   background-color: #f2f2f6;
 }
@@ -67,7 +100,12 @@ h2 {
   justify-content: space-between;
   align-items: center;
   border-top: 1px #c6c6c8 solid;
-  padding-right: 20px;
+}
+
+.note-footer-add {
+  width: 70.7px;
+  align-items: center;
+  text-align: center;
 }
 
 .note-pre-header {
@@ -92,6 +130,10 @@ h2 {
   border-radius: 15px;
 }
 
+.clickable {
+  cursor: pointer;
+}
+
 .single-note-header {
   display: flex;
   align-items: center;
@@ -108,6 +150,10 @@ h2 {
   background-color: rgba(32, 35, 42, 0.5);
 }
 
+.single-note-header-tools-insert {
+  padding: 20px;
+}
+
 .single-note-header-h1 {
   color: #61dafb;
 }
@@ -118,11 +164,16 @@ h2 {
 }
 
 .single-note-header-tools-insert {
-  padding: 20px;
+  padding-right: 20px;
 }
 
 .single-note-main-title {
   padding: 20px;
+}
+
+.note-main-remove {
+  align-items: center;
+  display: flex;
 }
 
 .note-main-ul-grid {
@@ -146,6 +197,7 @@ h2 {
 
 .note-main-grid-title {
   padding: 5px;
+  font-size: 1.4em;
 }
 
 .note-main-grid-remove {
