@@ -129,6 +129,34 @@ class Statistics {
     let std = Math.sqrt(this.var(), 2);
     return std;
   }
+  freqDist() {
+    let counts = {};
+    this.array.forEach((e) => {
+      if (!(e in counts)) {
+        counts[e] = 1;
+      } else {
+        counts[e]++;
+      }
+    });
+    let sumValues = Object.values(counts).reduce((acc, age) => (acc += age), 0);
+    let perValues = Object.values(counts).map(
+      (value) => (value = (value / sumValues) * 100)
+    );
+    let res = Object.entries(counts).map((value, key) => {
+      let newArray = [];
+      newArray[1] = value[0];
+      newArray[0] = perValues[key];
+      return newArray;
+    });
+
+    perValues.sort((a, b) => b - a);
+
+    res.sort(function (a, b) {
+      return perValues.indexOf(a) - perValues.indexOf(b);
+    });
+
+    return res;
+  }
 }
 
 let statistics = new Statistics(ages);
@@ -142,4 +170,4 @@ console.log("Median: ", statistics.median()); // 29
 console.log("Mode: ", statistics.mode()); // {'mode': 26, 'count': 5}
 console.log("Variance: ", statistics.var()); // 17.5
 console.log("Standard Deviation: ", statistics.std()); // 4.2
-// console.log('Frequency Distribution: ',statistics.freqDist()) // [(20.0, 26), (16.0, 27), (12.0, 32), (8.0, 37), (8.0, 34), (8.0, 33), (8.0, 31), (8.0, 24), (4.0, 38), (4.0, 29), (4.0, 25)]
+console.log("Frequency Distribution: ", statistics.freqDist()); // [(20.0, 26), (16.0, 27), (12.0, 32), (8.0, 37), (8.0, 34), (8.0, 33), (8.0, 31), (8.0, 24), (4.0, 38), (4.0, 29), (4.0, 25)]

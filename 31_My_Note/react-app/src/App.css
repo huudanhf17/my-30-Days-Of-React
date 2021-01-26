@@ -151,7 +151,7 @@ h2 {
 }
 
 .single-note-header-tools-insert {
-  padding: 20px;
+  padding: 10px;
 }
 
 .single-note-header-h1 {
@@ -168,7 +168,11 @@ h2 {
 }
 
 .single-note-main-title {
-  padding: 20px;
+  padding: 15px;
+  border: 0;
+  width: 95%;
+  font-size: x-large;
+  font-weight: bolder;
 }
 
 .note-main-remove {
@@ -204,4 +208,13 @@ h2 {
   position: absolute;
   right: 10px;
   bottom: 10px;
+}
+
+.note-editor-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 20px;
+  padding-left: 20px;
+  background-color: #20232a;
 }

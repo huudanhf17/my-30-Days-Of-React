@@ -13,7 +13,8 @@ class App extends Component {
     this.state = {
       dataNotes: DataNotes,
       isListView: true,
-      isNote: true,
+      isNote: false,
+      noteEditObject: {},
     };
   }
 
@@ -26,6 +27,27 @@ class App extends Component {
   changeIsNote = () => {
     this.setState({
       isNote: !this.state.isNote,
+    });
+  };
+
+  getNoteEdit = (noteEdit) => {
+    this.setState({
+      noteEditObject: noteEdit,
+    });
+  };
+
+  getNoteEdited = (noteEditedObject) => {
+    this.state.dataNotes.forEach((note) => {
+      if (note.uuid === noteEditedObject.uuid) {
+        note.title = noteEditedObject.title;
+        note.content = noteEditedObject.content;
+      }
+    });
+  };
+
+  getRemoveUuid = (uuid) => {
+    this.setState({
+      dataNotes: this.state.dataNotes.filter((note) => note.uuid !== uuid),
     });
   };
 
@@ -44,6 +66,12 @@ class App extends Component {
           isListView={this.state.isListView}
           isNote={this.state.isNote}
           changeIsNote={() => this.changeIsNote()}
+          getNoteEdit={(noteEdit) => this.getNoteEdit(noteEdit)}
+          noteEditObject={this.state.noteEditObject}
+          getNoteEdited={(noteEditedObject) =>
+            this.getNoteEdited(noteEditedObject)
+          }
+          getRemoveUuid={(uuid) => this.getRemoveUuid(uuid)}
         ></Main>
         <Footer
           dataLength={this.state.dataNotes.length}

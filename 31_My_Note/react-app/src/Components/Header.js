@@ -41,9 +41,6 @@ class Header extends Component {
           >
             &lt;&lt;
           </h1>
-          <div className="single-note-header-tools">
-            <img src="./img/save.png" alt="save" />
-          </div>
         </header>
       );
     }
