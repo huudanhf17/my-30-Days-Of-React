@@ -151,11 +151,10 @@ class Statistics {
 
     perValues.sort((a, b) => b - a);
 
-    res.sort(function (a, b) {
-      return perValues.indexOf(a) - perValues.indexOf(b);
+    let finalRes = res.map((value) => {
+      return `(${value[0]}.0, ${value[1]})`;
     });
-
-    return res;
+    return finalRes;
   }
 }
 

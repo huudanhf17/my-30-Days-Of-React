@@ -15,6 +15,8 @@ class App extends Component {
       isListView: true,
       isNote: false,
       noteEditObject: {},
+      isAdd: false,
+      textSearch: "",
     };
   }
 
@@ -27,6 +29,12 @@ class App extends Component {
   changeIsNote = () => {
     this.setState({
       isNote: !this.state.isNote,
+    });
+  };
+
+  changeIsAdd = () => {
+    this.setState({
+      isAdd: !this.state.isAdd,
     });
   };
 
@@ -51,7 +59,26 @@ class App extends Component {
     });
   };
 
+  getNewNote = (newNoteObject) => {
+    this.state.dataNotes.push(newNoteObject);
+  };
+
+  getSearchInput = (text) => {
+    this.setState({
+      textSearch: text,
+    });
+  };
+
   render() {
+    var resSearch = [];
+    this.state.dataNotes.forEach((value) => {
+      if (
+        value.title.indexOf(this.state.textSearch) !== -1 ||
+        value.content.indexOf(this.state.textSearch) !== -1
+      ) {
+        resSearch.push(value);
+      }
+    });
     return (
       <section className="note">
         <PreHeader></PreHeader>
@@ -60,9 +87,10 @@ class App extends Component {
           changeView={() => this.changeView()}
           isNote={this.state.isNote}
           changeIsNote={() => this.changeIsNote()}
+          getSearchInput={(text) => this.getSearchInput(text)}
         ></Header>
         <Main
-          dataNotes={this.state.dataNotes}
+          dataNotes={resSearch}
           isListView={this.state.isListView}
           isNote={this.state.isNote}
           changeIsNote={() => this.changeIsNote()}
@@ -72,10 +100,15 @@ class App extends Component {
             this.getNoteEdited(noteEditedObject)
           }
           getRemoveUuid={(uuid) => this.getRemoveUuid(uuid)}
+          isAdd={this.state.isAdd}
+          changeIsAdd={() => this.changeIsAdd()}
+          getNewNote={(newNote) => this.getNewNote(newNote)}
         ></Main>
         <Footer
           dataLength={this.state.dataNotes.length}
           isNote={this.state.isNote}
+          isAdd={this.state.isAdd}
+          changeIsAdd={() => this.changeIsAdd()}
         ></Footer>
       </section>
     );

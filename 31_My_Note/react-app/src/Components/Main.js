@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Note from "./Note";
+import NoteAdd from "./NoteAdd";
 import NoteEditor from "./NoteEditor";
 import NoteGrid from "./NoteGrid";
 
@@ -29,13 +30,21 @@ class Main extends Component {
     ));
 
   render() {
-    if (this.props.isListView && this.props.isNote === false) {
+    if (
+      this.props.isListView &&
+      this.props.isNote === false &&
+      this.props.isAdd === false
+    ) {
       return (
         <main className="note-main">
           <ul className="note-main-ul">{this.mappingNote()}</ul>
         </main>
       );
-    } else if (this.props.isListView === false && this.props.isNote === false) {
+    } else if (
+      this.props.isListView === false &&
+      this.props.isNote === false &&
+      this.props.isAdd === false
+    ) {
       return (
         <main className="note-main">
           <ul className="note-main-ul-grid">{this.mappingNoteGrid()}</ul>
@@ -50,6 +59,13 @@ class Main extends Component {
           }
           changeIsNote={() => this.props.changeIsNote()}
         ></NoteEditor>
+      );
+    } else if (this.props.isAdd) {
+      return (
+        <NoteAdd
+          changeIsAdd={() => this.props.changeIsAdd()}
+          getNewNote={(newNote) => this.props.getNewNote(newNote)}
+        ></NoteAdd>
       );
     }
   }
