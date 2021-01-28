@@ -32,6 +32,7 @@ class NoteAdd extends Component {
     };
     this.props.getNewNote(newNote);
     this.props.changeIsAdd();
+    this.props.resetSort();
   };
 
   userIdGeneratedByUser = () => {

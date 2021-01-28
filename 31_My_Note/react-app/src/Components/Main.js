@@ -23,9 +23,11 @@ class Main extends Component {
       <NoteGrid
         title={note.title}
         content={note.content}
+        uuid={note.uuid}
         key={key}
         changeIsNote={() => this.props.changeIsNote()}
         getNoteEdit={(noteEdit) => this.props.getNoteEdit(note)}
+        getRemoveUuid={(uuidRemove) => this.props.getRemoveUuid(uuidRemove)}
       ></NoteGrid>
     ));
 
@@ -65,6 +67,7 @@ class Main extends Component {
         <NoteAdd
           changeIsAdd={() => this.props.changeIsAdd()}
           getNewNote={(newNote) => this.props.getNewNote(newNote)}
+          resetSort={() => this.props.resetSort()}
         ></NoteAdd>
       );
     }

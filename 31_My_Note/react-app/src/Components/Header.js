@@ -5,8 +5,21 @@ class Header extends Component {
     this.props.getSearchInput(e.target.value);
   };
 
+  onChangeSort = (ev) => {
+    this.props.sortNotes(ev.target.value);
+  };
+
+  backOnclick = () => {
+    this.props.resetSearch();
+    this.props.changeIsNote();
+  };
+
   render() {
-    if (this.props.isListView && this.props.isNote === false) {
+    if (
+      this.props.isListView &&
+      this.props.isNote === false &&
+      this.props.isAdd === false
+    ) {
       return (
         <header className="note-header">
           <h1 className="header-h1">Note App</h1>
@@ -26,15 +39,23 @@ class Header extends Component {
               className="clickable"
               onClick={() => this.props.changeView()}
             />
-            <select className="header-sort-select">
-              <option value>Sort</option>
+            <select
+              className="header-sort-select clickable"
+              onChange={(ev) => this.onChangeSort(ev)}
+              defaultValue={this.props.valueSort}
+            >
+              <option value={0}>Sort</option>
               <option value={1}>A-Z</option>
               <option value={2}>Z-A</option>
             </select>
           </div>
         </header>
       );
-    } else if (this.props.isListView === false && this.props.isNote === false) {
+    } else if (
+      this.props.isListView === false &&
+      this.props.isNote === false &&
+      this.props.isAdd === false
+    ) {
       return (
         <header className="note-header">
           <h1 className="header-h1">Note App</h1>
@@ -53,20 +74,23 @@ class Header extends Component {
               onClick={() => this.props.changeView()}
             />
             <img src="./img/grid.png" alt="grid" />
-            <select className="header-sort-select">
-              <option value>Sort</option>
+            <select
+              className="header-sort-select clickable"
+              onChange={(ev) => this.onChangeSort(ev)}
+            >
+              <option value={0}>Sort</option>
               <option value={1}>A-Z</option>
               <option value={2}>Z-A</option>
             </select>
           </div>
         </header>
       );
-    } else if (this.props.isNote) {
+    } else if (this.props.isNote || this.props.isAdd) {
       return (
         <header className="single-note-header">
           <h1
             className="single-note-header-h1 clickable"
-            onClick={() => this.props.changeIsNote()}
+            onClick={() => this.backOnclick()}
           >
             &lt;&lt;
           </h1>

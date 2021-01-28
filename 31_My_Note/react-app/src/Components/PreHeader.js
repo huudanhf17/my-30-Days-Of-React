@@ -1,19 +1,32 @@
 import React, { Component } from "react";
 
-function getDate() {
-  let date = new Date();
-  setTimeout(() => getDate(), 1000);
-  return date;
-}
-
 class PreHeader extends Component {
-  time = `${getDate().getHours()}:${getDate().getMinutes()}:${getDate().getSeconds()}`;
+  constructor(props) {
+    super(props);
+    this.state = {
+      date: new Date(),
+    };
+  }
+
+  componentDidMount() {
+    this.timerID = setInterval(() => this.tick(), 1000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timerID);
+  }
+
+  tick() {
+    this.setState({
+      date: new Date(),
+    });
+  }
 
   render() {
     return (
       <div className="note-pre-header">
         <b>
-          <p>{this.time}</p>
+          <p>{this.state.date.toLocaleTimeString()}</p>
         </b>
       </div>
     );

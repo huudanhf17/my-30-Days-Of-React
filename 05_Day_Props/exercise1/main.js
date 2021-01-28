@@ -15,3 +15,9 @@ array
 object
 function
 */
+
+// 4: What is a propTypes?
+//The propTypes package helps us to assign the data types of the props we passed to a component.
+
+// 5: defaultProps
+//The defaultProps can be used when we want to have some default prop types for a component.

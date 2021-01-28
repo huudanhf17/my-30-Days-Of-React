@@ -11,15 +11,15 @@ class NoteGrid extends Component {
   render() {
     return (
       <li className="note-main-titles-li-grid">
-        <div
-          className="note-main-grid-content clickable"
-          onClick={() => this.noteClick()}
-        >
-          <div>{this.substrContent}</div>
+        <div className="note-main-grid-content">
+          <div className="clickable" onClick={() => this.noteClick()}>
+            {this.substrContent}
+          </div>
           <img
             src="./img/remove.png"
             alt="remove"
-            className="note-main-grid-remove"
+            className="note-main-grid-remove clickable"
+            onClick={(uuidRemove) => this.props.getRemoveUuid(this.props.uuid)}
           />
         </div>
         <h2

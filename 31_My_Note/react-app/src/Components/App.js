@@ -11,13 +11,24 @@ class App extends Component {
     super(props);
 
     this.state = {
-      dataNotes: DataNotes,
+      dataNotes: [],
       isListView: true,
       isNote: false,
       noteEditObject: {},
       isAdd: false,
       textSearch: "",
+      valueSort: 0,
     };
+  }
+
+  componentDidMount() {
+    if (localStorage.getItem("dataNotes") === null) {
+      localStorage.setItem("dataNotes", JSON.stringify(DataNotes));
+    }
+    let temp = JSON.parse(localStorage.getItem("dataNotes"));
+    this.setState({
+      dataNotes: temp,
+    });
   }
 
   changeView = () => {
@@ -51,22 +62,68 @@ class App extends Component {
         note.content = noteEditedObject.content;
       }
     });
+    localStorage.setItem("dataNotes", JSON.stringify(this.state.dataNotes));
   };
 
   getRemoveUuid = (uuid) => {
+    let temp = this.state.dataNotes.filter((note) => note.uuid !== uuid);
     this.setState({
-      dataNotes: this.state.dataNotes.filter((note) => note.uuid !== uuid),
+      dataNotes: temp,
     });
+    localStorage.setItem("dataNotes", JSON.stringify(temp));
   };
 
   getNewNote = (newNoteObject) => {
     this.state.dataNotes.push(newNoteObject);
+    localStorage.setItem("dataNotes", JSON.stringify(this.state.dataNotes));
   };
 
   getSearchInput = (text) => {
     this.setState({
       textSearch: text,
     });
+  };
+
+  sortNotesAz = () => {
+    let sortNotes = this.state.dataNotes.sort((x, y) =>
+      x.title.localeCompare(y.title)
+    );
+    this.setState({
+      dataNotes: sortNotes,
+    });
+  };
+
+  sortNotesZa = () => {
+    let sortNotes = this.state.dataNotes.sort((x, y) =>
+      y.title.localeCompare(x.title)
+    );
+    this.setState({
+      dataNotes: sortNotes,
+    });
+  };
+
+  resetSearch = () => {
+    this.setState({
+      textSearch: "",
+    });
+  };
+
+  resetSort = () => {
+    this.setState({
+      valueSort: 0,
+    });
+  };
+
+  sortNotes = (e) => {
+    switch (parseInt(e)) {
+      case 1:
+        this.sortNotesAz();
+        break;
+      case 2:
+        this.sortNotesZa();
+        break;
+      default:
+    }
   };
 
   render() {
@@ -79,6 +136,7 @@ class App extends Component {
         resSearch.push(value);
       }
     });
+
     return (
       <section className="note">
         <PreHeader></PreHeader>
@@ -88,6 +146,10 @@ class App extends Component {
           isNote={this.state.isNote}
           changeIsNote={() => this.changeIsNote()}
           getSearchInput={(text) => this.getSearchInput(text)}
+          sortNotes={(a) => this.sortNotes(a)}
+          resetSearch={() => this.resetSearch()}
+          valueSort={() => this.state.valueSort}
+          isAdd={this.state.isAdd}
         ></Header>
         <Main
           dataNotes={resSearch}
@@ -103,6 +165,7 @@ class App extends Component {
           isAdd={this.state.isAdd}
           changeIsAdd={() => this.changeIsAdd()}
           getNewNote={(newNote) => this.getNewNote(newNote)}
+          resetSort={() => this.resetSort()}
         ></Main>
         <Footer
           dataLength={this.state.dataNotes.length}

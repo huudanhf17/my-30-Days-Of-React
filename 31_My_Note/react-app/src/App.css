@@ -246,6 +246,7 @@ h2 {
   border: 0;
   height: 29px;
   margin-left: 20px;
+  font-size: 18px;
 }
 
 .header-sort-select:focus {

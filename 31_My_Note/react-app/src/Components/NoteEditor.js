@@ -34,6 +34,15 @@ class NoteEditor extends Component {
     this.props.changeIsNote();
   };
 
+  insertImg = () => {
+    const link = prompt("Nhap URL IMG vao day");
+    const editorContent = document.querySelector(".editor");
+    console.log(link);
+    const img = document.createElement("img");
+    img.src = link;
+    editorContent.appendChild(img);
+  };
+
   render() {
     return (
       <main>
@@ -42,6 +51,7 @@ class NoteEditor extends Component {
             src="./img/insert-img.png"
             alt="insert-img"
             className="single-note-header-tools-insert"
+            onClick={() => this.insertImg()}
           />
         </div>
         <div className="single-note-main">
@@ -51,12 +61,12 @@ class NoteEditor extends Component {
             onChange={(e) => this.titleOnChange(e)}
           />
           <div
+            className="editor"
             contentEditable="true"
             suppressContentEditableWarning={true}
             onBlur={(ev) => this.contentOnBlur(ev)}
           >
             {this.props.noteEditObject.content}
-            <img src="./img/img.png" alt="" />
           </div>
         </div>
         <div className="note-editor-footer">
