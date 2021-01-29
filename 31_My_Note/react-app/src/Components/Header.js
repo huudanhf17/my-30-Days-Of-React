@@ -14,6 +14,11 @@ class Header extends Component {
     this.props.changeIsNote();
   };
 
+  backOnclick2 = () => {
+    this.props.resetSearch();
+    this.props.changeIsAdd();
+  };
+
   render() {
     if (
       this.props.isListView &&
@@ -85,12 +90,23 @@ class Header extends Component {
           </div>
         </header>
       );
-    } else if (this.props.isNote || this.props.isAdd) {
+    } else if (this.props.isNote) {
       return (
         <header className="single-note-header">
           <h1
             className="single-note-header-h1 clickable"
             onClick={() => this.backOnclick()}
+          >
+            &lt;&lt;
+          </h1>
+        </header>
+      );
+    } else if (this.props.isAdd) {
+      return (
+        <header className="single-note-header">
+          <h1
+            className="single-note-header-h1 clickable"
+            onClick={() => this.backOnclick2()}
           >
             &lt;&lt;
           </h1>

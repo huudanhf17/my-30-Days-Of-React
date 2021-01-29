@@ -150,8 +150,10 @@ class App extends Component {
           resetSearch={() => this.resetSearch()}
           valueSort={() => this.state.valueSort}
           isAdd={this.state.isAdd}
+          changeIsAdd={() => this.changeIsAdd()}
         ></Header>
         <Main
+          key={resSearch}
           dataNotes={resSearch}
           isListView={this.state.isListView}
           isNote={this.state.isNote}

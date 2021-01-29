@@ -18,6 +18,10 @@
   color: white;
 }
 
+.Footer-count {
+  animation: fadein 1s;
+}
+
 .App-link {
   color: #61dafb;
 }
@@ -68,10 +72,11 @@ h2 {
 }
 
 .note-main-li {
-  padding: 20px;
+  padding: 25px;
   position: relative;
   display: flex;
   justify-content: space-between;
+  animation: fadein 2s;
 }
 
 .note-main-li:after {
@@ -133,6 +138,11 @@ h2 {
 
 .clickable {
   cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.clickable:hover {
+  transform: scale(1.1);
 }
 
 .single-note-header {
@@ -162,10 +172,11 @@ h2 {
 .single-note-main {
   background-color: white;
   padding: 20px;
+  animation: fadein 2s;
 }
 
-.single-note-header-tools-insert {
-  padding-right: 20px;
+.note-pre-header {
+  animation: fadein 2s;
 }
 
 .single-note-main-title {
@@ -190,6 +201,7 @@ h2 {
 .note-main-titles-li-grid {
   padding: 20px;
   width: 189px;
+  animation: fadein 2s;
 }
 
 .note-main-grid-content {
@@ -255,4 +267,29 @@ h2 {
 
 .header-h1 {
   min-width: 168px;
+}
+
+.d-none {
+  display: none;
+}
+
+.NoteAdd-label {
+  padding: 10px;
+  height: 29px;
+}
+
+.NoteAdd-input {
+  padding: 0;
+  margin: 0;
+  height: 0;
+  width: 0;
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

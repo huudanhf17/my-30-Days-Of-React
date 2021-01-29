@@ -9,7 +9,7 @@ class Footer extends Component {
           <div className="App-header">
             <img src={logo} className="App-logo" alt="logo" />
           </div>
-          <p>{this.props.dataLength} ghi chú</p>
+          <p className="Footer-count">{this.props.dataLength} ghi chú</p>
           <div className="note-footer-add">
             <img
               src="./img/add.png"
