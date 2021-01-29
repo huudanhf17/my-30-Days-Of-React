@@ -105,9 +105,8 @@ class NoteAdd extends Component {
             contentEditable="true"
             suppressContentEditableWarning={true}
             onBlur={(ev) => this.contentOnBlur(ev)}
-          >
-            Type content here
-          </div>
+            placeholder="Type content here"
+          ></div>
         </div>
         <div className="note-editor-footer">
           <div className="App-header">

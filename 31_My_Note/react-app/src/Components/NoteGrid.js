@@ -1,7 +1,13 @@
 import React, { Component } from "react";
 
 class NoteGrid extends Component {
-  substrContent = `${this.props.content.substr(0, 56)}...`;
+  componentDidMount() {
+    this.loadContent();
+  }
+  loadContent = () => {
+    const editorContent = document.getElementById(this.props.uuid);
+    editorContent.innerHTML = this.props.content;
+  };
 
   noteClick = () => {
     this.props.getNoteEdit();
@@ -12,9 +18,11 @@ class NoteGrid extends Component {
     return (
       <li className="note-main-titles-li-grid">
         <div className="note-main-grid-content">
-          <div className="clickable" onClick={() => this.noteClick()}>
-            {this.substrContent}
-          </div>
+          <div
+            className="NoteGrid-summary clickable"
+            onClick={() => this.noteClick()}
+            id={this.props.uuid}
+          ></div>
           <img
             src="./img/remove.png"
             alt="remove"

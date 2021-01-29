@@ -1,7 +1,13 @@
 import React, { Component } from "react";
 
 class Note extends Component {
-  substrContent = `${this.props.content.substr(0, 43)}...`;
+  componentDidMount() {
+    this.loadContent();
+  }
+  loadContent = () => {
+    const editorContent = document.getElementById(this.props.uuid);
+    editorContent.innerHTML = this.props.content;
+  };
 
   noteClick = () => {
     this.props.changeIsNote();
@@ -11,9 +17,9 @@ class Note extends Component {
   render() {
     return (
       <li className="note-main-li">
-        <div className="clickable" onClick={() => this.noteClick()}>
+        <div className="Note-li-div" onClick={() => this.noteClick()}>
           <h2 className="note-main-ul-li-h2">{this.props.title}</h2>
-          <p className="note-main-ul-li-p">{this.substrContent}</p>
+          <p className="note-main-ul-li-p" id={this.props.uuid}></p>
         </div>
         <div className="note-main-remove">
           <img
