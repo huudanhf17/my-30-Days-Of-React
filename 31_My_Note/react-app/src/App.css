@@ -153,6 +153,7 @@ h2 {
   padding-right: 20px;
   padding-left: 20px;
   background-color: #20232a;
+  max-height: 50px;
 }
 
 .single-note-tool {
@@ -174,6 +175,7 @@ h2 {
   background-color: white;
   padding: 20px;
   animation: fadein 2s;
+  min-height: 250px;
 }
 
 .note-pre-header {
@@ -186,6 +188,10 @@ h2 {
   width: 95%;
   font-size: x-large;
   font-weight: bolder;
+}
+
+.single-note-main-title:focus {
+  outline: 0;
 }
 
 .note-main-remove {
