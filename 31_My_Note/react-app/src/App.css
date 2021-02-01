@@ -175,7 +175,7 @@ h2 {
   background-color: white;
   padding: 20px;
   animation: fadein 2s;
-  min-height: 250px;
+  flex: 1 0 auto;
 }
 
 .note-pre-header {
@@ -241,6 +241,13 @@ h2 {
   padding-right: 20px;
   padding-left: 20px;
   background-color: #20232a;
+}
+
+.NoteEditor-main {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 85vh;
 }
 
 .noteadd-content {
@@ -362,6 +369,7 @@ h2 {
 
   .note-main-ul-grid {
     padding: 0;
+    justify-content: space-evenly;
   }
 
   .note-main-titles-li-grid {

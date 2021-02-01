@@ -17,7 +17,7 @@ class App extends Component {
       noteEditObject: {},
       isAdd: false,
       textSearch: "",
-      valueSort: 0,
+      valueSort: "?",
     };
   }
 
@@ -29,6 +29,11 @@ class App extends Component {
     this.setState({
       dataNotes: temp,
     });
+
+    if (localStorage.getItem("valueSort") === null) {
+      localStorage.setItem("valueSort", 0);
+    }
+    this.setState({ valueSort: localStorage.getItem("valueSort") * 1 });
   }
 
   changeView = () => {
@@ -118,9 +123,11 @@ class App extends Component {
     switch (parseInt(e)) {
       case 1:
         this.sortNotesAz();
+        localStorage.setItem("valueSort", 1);
         break;
       case 2:
         this.sortNotesZa();
+        localStorage.setItem("valueSort", 2);
         break;
       default:
     }
@@ -148,7 +155,7 @@ class App extends Component {
           getSearchInput={(text) => this.getSearchInput(text)}
           sortNotes={(a) => this.sortNotes(a)}
           resetSearch={() => this.resetSearch()}
-          valueSort={() => this.state.valueSort}
+          valueSort={this.state.valueSort}
           isAdd={this.state.isAdd}
           changeIsAdd={() => this.changeIsAdd()}
         ></Header>

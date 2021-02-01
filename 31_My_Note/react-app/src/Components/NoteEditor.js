@@ -72,7 +72,7 @@ class NoteEditor extends Component {
 
   render() {
     return (
-      <main>
+      <main className="NoteEditor-main">
         <div className="single-note-tool">
           <img
             src="./img/insert-img.png"

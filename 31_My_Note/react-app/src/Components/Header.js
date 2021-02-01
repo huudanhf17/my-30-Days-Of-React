@@ -1,6 +1,20 @@
 import React, { Component } from "react";
+import Sort from "./Sort";
 
 class Header extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      sortValue: 0,
+    };
+  }
+
+  componentDidMount() {
+    this.setState({
+      sortValue: this.props.sortValue,
+    });
+  }
   onChangeSearch = (e) => {
     this.props.getSearchInput(e.target.value);
   };
@@ -25,6 +39,7 @@ class Header extends Component {
       this.props.isNote === false &&
       this.props.isAdd === false
     ) {
+      console.log(this.props.valueSort);
       return (
         <header className="note-header">
           <h1 className="header-h1">Note App</h1>
@@ -44,15 +59,7 @@ class Header extends Component {
               className="clickable"
               onClick={() => this.props.changeView()}
             />
-            <select
-              className="header-sort-select clickable"
-              onChange={(ev) => this.onChangeSort(ev)}
-              defaultValue={this.props.valueSort}
-            >
-              <option value={0}>Sort</option>
-              <option value={1}>A-Z</option>
-              <option value={2}>Z-A</option>
-            </select>
+            <Sort valueSort={this.props.valueSort}></Sort>
           </div>
         </header>
       );
