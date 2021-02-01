@@ -1,15 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 function PreHeader(props) {
-  const element = (
-    <div>
-      <h1>Hello, world!</h1>
-      <h2>It is {new Date().toLocaleTimeString()}.</h2>
+  const [time, setTime] = useState(new Date());
+
+  useEffect(() => {
+    setInterval(() => {
+      setTime(new Date());
+    }, 1000);
+  }, []);
+  return (
+    <div className="note-pre-header">
+      <b>
+        <p>{time.toLocaleTimeString()}</p>
+      </b>
     </div>
   );
-  ReactDOM.render(element, document.getElementById("root"));
 }
-
-setInterval(PreHeader, 1000);
 
 export default PreHeader;
