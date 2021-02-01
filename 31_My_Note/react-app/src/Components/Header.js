@@ -59,7 +59,10 @@ class Header extends Component {
               className="clickable"
               onClick={() => this.props.changeView()}
             />
-            <Sort valueSort={this.props.valueSort}></Sort>
+            <Sort
+              valueSort={this.props.valueSort}
+              sortNotes={(a) => this.props.sortNotes(a)}
+            ></Sort>
           </div>
         </header>
       );

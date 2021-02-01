@@ -96,6 +96,7 @@ class App extends Component {
     this.setState({
       dataNotes: sortNotes,
     });
+    localStorage.setItem("dataNotes", JSON.stringify(sortNotes));
   };
 
   sortNotesZa = () => {
@@ -105,6 +106,7 @@ class App extends Component {
     this.setState({
       dataNotes: sortNotes,
     });
+    localStorage.setItem("dataNotes", JSON.stringify(sortNotes));
   };
 
   resetSearch = () => {
@@ -121,6 +123,9 @@ class App extends Component {
 
   sortNotes = (e) => {
     switch (parseInt(e)) {
+      case 0:
+        localStorage.setItem("valueSort", 0);
+        break;
       case 1:
         this.sortNotesAz();
         localStorage.setItem("valueSort", 1);
