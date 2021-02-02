@@ -1,6 +1,10 @@
 import React, { useEffect } from "react";
+import Modal from "./Modal";
+import useModal from "./useModal";
 
 function Note(props) {
+  const { isShowing, toggle } = useModal();
+
   const loadContent = () => {
     const editorContent = document.getElementById(props.uuid);
     editorContent.innerHTML = props.content;
@@ -14,6 +18,11 @@ function Note(props) {
     props.setIsNote();
     props.getNoteEditObject();
   };
+
+  const removeClick = () => {
+    props.getRemoveUuid(props.uuid);
+    toggle();
+  };
   return (
     <li className="note-main-li">
       <div className="Note-li-div" onClick={() => noteClick()}>
@@ -25,7 +34,13 @@ function Note(props) {
           src="./img/remove.png"
           alt="remove"
           className="clickable"
-          onClick={(uuidRemove) => props.getRemoveUuid(props.uuid)}
+          //onClick={(uuidRemove) => props.getRemoveUuid(props.uuid)}
+          onClick={toggle}
+        />
+        <Modal
+          isShowing={isShowing}
+          hide={toggle}
+          removeClick={(uuidRemove) => removeClick(uuidRemove)}
         />
       </div>
     </li>

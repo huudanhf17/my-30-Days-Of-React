@@ -2,6 +2,7 @@ import React from "react";
 import Note from "./Note";
 import NoteAdd from "./NoteAdd";
 import NoteEditor from "./NoteEditor";
+import NoteGrid from "./NoteGrid";
 
 function Main(props) {
   const mappingNote = () =>
@@ -16,10 +17,37 @@ function Main(props) {
         getRemoveUuid={(uuidRemove) => props.getRemoveUuid(uuidRemove)}
       ></Note>
     ));
-  if (props.isNote === false && props.isAdd === false) {
+
+  const mappingNoteGrid = () =>
+    props.dataNotes.map((note, key) => (
+      <NoteGrid
+        title={note.title}
+        content={note.content}
+        uuid={note.uuid}
+        key={key}
+        setIsNote={() => props.setIsNote()}
+        getNoteEditObject={(object) => props.getNoteEditObject(note)}
+        getRemoveUuid={(uuidRemove) => props.getRemoveUuid(uuidRemove)}
+      ></NoteGrid>
+    ));
+  if (
+    props.isNote === false &&
+    props.isAdd === false &&
+    props.isListView === true
+  ) {
     return (
       <main className="note-main">
         <ul className="note-main-ul">{mappingNote()}</ul>
+      </main>
+    );
+  } else if (
+    props.isNote === false &&
+    props.isAdd === false &&
+    props.isListView === false
+  ) {
+    return (
+      <main className="note-main">
+        <ul className="note-main-ul-grid">{mappingNoteGrid()}</ul>
       </main>
     );
   } else if (props.isNote) {

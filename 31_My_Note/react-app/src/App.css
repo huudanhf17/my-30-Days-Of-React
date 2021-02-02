@@ -317,6 +317,11 @@ h2 {
   outline: 0;
 }
 
+.img-insert {
+  max-width: 90%;
+  height: auto;
+}
+
 .Note-li-div {
   overflow: hidden;
   cursor: pointer;

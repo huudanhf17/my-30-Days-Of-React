@@ -23,6 +23,34 @@ function NoteEditor(props) {
     props.setIsNote();
   };
 
+  const insertImg = () => {
+    const link = prompt("Type URL IMG here");
+    const editorContent = document.querySelector(".editor");
+    const img = document.createElement("img");
+    img.src = link;
+    editorContent.appendChild(img);
+  };
+
+  const insertImgFromFile = () => {
+    document.getElementById("file").addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      var maxSize = 3000000;
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64String = reader.result
+          .replace("data:", "")
+          .replace(/^.+,/, "");
+        localStorage.setItem("image", base64String);
+        const editorContent = document.querySelector(".editor");
+        const img = document.createElement("img");
+        img.src = "data:image/png;base64," + base64String;
+        img.classList.add("img-insert");
+        editorContent.appendChild(img);
+      };
+      reader.readAsDataURL(file);
+    });
+  };
+
   useEffect(() => {
     loadContent();
   });
@@ -33,22 +61,22 @@ function NoteEditor(props) {
     content: props.noteEdit.content,
   });
   return (
-    <main>
+    <main className="NoteEditor-main">
       <div className="single-note-tool">
         <img
-          src="./img/insert-img.png"
+          src="./img/image.png"
           alt="insert-img"
           className="single-note-header-tools-insert clickable"
-          //onClick={() => this.insertImg()}
+          onClick={() => insertImg()}
           title="Insert from URL"
         />
 
         <label className="NoteAdd-label clickable">
-          <img src="./img/insert-img.png" alt="file" title="Insert from PC" />
+          <img src="./img/upload.png" alt="file" title="Insert from PC" />
           <input
             type="file"
             id="file"
-            // onClick={() => this.abc()}
+            onClick={() => insertImgFromFile()}
             className="d-none"
           />
         </label>

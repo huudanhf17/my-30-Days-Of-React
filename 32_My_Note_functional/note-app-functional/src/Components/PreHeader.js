@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from "react";
 
-function PreHeader(props) {
+function PreHeader() {
   const [time, setTime] = useState(new Date());
-  let tick = () => setTime(new Date());
 
   useEffect(() => {
-    setInterval(() => tick(), 1000);
-    return () => {
-      console.log("Component cleanup");
-      clearInterval(tick);
-    };
+    const interval = setInterval(() => setTime(new Date()), 1000);
+    return () => clearInterval(interval);
   }, []);
   return (
     <div className="note-pre-header">

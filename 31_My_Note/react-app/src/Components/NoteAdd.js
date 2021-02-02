@@ -66,6 +66,7 @@ class NoteAdd extends Component {
         const editorContent = document.querySelector(".noteadd-content");
         const img = document.createElement("img");
         img.src = "data:image/png;base64," + base64String;
+        img.classList.add("img-insert");
         editorContent.appendChild(img);
       };
       reader.readAsDataURL(file);
