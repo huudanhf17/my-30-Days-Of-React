@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from "react";
 import logo from "../logo.svg";
+import ErrorModal from "./ErrorModal";
+import useModal from "./useModal";
 
 function NoteEditor(props) {
+  const { isShowing, toggle } = useModal();
+
   const loadContent = () => {
     const editorContent = document.querySelector(".editor");
     editorContent.innerHTML = noteEdited.content;
@@ -34,18 +38,22 @@ function NoteEditor(props) {
   const insertImgFromFile = () => {
     document.getElementById("file").addEventListener("change", (e) => {
       const file = e.target.files[0];
-      var maxSize = 3000000;
       const reader = new FileReader();
       reader.onloadend = () => {
         const base64String = reader.result
           .replace("data:", "")
           .replace(/^.+,/, "");
-        localStorage.setItem("image", base64String);
-        const editorContent = document.querySelector(".editor");
-        const img = document.createElement("img");
-        img.src = "data:image/png;base64," + base64String;
-        img.classList.add("img-insert");
-        editorContent.appendChild(img);
+        try {
+          localStorage.setItem("image", base64String);
+          const editorContent = document.querySelector(".editor");
+          const img = document.createElement("img");
+          img.onload = function () {};
+          img.src = "data:image/png;base64," + base64String;
+          img.classList.add("img-insert");
+          editorContent.appendChild(img);
+        } catch (e) {
+          toggle();
+        }
       };
       reader.readAsDataURL(file);
     });
@@ -105,6 +113,11 @@ function NoteEditor(props) {
           onClick={() => save()}
         />
       </div>
+      <ErrorModal
+        isShowing={isShowing}
+        hide={toggle}
+        //removeClick={(uuidRemove) => removeClick(uuidRemove)}
+      />
     </main>
   );
 }
