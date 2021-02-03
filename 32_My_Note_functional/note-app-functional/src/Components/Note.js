@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import Modal from "./Modal";
 import useModal from "./useModal";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 function Note(props) {
   const { isShowing, toggle } = useModal();
@@ -15,7 +16,6 @@ function Note(props) {
   });
 
   const noteClick = () => {
-    props.setIsNote();
     props.getNoteEditObject();
   };
 
@@ -23,18 +23,26 @@ function Note(props) {
     props.getRemoveUuid(props.uuid);
     toggle();
   };
+
+  const ChangeToSlug = (slug) => {
+    slug = slug.toLowerCase();
+    slug = slug.replace(/ /gi, "-");
+
+    return slug;
+  };
   return (
     <li className="note-main-li">
       <div className="Note-li-div" onClick={() => noteClick()}>
-        <h2 className="note-main-ul-li-h2">{props.title}</h2>
-        <p className="note-main-ul-li-p" id={props.uuid}></p>
+        <Link to={`/${ChangeToSlug(props.title)}.${props.uuid}`}>
+          <h2 className="note-main-ul-li-h2">{props.title}</h2>
+          <p className="note-main-ul-li-p" id={props.uuid}></p>
+        </Link>
       </div>
       <div className="note-main-remove">
         <img
           src="./img/remove.png"
           alt="remove"
           className="clickable"
-          //onClick={(uuidRemove) => props.getRemoveUuid(props.uuid)}
           onClick={toggle}
         />
         <Modal

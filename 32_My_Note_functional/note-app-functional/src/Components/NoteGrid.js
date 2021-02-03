@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import Modal from "./Modal";
 import useModal from "./useModal";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 function NoteGrid(props) {
   useEffect(() => {
@@ -11,7 +12,6 @@ function NoteGrid(props) {
 
   const noteClick = () => {
     props.getNoteEditObject();
-    props.setIsNote();
   };
 
   const removeClick = () => {
@@ -27,11 +27,13 @@ function NoteGrid(props) {
   return (
     <li className="note-main-titles-li-grid">
       <div className="note-main-grid-content">
-        <div
-          className="NoteGrid-summary clickable"
-          onClick={() => noteClick()}
-          id={props.uuid}
-        ></div>
+        <Link to={`/${props.title}.${props.uuid}`} className="text-content">
+          <div
+            className="NoteGrid-summary clickable"
+            onClick={() => noteClick()}
+            id={props.uuid}
+          ></div>
+        </Link>
         <img
           src="./img/remove.png"
           alt="remove"
@@ -44,12 +46,14 @@ function NoteGrid(props) {
           removeClick={(uuidRemove) => removeClick(uuidRemove)}
         />
       </div>
-      <h2
-        className="note-main-grid-title clickable"
-        onClick={() => noteClick()}
-      >
-        {props.title}
-      </h2>
+      <Link to={`/${props.title}.${props.uuid}`} className="text-title">
+        <h2
+          className="note-main-grid-title clickable"
+          onClick={() => noteClick()}
+        >
+          {props.title}
+        </h2>
+      </Link>
     </li>
   );
 }

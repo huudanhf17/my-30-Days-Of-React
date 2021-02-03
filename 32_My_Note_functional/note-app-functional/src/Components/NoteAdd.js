@@ -1,8 +1,19 @@
 import React, { useState } from "react";
 import logo from "../logo.svg";
+import { useHistory } from "react-router-dom";
 
 function NoteAdd(props) {
-  const [newNote, setNewNote] = useState({ uuid: "abcedfg" });
+  const userIdGeneratedByUser = () => {
+    let randomString =
+      "~!@#$%^&*())_+`-=ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let id = "";
+    for (let i = 0; i < 5; i++) {
+      id += randomString[Math.floor(Math.random() * (randomString.length - 1))];
+    }
+    return id;
+  };
+
+  const [newNote, setNewNote] = useState({ uuid: userIdGeneratedByUser() });
 
   const titleOnChange = (e) => {
     setNewNote((preState) => ({ ...preState, title: e.target.value }));
@@ -12,9 +23,11 @@ function NoteAdd(props) {
     setNewNote((preState) => ({ ...preState, content: ev.target.innerHTML }));
   };
 
+  const history = useHistory();
+
   const save = () => {
     props.getNewNote(newNote);
-    props.setIsAdd();
+    history.push("/");
   };
 
   const insertImg = () => {
@@ -83,6 +96,7 @@ function NoteAdd(props) {
         <div className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
         </div>
+
         <img
           src="./img/save.png"
           alt="save"

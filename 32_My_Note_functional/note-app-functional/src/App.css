@@ -55,6 +55,10 @@ h2 {
   margin: 0;
 }
 
+a {
+  text-decoration: none;
+}
+
 .root {
   display: block;
 }
@@ -62,6 +66,14 @@ h2 {
 .note {
   max-width: 960px;
   margin: auto;
+}
+
+.text-title {
+  color: #282c34;
+}
+
+.text-content {
+  color: #8a8a8d;
 }
 
 .note-main-ul {
@@ -128,6 +140,11 @@ h2 {
 
 .note-header-list {
   padding-right: 20px;
+  height: 29px;
+}
+
+.Header-grid-img {
+  height: 29px;
 }
 
 .note-header-view {
@@ -226,6 +243,7 @@ h2 {
 .note-main-grid-title {
   padding: 5px;
   font-size: 1.4em;
+  overflow: hidden;
 }
 
 .note-main-grid-remove {
@@ -283,7 +301,9 @@ h2 {
 }
 
 .header-h1 {
-  min-width: 168px;
+  min-width: 177px;
+  color: #20232a;
+  text-decoration: none;
 }
 
 .d-none {

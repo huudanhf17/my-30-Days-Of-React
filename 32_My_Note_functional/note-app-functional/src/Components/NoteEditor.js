@@ -2,9 +2,18 @@ import React, { useEffect, useState } from "react";
 import logo from "../logo.svg";
 import ErrorModal from "./ErrorModal";
 import useModal from "./useModal";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useParams,
+} from "react-router-dom";
 
 function NoteEditor(props) {
   const { isShowing, toggle } = useModal();
+
+  let { id } = useParams();
 
   const loadContent = () => {
     const editorContent = document.querySelector(".editor");
@@ -24,7 +33,6 @@ function NoteEditor(props) {
 
   const save = () => {
     props.getNoteEditedObject(noteEdited);
-    props.setIsNote();
   };
 
   const insertImg = () => {
@@ -68,6 +76,17 @@ function NoteEditor(props) {
     title: props.noteEdit.title,
     content: props.noteEdit.content,
   });
+
+  if (id === props.noteEdit.uuid) {
+  } else {
+    let temp = JSON.parse(localStorage.getItem("dataNotes"));
+    let thisNote = temp.find((note) => note.uuid === id);
+
+    props.noteEdit.uuid = id;
+    props.noteEdit.title = thisNote.title;
+    props.noteEdit.content = thisNote.content;
+  }
+
   return (
     <main className="NoteEditor-main">
       <div className="single-note-tool">
@@ -106,12 +125,14 @@ function NoteEditor(props) {
         <div className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
         </div>
-        <img
-          src="./img/save.png"
-          alt="save"
-          className="clickable"
-          onClick={() => save()}
-        />
+        <Link to="/">
+          <img
+            src="./img/save.png"
+            alt="save"
+            className="clickable"
+            onClick={() => save()}
+          />
+        </Link>
       </div>
       <ErrorModal
         isShowing={isShowing}

@@ -5,6 +5,8 @@ import Header from "./Header";
 import Main from "./Main";
 import DataNotes from "./Data.json";
 import React, { useEffect, useState } from "react";
+import MyRouter from "./MyRouter";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 function App() {
   const [dataNotes, setDataNotes] = useState([]);
@@ -93,20 +95,21 @@ function App() {
   };
 
   return (
-    <section className="note">
-      <PreHeader></PreHeader>
-      <Header
-        isNote={isNote}
-        setIsNote={() => setIsNote(!isNote)}
-        isAdd={isAdd}
-        setIsAdd={() => setIsAdd(!isAdd)}
-        getTextSearch={(text) => getTextSearch(text)}
-        isListView={isListView}
-        setIsListView={() => setIsListView(!isListView)}
-        sortNotes={(e) => sortNotes(e)}
-        valueSort={Number(valueSort)}
-      ></Header>
-      <Main
+    <Router>
+      <section className="note">
+        <PreHeader></PreHeader>
+        <Header
+          isNote={isNote}
+          setIsNote={() => setIsNote(!isNote)}
+          isAdd={isAdd}
+          setIsAdd={() => setIsAdd(!isAdd)}
+          getTextSearch={(text) => getTextSearch(text)}
+          isListView={isListView}
+          setIsListView={() => setIsListView(!isListView)}
+          sortNotes={(e) => sortNotes(e)}
+          valueSort={Number(valueSort)}
+        ></Header>
+        {/* <Main
         dataNotes={resSearch}
         isNote={isNote}
         setIsNote={() => setIsNote(!isNote)}
@@ -119,14 +122,29 @@ function App() {
         setIsAdd={() => setIsAdd(!isAdd)}
         isListView={isListView}
         setIsListView={() => setIsListView(!isListView)}
-      ></Main>
-      <Footer
-        dataLength={dataNotes.length}
-        isNote={isNote}
-        isAdd={isAdd}
-        setIsAdd={() => setIsAdd(!isAdd)}
-      ></Footer>
-    </section>
+      ></Main> */}
+        <MyRouter
+          dataNotes={resSearch}
+          isNote={isNote}
+          setIsNote={() => setIsNote(!isNote)}
+          getNoteEditObject={(note) => getNoteEditObject(note)}
+          noteEdit={noteEdit}
+          getNoteEditedObject={(noteEdited) => getNoteEditedObject(noteEdited)}
+          getRemoveUuid={(uuid) => getRemoveUuid(uuid)}
+          isAdd={isAdd}
+          getNewNote={(note) => getNewNote(note)}
+          setIsAdd={() => setIsAdd(!isAdd)}
+          isListView={isListView}
+          setIsListView={() => setIsListView(!isListView)}
+        ></MyRouter>
+        <Footer
+          dataLength={dataNotes.length}
+          isNote={isNote}
+          isAdd={isAdd}
+          setIsAdd={() => setIsAdd(!isAdd)}
+        ></Footer>
+      </section>
+    </Router>
   );
 }
 
