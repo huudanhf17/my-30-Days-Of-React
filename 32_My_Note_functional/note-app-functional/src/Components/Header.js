@@ -4,12 +4,12 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 function Header(props) {
   const [searchTerm, setSearchTerm] = useState("");
 
+  const { getTextSearch } = props;
+
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
-      console.log(searchTerm);
-      props.getTextSearch(searchTerm);
+      getTextSearch(searchTerm);
     }, 300);
-
     return () => clearTimeout(delayDebounceFn);
   }, [searchTerm]);
 

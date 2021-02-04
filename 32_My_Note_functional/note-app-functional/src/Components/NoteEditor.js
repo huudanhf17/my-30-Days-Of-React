@@ -8,6 +8,7 @@ import {
   Route,
   Link,
   useParams,
+  Redirect,
 } from "react-router-dom";
 
 function NoteEditor(props) {
@@ -33,6 +34,7 @@ function NoteEditor(props) {
 
   const save = () => {
     props.getNoteEditedObject(noteEdited);
+    console.log(noteEdited);
   };
 
   const insertImg = () => {
