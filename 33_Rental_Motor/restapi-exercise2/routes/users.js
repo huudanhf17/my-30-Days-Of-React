@@ -17,9 +17,9 @@ router.post("/", async (req, res) => {
   const user = new User({
     email: req.body.email,
     password: req.body.password,
-    permission: 3,
+    type: "unactive",
     coins: 0,
-    date: Date.now(),
+    created_at: Date.now(),
   });
   try {
     const newUser = await user.save();
@@ -57,8 +57,9 @@ router.patch("/:userId", async (req, res) => {
       {
         $set: {
           password: req.body.password,
-          permission: req.body.permission,
+          type: req.body.type,
           coins: req.body.coins,
+          updated_at: Date.now(),
         },
       }
     );

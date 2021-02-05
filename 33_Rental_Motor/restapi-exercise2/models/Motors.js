@@ -9,17 +9,33 @@ const PostSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  cc: {
+    type: Number,
+    required: true,
+  },
   company: {
     type: String,
     required: true,
   },
   status: {
-    type: Number,
-    defalut: 1,
+    type: String,
+    defalut: "ready",
   },
-  price: {
+  price_oneday: {
     type: Number,
     required: true,
+  },
+  price_oneweek: {
+    type: Number,
+    required: true,
+  },
+  price_onemonth: {
+    type: Number,
+    required: true,
+  },
+  creat_date: {
+    type: Date,
+    defalut: Date.now(),
   },
 });
 

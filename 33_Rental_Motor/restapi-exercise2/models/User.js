@@ -9,15 +9,19 @@ const PostSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  permission: {
-    type: Number,
-    defalut: 3,
+  type: {
+    type: String,
+    defalut: "unactivate",
   },
   coins: {
     type: Number,
     defalut: 0,
   },
-  date: {
+  created_at: {
+    type: Date,
+    defalut: Date.now(),
+  },
+  updated_at: {
     type: Date,
     defalut: Date.now(),
   },

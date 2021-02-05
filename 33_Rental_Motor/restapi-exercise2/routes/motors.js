@@ -17,9 +17,13 @@ router.post("/", async (req, res) => {
   const motor = new Motor({
     name: req.body.name,
     color: req.body.color,
+    cc: req.body.cc,
     company: req.body.company,
-    price: req.body.price,
-    status: 1,
+    status: "ready",
+    price_oneday: req.body.price_oneday,
+    price_oneweek: req.body.price_oneweek,
+    price_onemonth: req.body.price_onemonth,
+    creat_date: Date.now(),
   });
   try {
     const newMotor = await motor.save();
