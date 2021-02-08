@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
 
-//Get Users
+//api Get users
 router.get("/", async (req, res) => {
   try {
     const users = await User.find();
@@ -12,7 +12,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-//Register user
+//api Register user
 router.post("/", async (req, res) => {
   const user = new User({
     email: req.body.email,
@@ -29,7 +29,7 @@ router.post("/", async (req, res) => {
   }
 });
 
-//Specific user
+//api Specific user
 router.get("/:userId", async (req, res) => {
   try {
     const user = await User.findById(req.params.userId);
@@ -39,7 +39,7 @@ router.get("/:userId", async (req, res) => {
   }
 });
 
-//Delete user
+//api Delete user
 router.delete("/:userId", async (req, res) => {
   try {
     const removedUser = await User.deleteOne({ _id: req.params.userId });
@@ -49,7 +49,7 @@ router.delete("/:userId", async (req, res) => {
   }
 });
 
-//Active a user
+//api Active user
 router.patch("/:userId", async (req, res) => {
   try {
     const updateUser = await User.updateOne(
