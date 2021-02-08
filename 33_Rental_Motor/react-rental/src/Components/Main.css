@@ -1,0 +1,45 @@
+.Main-div {
+  margin: auto;
+  max-width: 1200px;
+}
+
+.Main-ul {
+  display: flex;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.Main-li {
+  width: 15vw;
+  box-shadow: 0 0 6px black;
+  margin: 0.3125vw;
+}
+
+.Main-img {
+  max-width: 100%;
+  max-height: 175px;
+}
+
+.Main-select {
+  height: 40px;
+  width: 50%;
+}
+
+.Main-span {
+  height: 40px;
+  line-height: 40px;
+}
+
+.Main-btn {
+  height: 40px;
+  margin: 12px;
+  width: 85%;
+}
+
+.Main-div-ul-div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 85%;
+  margin: auto;
+}

@@ -21,7 +21,7 @@ app.use("/ordes", ordersRoute);
 app.use("/transactions", transactionsRoute);
 
 //ROUTES
-app.get("/", (req, res) => {
+app.get("/api/health", (req, res) => {
   res.send("API RUNNING");
 });
 
@@ -29,7 +29,7 @@ app.get("/", (req, res) => {
 mongoose.connect(
   process.env.DB_CONNECTION,
   { useNewUrlParser: true, useUnifiedTopology: true },
-  () => console.log("connect to db!")
+  () => console.log("Connect to MongoDB!")
 );
 
-app.listen(3000);
+app.listen(5000);

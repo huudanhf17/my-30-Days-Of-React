@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const PostSchema = mongoose.Schema({
+const schema = mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -13,7 +13,7 @@ const PostSchema = mongoose.Schema({
     type: Number,
     required: true,
   },
-  company: {
+  brand: {
     type: String,
     required: true,
   },
@@ -33,7 +33,7 @@ const PostSchema = mongoose.Schema({
     type: Number,
     required: true,
   },
-  creat_date: {
+  creat_at: {
     type: Date,
     defalut: Date.now(),
   },
@@ -43,4 +43,4 @@ const PostSchema = mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("motor", PostSchema);
+module.exports = mongoose.model("motor", schema);

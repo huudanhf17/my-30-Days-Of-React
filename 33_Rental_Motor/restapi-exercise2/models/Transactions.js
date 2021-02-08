@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const PostSchema = mongoose.Schema({
+const schema = mongoose.Schema({
   user_id: {
     type: String,
     required: true,
@@ -17,4 +17,4 @@ const PostSchema = mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("transaction", PostSchema);
+module.exports = mongoose.model("transaction", schema);

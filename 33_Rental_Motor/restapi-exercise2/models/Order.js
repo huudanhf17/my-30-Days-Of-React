@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const PostSchema = mongoose.Schema({
+const schema = mongoose.Schema({
   status: {
     type: String,
     required: true,
@@ -14,9 +14,21 @@ const PostSchema = mongoose.Schema({
     required: true,
   },
   duration: {
-    type: String,
+    type: Date,
     required: true,
+  },
+  start: {
+    type: Date,
+    default: Date.now(),
+  },
+  end: {
+    type: Date,
+    default: this.start + this.duration,
+  },
+  price: {
+    type: Number,
+    default: this.duration,
   },
 });
 
-module.exports = mongoose.model("order", PostSchema);
+module.exports = mongoose.model("order", schema);

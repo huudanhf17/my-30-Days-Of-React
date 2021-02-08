@@ -1,0 +1,20 @@
+.PreMain-div {
+  max-width: 1200px;
+  margin: auto;
+}
+
+.PreMain-div-div {
+  display: flex;
+  height: 80px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.PreMain-ul {
+  display: flex;
+}
+
+.PreMain-li {
+  padding: 0px 20px;
+  font-weight: bolder;
+}
