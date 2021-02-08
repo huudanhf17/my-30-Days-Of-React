@@ -37,6 +37,10 @@ const PostSchema = mongoose.Schema({
     type: Date,
     defalut: Date.now(),
   },
+  updated_at: {
+    type: Date,
+    defalut: Date.now(),
+  },
 });
 
 module.exports = mongoose.model("motor", PostSchema);

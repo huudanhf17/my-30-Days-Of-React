@@ -18,6 +18,7 @@ router.post("/", async (req, res) => {
     user_id: req.body.user_id,
     plus: req.body.plus,
     subtraction: req.body.subtraction,
+    updated_at: Date.now(),
   });
   try {
     const newTransaction = await transaction.save();

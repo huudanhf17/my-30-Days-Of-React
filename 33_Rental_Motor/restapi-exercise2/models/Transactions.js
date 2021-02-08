@@ -11,6 +11,10 @@ const PostSchema = mongoose.Schema({
   subtraction: {
     type: Number,
   },
+  updated_at: {
+    type: Date,
+    defalut: Date.now(),
+  },
 });
 
 module.exports = mongoose.model("transaction", PostSchema);

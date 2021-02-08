@@ -12,7 +12,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-//SUBMITS A USER
+//Register user
 router.post("/", async (req, res) => {
   const user = new User({
     email: req.body.email,
@@ -49,16 +49,14 @@ router.delete("/:userId", async (req, res) => {
   }
 });
 
-//Update a user
+//Active a user
 router.patch("/:userId", async (req, res) => {
   try {
     const updateUser = await User.updateOne(
       { _id: req.params.userId },
       {
         $set: {
-          password: req.body.password,
           type: req.body.type,
-          coins: req.body.coins,
           updated_at: Date.now(),
         },
       }
