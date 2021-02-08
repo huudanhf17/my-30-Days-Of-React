@@ -12,9 +12,13 @@ app.use(bodyParser.json());
 //Import Routes
 const usersRoute = require("./routes/users");
 const motorsRoute = require("./routes/motors");
+const ordersRoute = require("./routes/orders");
+const transactionsRoute = require("./routes/transactions");
 
 app.use("/users", usersRoute);
 app.use("/motors", motorsRoute);
+app.use("/ordes", ordersRoute);
+app.use("/transactions", transactionsRoute);
 
 //ROUTES
 app.get("/", (req, res) => {
