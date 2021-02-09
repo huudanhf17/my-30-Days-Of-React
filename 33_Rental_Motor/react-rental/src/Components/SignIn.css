@@ -1,3 +1,19 @@
 .SignIn-div {
+  padding: 20px 0px;
   margin-top: 80px;
+}
+
+.SignIn-container {
+  max-width: 29%;
+  min-height: 399px;
+  padding: 40px;
+  margin: auto;
+  border: black 0.5px solid;
+  border-radius: 10px;
+}
+
+.SignIn-ul {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-around;
 }

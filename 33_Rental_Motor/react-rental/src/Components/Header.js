@@ -7,11 +7,11 @@ function Header(props) {
     <header className="Header">
       <ul className="Header-ul">
         <Link to="/">
-          <li className="Header-li clickable text-white">HOME</li>{" "}
+          <li className="Header-li clickable">HOME</li>{" "}
         </Link>
-        <li className="Header-li clickable white-hover">PAY IN</li>
+        <li className="Header-li clickable">PAY IN</li>
         <Link to="/signin">
-          <li className="Header-li clickable white-hover">SIGN IN</li>
+          <li className="Header-li clickable active">SIGN IN</li>
         </Link>
       </ul>
     </header>

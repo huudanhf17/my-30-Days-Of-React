@@ -37,6 +37,22 @@
   }
 }
 
+a:link {
+  text-decoration: none;
+}
+
+a:visited {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+a:active {
+  text-decoration: none;
+}
+
 .clickable {
   cursor: pointer;
   transition: all 0.2s ease-in-out;
@@ -52,4 +68,37 @@
 
 .white-hover:hover {
   color: white !important;
+}
+
+.btn-bg-dg {
+  background-color: red;
+  font-weight: bolder;
+  color: white;
+  border-radius: 10px;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-dg {
+  font-weight: bolder;
+  color: red;
+  border-radius: 10px;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-bg-dg:hover {
+  transform: scale(1.1);
+}
+
+.btn-dg:hover {
+  transform: scale(1.1);
+}
+
+.active {
+  background-color: red;
+  height: 80px;
+  line-height: 80px;
 }
