@@ -7,6 +7,7 @@ import AfterHeader from "./AfterHeader";
 import Main from "./Main";
 import Footer from "./Footer";
 import SignIn from "./SignIn";
+import SignUp from "./SignUp";
 
 function App() {
   return (
@@ -14,6 +15,9 @@ function App() {
       <Router>
         <Header></Header>
         <Switch>
+          <Route path="/signup">
+            <SignUp></SignUp>
+          </Route>
           <Route path="/signin">
             <SignIn></SignIn>
           </Route>

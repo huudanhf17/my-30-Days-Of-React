@@ -29,6 +29,23 @@ router.post("/", async (req, res) => {
   }
 });
 
+//api SignIn user
+router.post("/signin", async (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
+
+  try {
+    const newUser = await User.findOne({ email: email });
+    if (newUser.password === password) {
+      res.json(newUser);
+    } else {
+      res.json("Email or password is not matched!");
+    }
+  } catch (err) {
+    res.json("Email or password is not matched!");
+  }
+});
+
 //api Specific user
 router.get("/:userId", async (req, res) => {
   try {

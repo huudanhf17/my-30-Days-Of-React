@@ -6,16 +6,16 @@ import {
   Link,
   useHistory,
 } from "react-router-dom";
-import "./SignIn.css";
+import "./SignUp.css";
 
-function SignIn(props) {
+function SignUp(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const history = useHistory();
 
   const postData = async () => {
     try {
-      let result = await fetch("http://localhost:5000/users/signin", {
+      let result = await fetch("http://localhost:5000/users", {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -26,47 +26,48 @@ function SignIn(props) {
           password: password,
         }),
       });
-      result = await result.json();
-      if (result.password === password) {
-        localStorage.setItem("user-info", JSON.stringify(result));
-        console.log(result);
-        history.push("/");
-      } else {
-        console.log(result);
-      }
+      localStorage.setItem(
+        "user-info",
+        JSON.stringify({
+          email: email,
+          password: password,
+        })
+      );
+      history.push("/");
+      console.log(result);
     } catch (e) {
       console.log(e);
     }
   };
 
   return (
-    <div className="SignIn-div">
-      <div className="SignIn-container">
-        <h1>Sign In</h1>
+    <div className="SignUp-div">
+      <form className="SignUp-container">
+        <h1>Create your Account</h1>
         <p>to continue to Rental Motor</p>
         <input
           placeholder="Email"
-          className="SignIn-input"
+          value={email}
           onChange={(e) => setEmail(e.target.value)}
         ></input>
         <br></br>
         <input
           placeholder="Password"
-          className="SignIn-input"
+          value={password}
           onChange={(e) => setPassword(e.target.value)}
         ></input>
-        <ul className="SignIn-ul">
-          <Link to="/signup">
-            <li className="btn-dg">Create Account</li>
+        <ul className="SignUp-ul">
+          <Link to="/signin">
+            <li className="btn-dg">Sign in instead</li>
           </Link>
           <li className="btn-bg-dg" onClick={() => postData()}>
-            Sign In
+            Sign Up
           </li>
         </ul>
-      </div>
-      <div className="SignIn-div2">.....</div>
+      </form>
+      <div className="SignUp-div2">.....</div>
     </div>
   );
 }
 
-export default SignIn;
+export default SignUp;

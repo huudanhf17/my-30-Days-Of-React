@@ -97,8 +97,6 @@ a:active {
   transform: scale(1.1);
 }
 
-.active {
+.bg-dg {
   background-color: red;
-  height: 80px;
-  line-height: 80px;
 }
