@@ -7,11 +7,13 @@ const schema = mongoose.Schema({
   },
   plus: {
     type: Number,
+    required: true,
   },
-  subtraction: {
+  /*  subtraction: {
     type: Number,
   },
-  updated_at: {
+*/
+  created_at: {
     type: Date,
     defalut: Date.now(),
   },

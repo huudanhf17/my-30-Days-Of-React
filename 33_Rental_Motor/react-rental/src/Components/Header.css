@@ -31,6 +31,10 @@
   min-width: 195px;
 }
 
+.Header-user {
+  min-width: 195px;
+}
+
 .Header-btn {
   color: white;
   font-weight: bolder;
@@ -42,7 +46,7 @@
 .dropdown-content {
   display: none;
   position: absolute;
-  right: 0;
+  right: 15%;
   background-color: #f9f9f9;
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
@@ -61,4 +65,13 @@
 }
 .Header-li:hover .dropdown-content {
   display: block;
+}
+
+.Header-caret {
+  color: white;
+}
+
+.Header-coins {
+  color: red;
+  font-size: 12px;
 }

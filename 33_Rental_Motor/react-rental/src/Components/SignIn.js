@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -11,6 +11,7 @@ import "./SignIn.css";
 function SignIn(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [user, setUser] = useState([]);
   const history = useHistory();
 
   const postData = async () => {
@@ -28,8 +29,7 @@ function SignIn(props) {
       });
       result = await result.json();
       if (result.password === password) {
-        localStorage.setItem("user-info", JSON.stringify(result));
-        console.log(result);
+        props.getUser(result);
         history.push("/");
       } else {
         console.log(result);

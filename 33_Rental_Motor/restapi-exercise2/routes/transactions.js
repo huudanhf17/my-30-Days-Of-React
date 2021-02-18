@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const User = require("../models/Transactions");
+const Transaction = require("../models/Transactions");
 
 //Get TRANSACTIONS
 router.get("/", async (req, res) => {
@@ -17,8 +17,7 @@ router.post("/", async (req, res) => {
   const transaction = new Transaction({
     user_id: req.body.user_id,
     plus: req.body.plus,
-    subtraction: req.body.subtraction,
-    updated_at: Date.now(),
+    created_at: Date.now(),
   });
   try {
     const newTransaction = await transaction.save();
@@ -41,10 +40,10 @@ router.get("/:transactionId", async (req, res) => {
 //Delete TRANSACTION
 router.delete("/:transactionId", async (req, res) => {
   try {
-    const removedUser = await Transaction.deleteOne({
+    const removedTransaction = await Transaction.deleteOne({
       _id: req.params.transactionId,
     });
-    res.json(removedUser);
+    res.json(removedTransaction);
   } catch (err) {
     res.json({ message: err });
   }

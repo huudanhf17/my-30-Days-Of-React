@@ -3,7 +3,14 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import "./Header.css";
 
 function Header(props) {
-  let user = JSON.parse(localStorage.getItem("user-info"));
+  const formatCash = (str) => {
+    return str
+      .split("")
+      .reverse()
+      .reduce((prev, next, index) => {
+        return (index % 3 ? next : next + ",") + prev;
+      });
+  };
 
   const logOut = () => {
     localStorage.clear();
@@ -18,10 +25,17 @@ function Header(props) {
         </Link>
         <li className="Header-li clickable">PAY IN</li>
         {localStorage.getItem("user-info") ? (
-          <li className="Header-li clickable">
-            <button className="Header-btn">{user.email}</button>
+          <li className="Header-li Header-user clickable">
+            <button className="Header-btn" key={props.user.coins}>
+              {props.user.email}{" "}
+              <span className="Header-coins">
+                {" "}
+                {formatCash(`${props.user.coins}`)}đ
+              </span>
+            </button>
+            <img src="./img/caret.png" className="Header-caret" alt="" />
             <ul className="dropdown-content">
-              <li>Profile</li>
+              <li>.....</li>
               <li onClick={() => logOut()}>Logout</li>
             </ul>
           </li>
