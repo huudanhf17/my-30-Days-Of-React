@@ -1,10 +1,6 @@
 const mongoose = require("mongoose");
 
 const schema = mongoose.Schema({
-  status: {
-    type: String,
-    required: true,
-  },
   user_id: {
     type: String,
     required: true,
@@ -14,20 +10,16 @@ const schema = mongoose.Schema({
     required: true,
   },
   duration: {
-    type: Date,
+    type: Number,
     required: true,
   },
   start: {
     type: Date,
     default: Date.now(),
   },
-  end: {
-    type: Date,
-    default: this.start + this.duration,
-  },
   price: {
     type: Number,
-    default: this.duration,
+    required: true,
   },
 });
 

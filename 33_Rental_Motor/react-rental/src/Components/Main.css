@@ -30,6 +30,14 @@
   line-height: 40px;
 }
 
+.Main-status-ready {
+  color: green;
+}
+
+.Main-status-rent {
+  color: red;
+}
+
 .Main-btn {
   height: 40px;
   margin: 12px;

@@ -17,7 +17,7 @@ const transactionsRoute = require("./routes/transactions");
 
 app.use("/users", usersRoute);
 app.use("/motors", motorsRoute);
-app.use("/ordes", ordersRoute);
+app.use("/orders", ordersRoute);
 app.use("/transactions", transactionsRoute);
 
 //ROUTES

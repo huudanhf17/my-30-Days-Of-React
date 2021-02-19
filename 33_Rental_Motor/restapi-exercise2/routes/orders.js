@@ -12,13 +12,13 @@ router.get("/", async (req, res) => {
   }
 });
 
-//SUBMITS A Order
+//SUBMITS An Order
 router.post("/", async (req, res) => {
   const order = new Order({
-    status: req.body.status,
     user_id: req.body.user_id,
     motor_id: req.body.motor_id,
     duration: req.body.duration,
+    price: req.body.price,
   });
   try {
     const newOrder = await order.save();

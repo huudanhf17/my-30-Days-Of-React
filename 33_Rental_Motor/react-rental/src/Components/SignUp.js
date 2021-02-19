@@ -26,15 +26,32 @@ function SignUp(props) {
           password: password,
         }),
       });
-      localStorage.setItem(
-        "user-info",
-        JSON.stringify({
+      signIn();
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const signIn = async () => {
+    try {
+      let result = await fetch("http://localhost:5000/users/signin", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
           email: email,
           password: password,
-        })
-      );
-      history.push("/");
-      console.log(result);
+        }),
+      });
+      result = await result.json();
+      if (result.password === password) {
+        props.getUser(result);
+        history.push("/");
+      } else {
+        console.log(result);
+      }
     } catch (e) {
       console.log(e);
     }

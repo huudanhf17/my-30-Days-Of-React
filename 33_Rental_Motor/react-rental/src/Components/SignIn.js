@@ -11,7 +11,6 @@ import "./SignIn.css";
 function SignIn(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [user, setUser] = useState([]);
   const history = useHistory();
 
   const postData = async () => {

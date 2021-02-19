@@ -14,6 +14,7 @@ function App() {
   const [motorList, setMotorList] = useState([]);
   const [user, setUser] = useState([]);
   const [coins, setCoins] = useState([]);
+  const [orders, setOrders] = useState([]);
 
   useEffect(() => {
     async function getMotorAsync() {
@@ -41,6 +42,34 @@ function App() {
       }
     }
     getCoinsAsync();
+  }, []);
+
+  useEffect(() => {
+    async function getOrdersAsync() {
+      try {
+        const url = "http://localhost:5000/orders";
+        const response = await fetch(url);
+        const responseJSON = await response.json();
+        setOrders(responseJSON);
+        if (true) {
+          console.log(responseJSON[0].start);
+          let utc = responseJSON[0].start;
+          let d = new Date(
+            utc.substr(0, 4),
+            utc.substr(5, 2),
+            utc.substr(8, 2),
+            utc.substr(11, 2),
+            utc.substr(14, 2),
+            utc.substr(17, 2)
+          );
+          d.setHours(d.getHours() + 7);
+          console.log(d);
+        }
+      } catch (err) {
+        console.log(`Fail to fetch Orders List: ${err}`);
+      }
+    }
+    getOrdersAsync();
   }, []);
 
   useEffect(() => {
@@ -72,7 +101,7 @@ function App() {
         <Header user={user}></Header>
         <Switch>
           <Route path="/signup">
-            <SignUp></SignUp>
+            <SignUp getUser={(data) => getUser(data)}></SignUp>
           </Route>
           <Route path="/signin">
             <SignIn getUser={(data) => getUser(data)}></SignIn>

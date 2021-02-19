@@ -30,3 +30,7 @@ yarn add package-name
 // axios
 
 // 9: What is the purpose of classnames package?
+// To change className
+
+// 10: What is the pupose validator package?
+// To validation
