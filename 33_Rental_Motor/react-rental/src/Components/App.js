@@ -14,7 +14,6 @@ function App() {
   const [motorList, setMotorList] = useState([]);
   const [user, setUser] = useState([]);
   const [coins, setCoins] = useState([]);
-  const [orders, setOrders] = useState([]);
 
   useEffect(() => {
     async function getMotorAsync() {
@@ -22,7 +21,88 @@ function App() {
         const url = "http://localhost:5000/motors";
         const response = await fetch(url);
         const responseJSON = await response.json();
-        setMotorList(responseJSON);
+
+        const url2 = "http://localhost:5000/orders";
+        const response2 = await fetch(url2);
+        const responseJSON2 = await response2.json();
+
+        let n = new Date();
+        let abc = responseJSON2.map((value) => {
+          let utc = value.start;
+          let d = new Date(
+            utc.substr(0, 4),
+            utc.substr(5, 2) - 1,
+            utc.substr(8, 2),
+            utc.substr(11, 2),
+            utc.substr(14, 2),
+            utc.substr(17, 2)
+          );
+          d.setHours(d.getHours() + 7);
+          d.setSeconds(d.getSeconds() + value.duration);
+          let temp = Math.floor((d - n) / 1000);
+          return {
+            left: temp,
+            motor_id: value.motor_id,
+          };
+        });
+
+        let def = abc.filter((value) => {
+          return value.left > 0;
+        });
+        const newMotorList = [];
+        responseJSON.forEach((value) => {
+          def.forEach((order) => {
+            if (value._id === order.motor_id) {
+              let checkMotor = newMotorList.findIndex(
+                (motor) => motor.motor_id === value._id
+              );
+              if (checkMotor > -1) {
+                newMotorList.splice(checkMotor, 1);
+                newMotorList.push({
+                  motor_id: order.motor_id,
+                  left: order.left,
+                  name: value.name,
+                  color: value.color,
+                  cc: value.cc,
+                  brand: value.brand,
+                  status: "RENTING",
+                  price_oneday: value.price_oneday,
+                  price_oneweek: value.price_oneweek,
+                  price_onemonth: value.price_onemonth,
+                });
+              } else {
+                newMotorList.push({
+                  motor_id: order.motor_id,
+                  left: order.left,
+                  name: value.name,
+                  color: value.color,
+                  cc: value.cc,
+                  brand: value.brand,
+                  status: "RENTING",
+                  price_oneday: value.price_oneday,
+                  price_oneweek: value.price_oneweek,
+                  price_onemonth: value.price_onemonth,
+                });
+              }
+            } else {
+              if (!newMotorList.some((motor) => motor.motor_id === value._id)) {
+                newMotorList.push({
+                  motor_id: value._id,
+                  name: value.name,
+                  color: value.color,
+                  cc: value.cc,
+                  brand: value.brand,
+                  status: value.status,
+                  price_oneday: value.price_oneday,
+                  price_oneweek: value.price_oneweek,
+                  price_onemonth: value.price_onemonth,
+                });
+              }
+            }
+          });
+        });
+
+        setMotorList(newMotorList);
       } catch (err) {
         console.log(`Fail to fetch Motor List: ${err}`);
       }
@@ -42,34 +122,6 @@ function App() {
       }
     }
     getCoinsAsync();
-  }, []);
-
-  useEffect(() => {
-    async function getOrdersAsync() {
-      try {
-        const url = "http://localhost:5000/orders";
-        const response = await fetch(url);
-        const responseJSON = await response.json();
-        setOrders(responseJSON);
-        if (true) {
-          console.log(responseJSON[0].start);
-          let utc = responseJSON[0].start;
-          let d = new Date(
-            utc.substr(0, 4),
-            utc.substr(5, 2),
-            utc.substr(8, 2),
-            utc.substr(11, 2),
-            utc.substr(14, 2),
-            utc.substr(17, 2)
-          );
-          d.setHours(d.getHours() + 7);
-          console.log(d);
-        }
-      } catch (err) {
-        console.log(`Fail to fetch Orders List: ${err}`);
-      }
-    }
-    getOrdersAsync();
   }, []);
 
   useEffect(() => {

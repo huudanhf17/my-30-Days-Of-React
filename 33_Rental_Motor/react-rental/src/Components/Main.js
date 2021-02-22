@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./Main.css";
+import MotorStatus from "./MotorStatus";
 
 function Main(props) {
   const [dataRent, setDataRent] = useState(0);
@@ -23,8 +24,8 @@ function Main(props) {
   };
 
   const rent = (motor) => {
-    props.getRentInfo(motor._id, dataRent);
-    motor.status = checki(durationRent, motor._id);
+    props.getRentInfo(motor.motor_id, dataRent);
+    motor.status = checki(durationRent, motor.motor_id);
   };
 
   const test = () => {
@@ -79,11 +80,25 @@ function Main(props) {
     }
   };
 
+  const checkRenting = (motor) => {
+    if (motor.status === "RENTING") {
+      console.log(motor.left, motor.motor_id);
+    }
+  };
+
+  const test2 = (motor) => {
+    if (motor.status === "RENTING") {
+      console.log(motor.left, motor.motor_id);
+    } else {
+      return motor.status;
+    }
+  };
+
   return (
     <div className="Main-div">
       <ul className="Main-ul">
         {props.motorList.map((motor) => (
-          <li key={motor._id} className="Main-li">
+          <li key={motor.motor_id} className="Main-li">
             {imgMotor(motor.name)}
             <div className="Main-div-ul-div">
               <select
@@ -101,8 +116,8 @@ function Main(props) {
                   1 month / {formatCash(`${motor.price_onemonth}`)}đ
                 </option>
               </select>
-              <span className={`Main-span`} id={motor._id}>
-                {motor.status}
+              <span className={`Main-span`} id={motor.motor_id}>
+                <MotorStatus status={motor}></MotorStatus>
               </span>
             </div>
             <button className="Main-btn" onClick={() => rent(motor)}>
@@ -110,6 +125,7 @@ function Main(props) {
             </button>
           </li>
         ))}
+
         <li className="Main-li">
           {imgMotor("Dream")}
           <div className="Main-div-ul-div">
