@@ -21,6 +21,10 @@ const schema = mongoose.Schema({
     type: String,
     defalut: "ready",
   },
+  is_refresh: {
+    type: Boolean,
+    default: true,
+  },
   price_oneday: {
     type: Number,
     required: true,
@@ -35,11 +39,10 @@ const schema = mongoose.Schema({
   },
   creat_at: {
     type: Date,
-    defalut: Date.now(),
+    defalut: Date.now,
   },
   updated_at: {
     type: Date,
-    defalut: Date.now(),
   },
 });
 

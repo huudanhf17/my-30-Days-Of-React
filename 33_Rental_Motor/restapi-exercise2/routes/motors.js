@@ -60,7 +60,7 @@ router.patch("/:motorId", async (req, res) => {
       { _id: req.params.motorId },
       {
         $set: {
-          status: req.body.status,
+          is_refresh: req.body.is_refresh,
           updated_at: Date.now(),
         },
       }

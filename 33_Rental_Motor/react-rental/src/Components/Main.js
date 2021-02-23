@@ -23,22 +23,9 @@ function Main(props) {
     }
   };
 
-  const rent = (motor) => {
-    props.getRentInfo(motor.motor_id, dataRent);
-    motor.status = checki(durationRent, motor.motor_id);
-  };
-
-  const test = () => {
-    const date = new Date(2021, 1, 19, 13, 45, 50);
-    date.setSeconds(date.getSeconds() + 3600);
-    let dateNow = new Date(Date.now());
-    let dateLeft = Math.abs(date.getTime() - dateNow.getTime());
-    console.log(
-      `${date.getHours()}:${date.getMinutes()}:${date.getSeconds()} ${date.getDate()}/${date.getMonth()}/${date.getFullYear()}
-      ${Math.floor(dateLeft / 1000)}`
-    );
-    let abc = Math.floor(dateLeft / 1000);
-    checki(abc, "abc");
+  const rent = (motor, index) => {
+    props.getRentInfo(motor.motor_id, dataRent, durationRent, index);
+    //motor.status = checki(durationRent, motor.motor_id);
   };
 
   const onChangeSort = (ev) => {
@@ -80,25 +67,40 @@ function Main(props) {
     }
   };
 
+  const splitTime = (seconds, unit) => {
+    let days = Math.floor(seconds / (3600 * 24));
+    seconds -= days * 3600 * 24;
+    let hours = Math.floor(seconds / 3600);
+    seconds -= hours * 3600;
+    let minutes = Math.floor(seconds / 60);
+    seconds -= minutes * 60;
+    switch (unit) {
+      case "days":
+        return days;
+        break;
+      case "hours":
+        return hours;
+        break;
+      case "minutes":
+        return minutes;
+        break;
+      case "seconds":
+        return seconds;
+        break;
+    }
+  };
+
   const checkRenting = (motor) => {
     if (motor.status === "RENTING") {
       console.log(motor.left, motor.motor_id);
     }
   };
 
-  const test2 = (motor) => {
-    if (motor.status === "RENTING") {
-      console.log(motor.left, motor.motor_id);
-    } else {
-      return motor.status;
-    }
-  };
-
   return (
     <div className="Main-div">
       <ul className="Main-ul">
-        {props.motorList.map((motor) => (
-          <li key={motor.motor_id} className="Main-li">
+        {props.motorList.map((motor, index) => (
+          <li key={motor.motor_id + motor.left} className="Main-li">
             {imgMotor(motor.name)}
             <div className="Main-div-ul-div">
               <select
@@ -117,36 +119,20 @@ function Main(props) {
                 </option>
               </select>
               <span className={`Main-span`} id={motor.motor_id}>
-                <MotorStatus status={motor}></MotorStatus>
+                <MotorStatus
+                  status={motor}
+                  initialDays={() => splitTime(motor.left, "days")}
+                  initialHours={() => splitTime(motor.left, "hours")}
+                  initialMinutes={() => splitTime(motor.left, "minutes")}
+                  initialSeconds={() => splitTime(motor.left, "seconds")}
+                ></MotorStatus>
               </span>
             </div>
-            <button className="Main-btn" onClick={() => rent(motor)}>
+            <button className="Main-btn" onClick={() => rent(motor, index)}>
               RENT
             </button>
           </li>
         ))}
-
-        <li className="Main-li">
-          {imgMotor("Dream")}
-          <div className="Main-div-ul-div">
-            <select className="Main-select" onChange={(ev) => onChangeSort(ev)}>
-              <option value={0}>Duration</option>
-              <option value={50000}>1 day / {formatCash(`${50000}`)}đ</option>
-              <option value={100000}>
-                1 week / {formatCash(`${100000}`)}đ
-              </option>
-              <option value={700000}>
-                1 month / {formatCash(`${700000}`)}đ
-              </option>
-            </select>
-            <span className={`Main-span`} id="abc">
-              ABC
-            </span>
-          </div>
-          <button className="Main-btn" onClick={() => test()}>
-            RENT
-          </button>
-        </li>
       </ul>
     </div>
   );

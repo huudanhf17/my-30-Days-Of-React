@@ -1,4 +1,4 @@
-.SignIn-div {
+.HistoryRentPay-div {
   margin-top: 8.5379vh;
   min-height: 82.9242vh;
   display: flex;
@@ -7,7 +7,7 @@
   flex-direction: column;
 }
 
-.SignIn-container {
+.HistoryRentPay-container {
   min-width: 29%;
   min-height: 38.9vh;
   padding: 40px;
@@ -16,12 +16,29 @@
   border-radius: 10px;
 }
 
-.SignIn-ul {
+.HistoryRentPay-ul {
   margin-top: 20px;
   display: flex;
   justify-content: space-around;
+  border: 1px solid black;
 }
 
-.SignIn-div2 {
+.HistoryRentPay-title {
+  border: 1px solid black;
+}
+
+table,
+th,
+td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  padding: 5px;
+}
+
+td {
+  text-align: left;
+}
+
+.HistoryRentPay-div2 {
   min-height: 50px;
 }

@@ -15,7 +15,7 @@ const schema = mongoose.Schema({
 */
   created_at: {
     type: Date,
-    defalut: Date.now(),
+    defalut: Date.now,
   },
 });
 

@@ -13,6 +13,7 @@
   width: 15vw;
   box-shadow: 0 0 6px black;
   margin: 0.3125vw;
+  border-radius: 5px;
 }
 
 .Main-img {
@@ -28,6 +29,7 @@
 .Main-span {
   height: 40px;
   line-height: 40px;
+  font-size: 18px;
 }
 
 .Main-status-ready {

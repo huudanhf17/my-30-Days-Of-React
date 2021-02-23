@@ -1,12 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 function MotorStatus(props) {
-  const {
-    initialDays = 1,
-    initialHours = 0,
-    initialMinutes = 0,
-    initialSeconds = 1,
-  } = props;
+  const { initialDays, initialHours, initialMinutes, initialSeconds } = props;
 
   const [days, setDays] = useState(initialDays);
   const [hours, setHours] = useState(initialHours);
@@ -52,13 +47,15 @@ function MotorStatus(props) {
             "MAINTANCE"
           ) : (
             <div>
-              {days}:{hours}:{minutes}:{seconds < 10 ? `0${seconds}` : seconds}
+              {days}:{hours < 10 ? `0${hours}` : hours}:
+              {minutes < 10 ? `0${minutes}` : minutes}:
+              {seconds < 10 ? `0${seconds}` : seconds}
             </div>
           )}
         </div>
       );
     } else {
-      return "READY";
+      return <>{props.status.status}</>;
     }
   };
 

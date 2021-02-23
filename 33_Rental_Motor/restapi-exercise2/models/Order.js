@@ -15,7 +15,7 @@ const schema = mongoose.Schema({
   },
   start: {
     type: Date,
-    default: Date.now(),
+    default: Date.now,
   },
   price: {
     type: Number,

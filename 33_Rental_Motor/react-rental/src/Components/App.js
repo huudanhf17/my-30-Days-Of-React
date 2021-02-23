@@ -9,11 +9,13 @@ import Footer from "./Footer";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
 import { useEffect, useState } from "react";
+import HistoryRentPay from "./HistoryRentPay";
 
 function App() {
   const [motorList, setMotorList] = useState([]);
   const [user, setUser] = useState([]);
   const [coins, setCoins] = useState([]);
+  const [payments, setPayments] = useState([]);
 
   useEffect(() => {
     async function getMotorAsync() {
@@ -25,6 +27,8 @@ function App() {
         const url2 = "http://localhost:5000/orders";
         const response2 = await fetch(url2);
         const responseJSON2 = await response2.json();
+
+        setPayments(responseJSON2);
 
         let n = new Date();
         let abc = responseJSON2.map((value) => {
@@ -59,6 +63,7 @@ function App() {
               if (checkMotor > -1) {
                 newMotorList.splice(checkMotor, 1);
                 newMotorList.push({
+                  sort: 2,
                   motor_id: order.motor_id,
                   left: order.left,
                   name: value.name,
@@ -72,6 +77,7 @@ function App() {
                 });
               } else {
                 newMotorList.push({
+                  sort: 2,
                   motor_id: order.motor_id,
                   left: order.left,
                   name: value.name,
@@ -86,22 +92,40 @@ function App() {
               }
             } else {
               if (!newMotorList.some((motor) => motor.motor_id === value._id)) {
-                newMotorList.push({
-                  motor_id: value._id,
-                  name: value.name,
-                  color: value.color,
-                  cc: value.cc,
-                  brand: value.brand,
-                  status: value.status,
-                  price_oneday: value.price_oneday,
-                  price_oneweek: value.price_oneweek,
-                  price_onemonth: value.price_onemonth,
-                });
+                if (!value.is_refresh) {
+                  newMotorList.push({
+                    sort: 1,
+                    motor_id: value._id,
+                    name: value.name,
+                    color: value.color,
+                    cc: value.cc,
+                    brand: value.brand,
+                    status: "MAINTANCE",
+                    price_oneday: value.price_oneday,
+                    price_oneweek: value.price_oneweek,
+                    price_onemonth: value.price_onemonth,
+                  });
+                } else {
+                  newMotorList.push({
+                    sort: 0,
+                    motor_id: value._id,
+                    name: value.name,
+                    color: value.color,
+                    cc: value.cc,
+                    brand: value.brand,
+                    status: "READY",
+                    price_oneday: value.price_oneday,
+                    price_oneweek: value.price_oneweek,
+                    price_onemonth: value.price_onemonth,
+                  });
+                }
               }
             }
           });
         });
 
+        newMotorList.sort((a, b) => a.sort - b.sort);
+        newMotorList.sort((a, b) => a.left - b.left);
         setMotorList(newMotorList);
       } catch (err) {
         console.log(`Fail to fetch Motor List: ${err}`);
@@ -134,17 +158,59 @@ function App() {
   const getUser = (data) => {
     const userCoins = coins.filter((value) => value.user_id === data._id);
     const userCoin = userCoins.reduce((a, b) => a + b.plus, data.coins);
-    data.coins = userCoin;
+
+    const userPayments = payments.filter((value) => value.user_id === data._id);
+    const userPayment = userPayments.reduce((a, b) => a + b.price, data.coins);
+
+    data.coins = userCoin - userPayment;
     localStorage.setItem("user-info", JSON.stringify(data));
     setUser(data);
   };
 
-  const getRentInfo = (motor, price) => {
-    console.log(motor, price);
-    let temp = JSON.parse(localStorage.getItem("user-info"));
-    temp.coins = temp.coins - price;
-    localStorage.setItem("user-info", JSON.stringify(temp));
-    setUser(temp);
+  const getRentInfo = async (motor, price, durationRent, index) => {
+    if (user.coins >= Number(price)) {
+      try {
+        let result = await fetch("http://localhost:5000/orders", {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            user_id: user._id,
+            motor_id: motor,
+            duration: durationRent,
+            price: price,
+          }),
+        });
+        result = await result.json();
+
+        let result2 = await fetch(`http://localhost:5000/motors/${motor}`, {
+          method: "PATCH",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            is_refresh: false,
+          }),
+        });
+        result2 = await result2.json();
+
+        let temp = JSON.parse(localStorage.getItem("user-info"));
+        temp.coins = temp.coins - price;
+        localStorage.setItem("user-info", JSON.stringify(temp));
+        setUser(temp);
+
+        motorList[index].left = durationRent;
+        setMotorList([...motorList]);
+        console.log(motorList);
+      } catch (e) {
+        console.log(e);
+      }
+    } else {
+      console.log("Out of coins");
+    }
   };
 
   return (
@@ -158,12 +224,17 @@ function App() {
           <Route path="/signin">
             <SignIn getUser={(data) => getUser(data)}></SignIn>
           </Route>
+          <Route path="/history-rent-pay">
+            <HistoryRentPay coins={coins}></HistoryRentPay>
+          </Route>
           <Route path="/">
             <AfterHeader></AfterHeader>
             <PreMain></PreMain>
             <Main
               motorList={motorList}
-              getRentInfo={(motor, price) => getRentInfo(motor, price)}
+              getRentInfo={(motor, price, durationRent, index) =>
+                getRentInfo(motor, price, durationRent, index)
+              }
             ></Main>
           </Route>
         </Switch>
