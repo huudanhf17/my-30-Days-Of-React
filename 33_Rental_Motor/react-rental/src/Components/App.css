@@ -100,3 +100,15 @@ a:active {
 .bg-dg {
   background-color: red;
 }
+
+.text-right {
+  text-align: right;
+}
+
+.text-danger {
+  color: red;
+}
+
+.text-green {
+  color: green;
+}

@@ -3,15 +3,6 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import "./Header.css";
 
 function Header(props) {
-  const formatCash = (str) => {
-    return str
-      .split("")
-      .reverse()
-      .reduce((prev, next, index) => {
-        return (index % 3 ? next : next + ",") + prev;
-      });
-  };
-
   const logOut = () => {
     localStorage.clear();
     window.location.reload();
@@ -30,7 +21,7 @@ function Header(props) {
               {props.user.email}{" "}
               <span className="Header-coins">
                 {" "}
-                {formatCash(`${props.user.coins}`)}đ
+                {props.formatCash(`${props.user.coins}`)}đ
               </span>
             </button>
             <img src="./img/caret.png" className="Header-caret" alt="" />

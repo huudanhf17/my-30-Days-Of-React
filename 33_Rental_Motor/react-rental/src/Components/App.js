@@ -204,7 +204,26 @@ function App() {
 
         motorList[index].left = durationRent;
         setMotorList([...motorList]);
-        console.log(motorList);
+
+        // Get UTC Time
+        let unix_timestamp = Math.floor(new Date().getTime() / 1000);
+        let date = new Date(unix_timestamp * 1000);
+        const year = date.getFullYear();
+        const month = `0${date.getUTCMonth() + 1}`;
+        const day = `0${date.getUTCDate()}`;
+        const hours = "0" + date.getUTCHours();
+        const minutes = "0" + date.getMinutes();
+        const seconds = "0" + date.getSeconds();
+        const formattedTime = `${year}-${month.substr(-2)}-${day.substr(
+          -2
+        )}T${hours.substr(-2)}:${minutes.substr(-2)}:${seconds.substr(-2)}`;
+
+        payments.push({
+          _id: unix_timestamp,
+          user_id: user._id,
+          start: formattedTime,
+          price: price,
+        });
       } catch (e) {
         console.log(e);
       }
@@ -213,10 +232,19 @@ function App() {
     }
   };
 
+  const formatCash = (str) => {
+    return str
+      .split("")
+      .reverse()
+      .reduce((prev, next, index) => {
+        return (index % 3 ? next : next + ",") + prev;
+      });
+  };
+
   return (
     <div className="App">
       <Router>
-        <Header user={user}></Header>
+        <Header user={user} formatCash={(str) => formatCash(str)}></Header>
         <Switch>
           <Route path="/signup">
             <SignUp getUser={(data) => getUser(data)}></SignUp>
@@ -225,7 +253,13 @@ function App() {
             <SignIn getUser={(data) => getUser(data)}></SignIn>
           </Route>
           <Route path="/history-rent-pay">
-            <HistoryRentPay coins={coins}></HistoryRentPay>
+            <HistoryRentPay
+              coins={coins}
+              payments={payments}
+              user={user._id}
+              motorList={motorList}
+              formatCash={(str) => formatCash(str)}
+            ></HistoryRentPay>
           </Route>
           <Route path="/">
             <AfterHeader></AfterHeader>

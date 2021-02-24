@@ -8,11 +8,11 @@
 }
 
 .HistoryRentPay-container {
-  min-width: 29%;
+  min-width: 52.031vw;
+  max-width: 999px;
   min-height: 38.9vh;
   padding: 40px;
   margin: 1.1vh;
-  border: black 0.5px solid;
   border-radius: 10px;
 }
 
@@ -31,12 +31,27 @@ table,
 th,
 td {
   border: 1px solid black;
+  padding: 8px;
+}
+
+table tbody tr:last-of-type td:nth-last-child(2) {
+  font-weight: bolder;
+}
+
+table {
   border-collapse: collapse;
-  padding: 5px;
+  border-radius: 8px;
+  border-style: hidden; /* hide standard table (collapsed) border */
+  box-shadow: 0 0 0 1px #666; /* this draws the table border  */
 }
 
 td {
   text-align: left;
+  border: 1px solid #ccc;
+}
+
+th {
+  border: 1px solid #ccc;
 }
 
 .HistoryRentPay-div2 {
