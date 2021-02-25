@@ -10,12 +10,14 @@ import SignIn from "./SignIn";
 import SignUp from "./SignUp";
 import { useEffect, useState } from "react";
 import HistoryRentPay from "./HistoryRentPay";
+import Admin from "./Admin";
 
 function App() {
   const [motorList, setMotorList] = useState([]);
   const [user, setUser] = useState([]);
   const [coins, setCoins] = useState([]);
   const [payments, setPayments] = useState([]);
+  const [motorListMaintance, setMotorListMaintance] = useState([]);
 
   useEffect(() => {
     async function getMotorAsync() {
@@ -47,12 +49,18 @@ function App() {
           return {
             left: temp,
             motor_id: value.motor_id,
+            et: d,
           };
         });
 
         let def = abc.filter((value) => {
           return value.left > 0;
         });
+
+        let ghi = abc.filter((value) => {
+          return value.left < 0;
+        });
+
         const newMotorList = [];
         responseJSON.forEach((value) => {
           def.forEach((order) => {
@@ -92,6 +100,30 @@ function App() {
               }
             } else {
               if (!newMotorList.some((motor) => motor.motor_id === value._id)) {
+                if (value.is_refresh) {
+                  newMotorList.push({
+                    sort: 0,
+                    motor_id: value._id,
+                    name: value.name,
+                    color: value.color,
+                    cc: value.cc,
+                    brand: value.brand,
+                    status: "READY",
+                    price_oneday: value.price_oneday,
+                    price_oneweek: value.price_oneweek,
+                    price_onemonth: value.price_onemonth,
+                  });
+                }
+              }
+            }
+          });
+        });
+
+        ghi.sort((a, b) => b.left - a.left);
+        responseJSON.forEach((value) => {
+          ghi.forEach((order) => {
+            if (value._id === order.motor_id) {
+              if (!newMotorList.some((motor) => motor.motor_id === value._id)) {
                 if (!value.is_refresh) {
                   newMotorList.push({
                     sort: 1,
@@ -104,19 +136,17 @@ function App() {
                     price_oneday: value.price_oneday,
                     price_oneweek: value.price_oneweek,
                     price_onemonth: value.price_onemonth,
+                    duration: order.duration,
+                    expiration_time: order.et,
                   });
-                } else {
-                  newMotorList.push({
-                    sort: 0,
+                  motorListMaintance.push({
                     motor_id: value._id,
                     name: value.name,
                     color: value.color,
                     cc: value.cc,
                     brand: value.brand,
-                    status: "READY",
-                    price_oneday: value.price_oneday,
-                    price_oneweek: value.price_oneweek,
-                    price_onemonth: value.price_onemonth,
+                    expiration_time: order.et,
+                    left: order.left,
                   });
                 }
               }
@@ -185,7 +215,7 @@ function App() {
         });
         result = await result.json();
 
-        let result2 = await fetch(`http://localhost:5000/motors/${motor}`, {
+        let result2 = await fetch(`http://localhost:5000/motors/`, {
           method: "PATCH",
           headers: {
             Accept: "application/json",
@@ -193,6 +223,7 @@ function App() {
           },
           body: JSON.stringify({
             is_refresh: false,
+            motorId: motor,
           }),
         });
         result2 = await result2.json();
@@ -260,6 +291,9 @@ function App() {
               motorList={motorList}
               formatCash={(str) => formatCash(str)}
             ></HistoryRentPay>
+          </Route>
+          <Route path="/admin/">
+            <Admin motorListMaintance={motorListMaintance}></Admin>
           </Route>
           <Route path="/">
             <AfterHeader></AfterHeader>

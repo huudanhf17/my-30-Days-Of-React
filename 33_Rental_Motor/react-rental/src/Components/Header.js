@@ -26,8 +26,11 @@ function Header(props) {
             </button>
             <img src="./img/caret.png" className="Header-caret" alt="" />
             <ul className="dropdown-content">
-              <Link to="/history-rent-pay">
-                <li>.....</li>
+              <Link to="./admin/">
+                <li>Admin</li>
+              </Link>
+              <Link to="./history-rent-pay">
+                <li>History</li>
               </Link>
               <li onClick={() => logOut()}>Logout</li>
             </ul>

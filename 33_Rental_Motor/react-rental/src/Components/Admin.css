@@ -1,4 +1,4 @@
-.HistoryRentPay-div {
+.Admin-div {
   margin-top: 8.5379vh;
   min-height: 82.9242vh;
   display: flex;
@@ -7,7 +7,7 @@
   flex-direction: column;
 }
 
-.HistoryRentPay-container {
+.Admin-container {
   min-width: 62.5vw;
   max-width: 1200px;
   min-height: 38.9vh;
@@ -16,26 +16,11 @@
   border-radius: 10px;
 }
 
-.HistoryRentPay-ul {
-  margin-top: 20px;
-  display: flex;
-  justify-content: space-around;
-  border: 1px solid black;
-}
-
-.HistoryRentPay-title {
-  border: 1px solid black;
-}
-
 table,
 th,
 td {
   border: 1px solid black;
   padding: 8px;
-}
-
-table.HistoryRentPay-table tbody tr:nth-child(2) td:nth-last-child(2) {
-  font-weight: bolder;
 }
 
 table {
@@ -54,6 +39,19 @@ th {
   border: 1px solid #ccc;
 }
 
-.HistoryRentPay-div2 {
+.Admin-div2 {
   min-height: 50px;
+}
+
+.Admin-menu {
+  display: flex;
+}
+
+.Admin-Link {
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  font-weight: bolder;
+  padding: 12px;
+  border-radius: 5px;
+  margin: 12px;
 }

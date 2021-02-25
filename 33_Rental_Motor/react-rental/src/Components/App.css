@@ -106,9 +106,17 @@ a:active {
 }
 
 .text-danger {
-  color: red;
+  color: red !important;
 }
 
 .text-green {
   color: green;
+}
+
+.bg-dark {
+  background-color: black !important;
+}
+
+.no-margin-left {
+  margin-left: 0 !important;
 }

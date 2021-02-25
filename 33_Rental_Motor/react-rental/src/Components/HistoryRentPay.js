@@ -2,21 +2,39 @@ import React, { useEffect, useState } from "react";
 import "./HistoryRentPay.css";
 
 function HistoryRentPay(props) {
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [motorList, setMotorList] = useState(props.motorList);
-  const [payments, setPayments] = useState(props.payments);
+  const [motorList, setMotorList] = useState([]);
+  const [coinList, setCoinList] = useState([]);
+  const [payments, setPayments] = useState([]);
 
   useEffect(() => {
-    if (motorList.length == 0) {
-      setMotorList(props.motorList);
-    }
+    setMotorList(props.motorList);
   }, [props.motorList]);
 
-  // useEffect(() => {
-  //   if (payments.length == 0) {
-  //     setPayments(props.payments);
-  //   }
-  // }, [props.payments]);
+  useEffect(() => {
+    const newCoins = props.coins.map((value) => {
+      return {
+        _id: value._id,
+        user_id: value.user_id,
+        created_at: changeTimeZone2(value.created_at),
+        plus: value.plus,
+      };
+    });
+    setCoinList(newCoins);
+  }, [props.coins]);
+
+  useEffect(() => {
+    const newPayment = props.payments.map((value) => {
+      return {
+        _id: value._id,
+        user_id: value.user_id,
+        created_at: changeTimeZone2(value.start),
+        price: value.price,
+        motor_id: value.motor_id,
+        duration: value.duration,
+      };
+    });
+    setPayments(newPayment);
+  }, [props.payments]);
 
   const changeTimeZone2 = (utc) => {
     let d = new Date(
@@ -31,29 +49,11 @@ function HistoryRentPay(props) {
     return d;
   };
 
-  const newCoins = props.coins.map((value) => {
-    return {
-      _id: value._id,
-      user_id: value.user_id,
-      created_at: changeTimeZone2(value.created_at),
-      plus: value.plus,
-    };
-  });
-
-  const newPayment = payments.map((value) => {
-    return {
-      _id: value._id,
-      user_id: value.user_id,
-      created_at: changeTimeZone2(value.start),
-      price: value.price,
-      motor_id: value.motor_id,
-      duration: value.duration,
-    };
-  });
-
-  const summary = newCoins.concat(newPayment);
+  const summary = coinList.concat(payments);
   const userSummary = summary.filter((value) => value.user_id === props.user);
   userSummary.sort((a, b) => a.created_at - b.created_at);
+  const userSummaryClone = [...userSummary];
+  userSummary.sort((a, b) => b.created_at - a.created_at);
 
   const renderTime = (d) => {
     return `${d.getDate()}/${
@@ -61,30 +61,45 @@ function HistoryRentPay(props) {
     }/${d.getFullYear()} ${d.getHours()}:${d.getMinutes()}`;
   };
 
-  let coins = 0;
+  const getCoins = () => {
+    let coins = 0;
+    let test = userSummaryClone.map((value) => {
+      value.price ? (coins -= value.price) : (coins += value.plus);
+      return coins;
+    });
+    return test;
+  };
 
   const getMotorName = (id) => {
     let res = motorList.filter((value) => id.includes(value.motor_id));
     return `${res[0].brand} ${res[0].name}`;
   };
 
-  if (
-    props.payments.length > 0 &&
-    props.motorList.length > 0 &&
-    props.coins.length > 0
-  ) {
+  const innerTime = (seconds) => {
+    let days = Math.floor(seconds / (3600 * 24));
+    seconds -= days * 3600 * 24;
+    let hours = Math.floor(seconds / 3600);
+    seconds -= hours * 3600;
+    let minutes = Math.floor(seconds / 60);
+    seconds -= minutes * 60;
+
+    if (days > 0) {
+      return `${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
+    } else if (hours > 0) {
+      return `${hours} hours, ${minutes} minutes, ${seconds} seconds`;
+    } else if (minutes > 0) {
+      return `${hours} hours, ${minutes} minutes, ${seconds} seconds`;
+    } else {
+      return `${seconds} seconds`;
+    }
+  };
+
+  if (motorList.length > 0 && coinList.length > 0 && payments.length > 0) {
     return (
       <div className="HistoryRentPay-div">
         <div className="HistoryRentPay-container">
           <h1>History of Rent - Payment </h1>
-          {console.log(
-            props.coins.length > 0,
-            props.payments.length > 0,
-            props.motorList.length > 0,
-            payments.length > 0,
-            motorList.length > 0
-          )}
-          <table style={{ width: "100%" }}>
+          <table style={{ width: "100%" }} className="HistoryRentPay-table">
             <tbody>
               <tr>
                 <th>Qty</th>
@@ -94,7 +109,6 @@ function HistoryRentPay(props) {
                 <th>Description</th>
               </tr>
               {userSummary.map((value, index) => {
-                value.price ? (coins -= value.price) : (coins += value.plus);
                 return (
                   <tr key={value._id}>
                     <td>{index + 1}</td>
@@ -115,13 +129,13 @@ function HistoryRentPay(props) {
                     )}
 
                     <td className="text-right">{`${props.formatCash(
-                      `${coins}`
+                      `${getCoins()[userSummary.length - 1 - index]}`
                     )}đ`}</td>
                     <td>
                       {value.price
-                        ? `Rent ${getMotorName(value.motor_id)} for ${
+                        ? `Rent ${getMotorName(value.motor_id)} for ${innerTime(
                             value.duration
-                          }s`
+                          )}`
                         : "Top up"}
                     </td>
                   </tr>

@@ -54,10 +54,10 @@ router.delete("/:motorId", async (req, res) => {
 });
 
 //Update a Motor
-router.patch("/:motorId", async (req, res) => {
+router.patch("/", async (req, res) => {
   try {
     const updateMotor = await Motor.updateOne(
-      { _id: req.params.motorId },
+      { _id: req.body.motorId },
       {
         $set: {
           is_refresh: req.body.is_refresh,
