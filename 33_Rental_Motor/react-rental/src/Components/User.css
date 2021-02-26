@@ -1,0 +1,17 @@
+.User-currently-rent {
+  margin: 0;
+  white-space: nowrap;
+}
+
+.User-submenu {
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: center;
+}
+
+.User-ul-li {
+  padding: 12px;
+  background-color: rgba(0, 0, 0, 0.25);
+  border-radius: 8px;
+  margin: 0px 6px;
+}

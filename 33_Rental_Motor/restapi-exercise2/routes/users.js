@@ -84,4 +84,22 @@ router.patch("/:userId", async (req, res) => {
   }
 });
 
+//api Change Type user
+router.patch("/", async (req, res) => {
+  try {
+    const updateUser = await User.updateOne(
+      { _id: req.body.userId },
+      {
+        $set: {
+          type: req.body.type,
+          updated_at: Date.now(),
+        },
+      }
+    );
+    res.json(updateUser);
+  } catch (err) {
+    res.json({ message: err });
+  }
+});
+
 module.exports = router;

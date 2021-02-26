@@ -67,35 +67,6 @@ function Main(props) {
     }
   };
 
-  const splitTime = (seconds, unit) => {
-    let days = Math.floor(seconds / (3600 * 24));
-    seconds -= days * 3600 * 24;
-    let hours = Math.floor(seconds / 3600);
-    seconds -= hours * 3600;
-    let minutes = Math.floor(seconds / 60);
-    seconds -= minutes * 60;
-    switch (unit) {
-      case "days":
-        return days;
-        break;
-      case "hours":
-        return hours;
-        break;
-      case "minutes":
-        return minutes;
-        break;
-      case "seconds":
-        return seconds;
-        break;
-    }
-  };
-
-  const checkRenting = (motor) => {
-    if (motor.status === "RENTING") {
-      console.log(motor.left, motor.motor_id);
-    }
-  };
-
   return (
     <div className="Main-div">
       <ul className="Main-ul">
@@ -121,10 +92,10 @@ function Main(props) {
               <span className={`Main-span`} id={motor.motor_id}>
                 <MotorStatus
                   status={motor}
-                  initialDays={() => splitTime(motor.left, "days")}
-                  initialHours={() => splitTime(motor.left, "hours")}
-                  initialMinutes={() => splitTime(motor.left, "minutes")}
-                  initialSeconds={() => splitTime(motor.left, "seconds")}
+                  initialDays={() => props.splitTime(motor.left, "days")}
+                  initialHours={() => props.splitTime(motor.left, "hours")}
+                  initialMinutes={() => props.splitTime(motor.left, "minutes")}
+                  initialSeconds={() => props.splitTime(motor.left, "seconds")}
                 ></MotorStatus>
               </span>
             </div>

@@ -36,3 +36,40 @@
     transform: rotate(360deg);
   }
 }
+
+.cat-card {
+  width: 65%;
+  box-shadow: 0 3px 3px 2px rgb(0 0 0 / 20%);
+  margin: 15px auto;
+  transition: transform 1s ease;
+  box-sizing: border-box;
+  display: block;
+  font-size: 1.65rem;
+  letter-spacing: 1.25px;
+  color: #283747 !important;
+  font-family: "Roboto Slab";
+  line-height: 1.5;
+  text-align: left;
+}
+
+.cat-card-body {
+  padding: 30px;
+}
+
+.cat-name {
+  font-weight: 300;
+  margin-bottom: 0;
+  padding-bottom: 0;
+  font-size: 28px;
+  font-family: "Merriweather";
+}
+
+.cat-origin {
+  font-weight: 400;
+  padding-top: 0;
+  margin-top: 0;
+  margin-bottom: 5px;
+}
+.cat-desc {
+  margin: 10px auto;
+}

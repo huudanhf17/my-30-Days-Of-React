@@ -42,17 +42,17 @@ function MotorStatus(props) {
   const checkIsCd = (left) => {
     if (left) {
       return (
-        <div>
+        <>
           {days === 0 && hours === 0 && minutes === 0 && seconds === 0 ? (
             "MAINTANCE"
           ) : (
-            <div>
+            <>
               {days}:{hours < 10 ? `0${hours}` : hours}:
               {minutes < 10 ? `0${minutes}` : minutes}:
               {seconds < 10 ? `0${seconds}` : seconds}
-            </div>
+            </>
           )}
-        </div>
+        </>
       );
     } else {
       return <>{props.status.status}</>;

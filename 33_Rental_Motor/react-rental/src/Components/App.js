@@ -50,6 +50,7 @@ function App() {
             left: temp,
             motor_id: value.motor_id,
             et: d,
+            user_id: value.user_id,
           };
         });
 
@@ -82,6 +83,7 @@ function App() {
                   price_oneday: value.price_oneday,
                   price_oneweek: value.price_oneweek,
                   price_onemonth: value.price_onemonth,
+                  user_id: order.user_id,
                 });
               } else {
                 newMotorList.push({
@@ -96,6 +98,7 @@ function App() {
                   price_oneday: value.price_oneday,
                   price_oneweek: value.price_oneweek,
                   price_onemonth: value.price_onemonth,
+                  user_id: order.user_id,
                 });
               }
             } else {
@@ -272,6 +275,29 @@ function App() {
       });
   };
 
+  const splitTime = (seconds, unit) => {
+    let days = Math.floor(seconds / (3600 * 24));
+    seconds -= days * 3600 * 24;
+    let hours = Math.floor(seconds / 3600);
+    seconds -= hours * 3600;
+    let minutes = Math.floor(seconds / 60);
+    seconds -= minutes * 60;
+    switch (unit) {
+      case "days":
+        return days;
+        break;
+      case "hours":
+        return hours;
+        break;
+      case "minutes":
+        return minutes;
+        break;
+      case "seconds":
+        return seconds;
+        break;
+    }
+  };
+
   return (
     <div className="App">
       <Router>
@@ -293,7 +319,14 @@ function App() {
             ></HistoryRentPay>
           </Route>
           <Route path="/admin/">
-            <Admin motorListMaintance={motorListMaintance}></Admin>
+            <Admin
+              motorListMaintance={motorListMaintance}
+              coins={coins}
+              payments={payments}
+              formatCash={(str) => formatCash(str)}
+              motorList={motorList}
+              splitTime={(seconds, unit) => splitTime(seconds, unit)}
+            ></Admin>
           </Route>
           <Route path="/">
             <AfterHeader></AfterHeader>
@@ -303,6 +336,7 @@ function App() {
               getRentInfo={(motor, price, durationRent, index) =>
                 getRentInfo(motor, price, durationRent, index)
               }
+              splitTime={(seconds, unit) => splitTime(seconds, unit)}
             ></Main>
           </Route>
         </Switch>
