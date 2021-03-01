@@ -66,6 +66,26 @@ router.delete("/:userId", async (req, res) => {
   }
 });
 
+//api Update user
+router.patch("/modify", async (req, res) => {
+  try {
+    const updateUser = await User.updateOne(
+      { _id: req.body.userId },
+      {
+        $set: {
+          email: req.body.email,
+          password: req.body.password,
+          type: req.body.type,
+          updated_at: Date.now(),
+        },
+      }
+    );
+    res.json(updateUser);
+  } catch (err) {
+    res.json({ message: err });
+  }
+});
+
 //api Active user
 router.patch("/:userId", async (req, res) => {
   try {

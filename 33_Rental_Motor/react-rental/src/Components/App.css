@@ -120,3 +120,19 @@ a:active {
 .no-margin-left {
   margin-left: 0 !important;
 }
+
+.text-right {
+  text-align: right;
+}
+
+.btn {
+  margin: 22px;
+  padding: 20px;
+  border-radius: 5px;
+  color: white;
+  background-color: rgba(32, 35, 42, 0.5);
+}
+
+.btn-danger {
+  background-color: red;
+}

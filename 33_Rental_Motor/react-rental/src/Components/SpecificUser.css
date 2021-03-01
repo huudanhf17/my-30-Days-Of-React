@@ -1,0 +1,41 @@
+.SpecificUser-form {
+  max-width: 50%;
+  margin: auto;
+}
+
+.SpecificUser-form-container {
+  width: 100%;
+  display: flex;
+  text-align: left;
+  justify-content: center;
+}
+
+.SpecificUser-input {
+  width: 30%;
+  height: 38px;
+}
+
+.SpecificUser-form-container-col {
+  width: 50%;
+}
+
+.SpecificUser-form-container-col-div {
+  margin: 12px 0px;
+}
+
+.SpecificUser-action {
+  margin: 12px;
+}
+
+.SpecificUser-label {
+  display: inline-block;
+  min-width: 140px;
+}
+
+.Admin-container div:nth-of-type(3) {
+  margin-top: 0px !important;
+}
+
+.Admin-container div:nth-of-type(3) div:nth-of-type(1) {
+  padding-top: 0px !important;
+}

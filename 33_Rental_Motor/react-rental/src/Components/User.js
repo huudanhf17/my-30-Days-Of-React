@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import MotorStatus from "./MotorStatus";
+import SpecificModal from "./SpecificModal";
+import useModal from "./useModal";
+
 import "./User.css";
 
 function User(props) {
@@ -8,6 +12,8 @@ function User(props) {
   useEffect(() => {
     setUserList(props.userList);
   }, [props.userList]);
+
+  const { isShowing, toggle } = useModal();
 
   const topUpList = props.coins.reduce(
     (acc, value) => acc.concat({ plus: value.plus, user_id: value.user_id }),
@@ -127,6 +133,7 @@ function User(props) {
     }, 0);
     return res;
   };
+
   return (
     <>
       <h1>User</h1>
@@ -176,7 +183,7 @@ function User(props) {
                 {props.formatCash(`${filterOrderUser(value._id, orderList)}`)}đ
                 for {countOrderUser(value._id, orderList)} rents
               </td>
-              <td>
+              <td className="text-right">
                 {props.formatCash(`${filterTransUser(value._id, transList)}`)}đ
               </td>
               <td>
@@ -208,7 +215,14 @@ function User(props) {
                 })}
               </td>
               <td>
-                <button>Specific</button>
+                <Link to={`/admin/user/${value.email}.${value._id}`}>
+                  <button
+                  // onClick={() => specificClick(value)}
+                  // userId={value._id}
+                  >
+                    Specific
+                  </button>
+                </Link>
                 <button onClick={() => banUser(value._id)}>Ban</button>
                 <button onClick={() => activeUser(value._id)}>Active</button>
               </td>
@@ -216,6 +230,11 @@ function User(props) {
           ))}
         </tbody>
       </table>
+      <SpecificModal
+        isShowing={isShowing}
+        hide={toggle}
+        // removeClick={(uuidRemove) => removeClick(uuidRemove)}
+      />
     </>
   );
 }

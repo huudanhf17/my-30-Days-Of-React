@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Link, NavLink, Route, Switch } from "react-router-dom";
 import "./Admin.css";
+import Motor from "./Motor";
 import RefreshMotor from "./RefreshMotor";
+import SpecificUser from "./SpecificUser";
 import User from "./User";
 
 function Admin(props) {
-  const [userList, getUserList] = useState([]);
+  const [userList, setUserList] = useState([]);
 
   useEffect(() => {
     async function getUserListAsync() {
@@ -13,7 +15,7 @@ function Admin(props) {
         const url = "http://localhost:5000/users/";
         const response = await fetch(url);
         const responseJSON = await response.json();
-        getUserList(responseJSON);
+        setUserList(responseJSON);
       } catch (err) {
         console.log(`Fail to fetch Coins List: ${err}`);
       }
@@ -39,11 +41,25 @@ function Admin(props) {
           >
             User
           </NavLink>
-          <li className="Admin-Link">Motor</li>
+          <NavLink
+            to="/admin/motor"
+            activeClassName=" text-danger bg-dark"
+            className="Admin-Link"
+          >
+            Motor
+          </NavLink>
           <li className="Admin-Link">History of Payments</li>
           <li className="Admin-Link">History of Rental</li>
         </ul>
         <Switch>
+          <Route path="/admin/user/:slug.:id">
+            <SpecificUser
+              coins={props.coins}
+              payments={props.payments}
+              formatCash={(str) => props.formatCash(str)}
+              motorList={props.motorList}
+            ></SpecificUser>
+          </Route>
           <Route path="/admin/user">
             <User
               userList={userList}
@@ -53,6 +69,9 @@ function Admin(props) {
               motorList={props.motorList}
               splitTime={(seconds, unit) => props.splitTime(seconds, unit)}
             ></User>
+          </Route>
+          <Route path="/admin/motor">
+            <Motor></Motor>
           </Route>
           <Route path="/admin">
             <RefreshMotor
