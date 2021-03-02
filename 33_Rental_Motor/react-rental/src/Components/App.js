@@ -83,6 +83,7 @@ function App() {
                   price_oneday: value.price_oneday,
                   price_oneweek: value.price_oneweek,
                   price_onemonth: value.price_onemonth,
+                  create_at: value.create_at,
                   user_id: order.user_id,
                 });
               } else {
@@ -98,25 +99,9 @@ function App() {
                   price_oneday: value.price_oneday,
                   price_oneweek: value.price_oneweek,
                   price_onemonth: value.price_onemonth,
+                  create_at: value.create_at,
                   user_id: order.user_id,
                 });
-              }
-            } else {
-              if (!newMotorList.some((motor) => motor.motor_id === value._id)) {
-                if (value.is_refresh) {
-                  newMotorList.push({
-                    sort: 0,
-                    motor_id: value._id,
-                    name: value.name,
-                    color: value.color,
-                    cc: value.cc,
-                    brand: value.brand,
-                    status: "READY",
-                    price_oneday: value.price_oneday,
-                    price_oneweek: value.price_oneweek,
-                    price_onemonth: value.price_onemonth,
-                  });
-                }
               }
             }
           });
@@ -139,6 +124,7 @@ function App() {
                     price_oneday: value.price_oneday,
                     price_oneweek: value.price_oneweek,
                     price_onemonth: value.price_onemonth,
+                    create_at: value.create_at,
                     duration: order.duration,
                     expiration_time: order.et,
                   });
@@ -150,6 +136,20 @@ function App() {
                     brand: value.brand,
                     expiration_time: order.et,
                     left: order.left,
+                  });
+                } else {
+                  newMotorList.push({
+                    sort: 0,
+                    motor_id: value._id,
+                    name: value.name,
+                    color: value.color,
+                    cc: value.cc,
+                    brand: value.brand,
+                    status: "READY",
+                    price_oneday: value.price_oneday,
+                    price_oneweek: value.price_oneweek,
+                    price_onemonth: value.price_onemonth,
+                    create_at: value.create_at,
                   });
                 }
               }
@@ -298,6 +298,25 @@ function App() {
     }
   };
 
+  const innerTime = (seconds) => {
+    let days = Math.floor(seconds / (3600 * 24));
+    seconds -= days * 3600 * 24;
+    let hours = Math.floor(seconds / 3600);
+    seconds -= hours * 3600;
+    let minutes = Math.floor(seconds / 60);
+    seconds -= minutes * 60;
+
+    if (days > 0) {
+      return `${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
+    } else if (hours > 0) {
+      return `${hours} hours, ${minutes} minutes, ${seconds} seconds`;
+    } else if (minutes > 0) {
+      return `${hours} hours, ${minutes} minutes, ${seconds} seconds`;
+    } else {
+      return `${seconds} seconds`;
+    }
+  };
+
   return (
     <div className="App">
       <Router>
@@ -316,6 +335,7 @@ function App() {
               user={user._id}
               motorList={motorList}
               formatCash={(str) => formatCash(str)}
+              innerTime={(sec) => innerTime(sec)}
             ></HistoryRentPay>
           </Route>
           <Route path="/admin/">
@@ -326,6 +346,7 @@ function App() {
               formatCash={(str) => formatCash(str)}
               motorList={motorList}
               splitTime={(seconds, unit) => splitTime(seconds, unit)}
+              innerTime={(sec) => innerTime(sec)}
             ></Admin>
           </Route>
           <Route path="/">

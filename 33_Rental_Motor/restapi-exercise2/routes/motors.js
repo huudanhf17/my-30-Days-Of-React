@@ -53,13 +53,37 @@ router.delete("/:motorId", async (req, res) => {
   }
 });
 
-//Update a Motor
+//Refresh a Motor
 router.patch("/", async (req, res) => {
   try {
     const updateMotor = await Motor.updateOne(
       { _id: req.body.motorId },
       {
         $set: {
+          is_refresh: req.body.is_refresh,
+          updated_at: Date.now(),
+        },
+      }
+    );
+    res.json(updateMotor);
+  } catch (err) {
+    res.json({ message: err });
+  }
+});
+
+//Update a Motor
+router.patch("/update", async (req, res) => {
+  try {
+    const updateMotor = await Motor.updateOne(
+      { _id: req.body.motorId },
+      {
+        $set: {
+          name: req.body.name,
+          cc: req.body.cc,
+          price_oneday: req.body.price_oneday,
+          price_oneweek: req.body.price_oneweek,
+          price_onemonth: req.body.price_onemonth,
+          status: req.body.status,
           is_refresh: req.body.is_refresh,
           updated_at: Date.now(),
         },

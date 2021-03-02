@@ -40,10 +40,23 @@ function App() {
     return average;
   };
 
+  const filterCats = () => {
+    const filteredCats = [];
+    let countries = data.map((value) => value.origin);
+    const setCounrties = new Set(countries);
+    for (let country of setCounrties) {
+      const countryList = data.filter((value) => value.origin === country);
+      filteredCats.push(countryList);
+    }
+    filteredCats.sort((a, b) => a.length - b.length);
+
+    return filteredCats;
+  };
+
   return (
     <div className="App">
       <h1>30 DAYS OF REACT</h1>
-      <h2>Day 19</h2>
+      <h2>Day 20</h2>
       <h3>Cats Paradise</h3>
       <h4>There are {data.length} cat breeds</h4>
       <p>
@@ -51,10 +64,17 @@ function App() {
         lives {calculateAverage().age} years.
       </p>
 
+      <div className="cats-nav">
+        {filterCats().map((value) => (
+          <div key={value[0].origin}>
+            {value[0].origin}({value.length})
+          </div>
+        ))}
+      </div>
       {data.map((value) => (
         <div className="cat-card" key={value.id}>
           <div className="cat-card-image">
-            <img src={value.image?.url}></img>
+            <img src={value.image?.url} alt={value.name}></img>
           </div>
           <div className="cat-card-body">
             <div>

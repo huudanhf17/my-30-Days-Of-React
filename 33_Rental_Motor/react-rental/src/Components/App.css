@@ -136,3 +136,10 @@ a:active {
 .btn-danger {
   background-color: red;
 }
+
+.btn-green {
+  box-sizing: border-box;
+  color: white;
+  background: #00b000;
+  box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.05);
+}

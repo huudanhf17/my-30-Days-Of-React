@@ -37,7 +37,7 @@ const schema = mongoose.Schema({
     type: Number,
     required: true,
   },
-  creat_at: {
+  create_at: {
     type: Date,
     defalut: Date.now,
   },

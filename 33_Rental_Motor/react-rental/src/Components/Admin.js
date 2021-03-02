@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Link, NavLink, Route, Switch } from "react-router-dom";
 import "./Admin.css";
+import HistoryPayments from "./HistoryPayments";
 import Motor from "./Motor";
 import RefreshMotor from "./RefreshMotor";
+import SpecificMotor from "./SpecificMotor";
 import SpecificUser from "./SpecificUser";
 import User from "./User";
 
@@ -22,6 +24,31 @@ function Admin(props) {
     }
     getUserListAsync();
   }, []);
+
+  const handleUserEmail = (userId) => {
+    let res = "";
+    userList.forEach((value) => {
+      if (value._id === userId) {
+        res = value.email;
+      }
+    });
+    return res;
+  };
+
+  const renderTime = (utc) => {
+    let d = new Date(
+      utc.substr(0, 4),
+      utc.substr(5, 2) - 1,
+      utc.substr(8, 2),
+      utc.substr(11, 2),
+      utc.substr(14, 2),
+      utc.substr(17, 2)
+    );
+    d.setHours(d.getHours() + 7);
+    return `${d.getDate()}/${
+      d.getMonth() + 1
+    }/${d.getFullYear()} ${d.getHours()}:${d.getMinutes()}`;
+  };
 
   return (
     <div className="Admin-div">
@@ -48,8 +75,14 @@ function Admin(props) {
           >
             Motor
           </NavLink>
-          <li className="Admin-Link">History of Payments</li>
-          <li className="Admin-Link">History of Rental</li>
+          <NavLink
+            to="/admin/payments"
+            activeClassName=" text-danger bg-dark"
+            className="Admin-Link"
+          >
+            History of Payments
+          </NavLink>
+          <li className="Admin-Link">History of Rentals</li>
         </ul>
         <Switch>
           <Route path="/admin/user/:slug.:id">
@@ -58,6 +91,7 @@ function Admin(props) {
               payments={props.payments}
               formatCash={(str) => props.formatCash(str)}
               motorList={props.motorList}
+              innerTime={(sec) => props.innerTime(sec)}
             ></SpecificUser>
           </Route>
           <Route path="/admin/user">
@@ -70,8 +104,29 @@ function Admin(props) {
               splitTime={(seconds, unit) => props.splitTime(seconds, unit)}
             ></User>
           </Route>
+          <Route path="/admin/motor/:slug.:id">
+            <SpecificMotor
+              payments={props.payments}
+              formatCash={(str) => props.formatCash(str)}
+              innerTime={(sec) => props.innerTime(sec)}
+              handleUserEmail={(id) => handleUserEmail(id)}
+              innerTime={(sec) => props.innerTime(sec)}
+              renderTime={(utc) => renderTime(utc)}
+            ></SpecificMotor>
+          </Route>
           <Route path="/admin/motor">
-            <Motor></Motor>
+            <Motor
+              motorList={props.motorList}
+              payments={props.payments}
+              formatCash={(str) => props.formatCash(str)}
+              splitTime={(seconds, unit) => props.splitTime(seconds, unit)}
+              userList={userList}
+              handleUserEmail={(id) => handleUserEmail(id)}
+              renderTime={(utc) => renderTime(utc)}
+            ></Motor>
+          </Route>
+          <Route path="/admin/payments">
+            <HistoryPayments coins={props.coins}></HistoryPayments>
           </Route>
           <Route path="/admin">
             <RefreshMotor

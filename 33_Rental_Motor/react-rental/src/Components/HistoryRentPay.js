@@ -75,25 +75,6 @@ function HistoryRentPay(props) {
     return `${res[0].brand} ${res[0].name}`;
   };
 
-  const innerTime = (seconds) => {
-    let days = Math.floor(seconds / (3600 * 24));
-    seconds -= days * 3600 * 24;
-    let hours = Math.floor(seconds / 3600);
-    seconds -= hours * 3600;
-    let minutes = Math.floor(seconds / 60);
-    seconds -= minutes * 60;
-
-    if (days > 0) {
-      return `${days} days, ${hours} hours, ${minutes} minutes, ${seconds} seconds`;
-    } else if (hours > 0) {
-      return `${hours} hours, ${minutes} minutes, ${seconds} seconds`;
-    } else if (minutes > 0) {
-      return `${hours} hours, ${minutes} minutes, ${seconds} seconds`;
-    } else {
-      return `${seconds} seconds`;
-    }
-  };
-
   if (motorList.length > 0 && coinList.length > 0 && payments.length > 0) {
     return (
       <div className="HistoryRentPay-div">
@@ -133,9 +114,9 @@ function HistoryRentPay(props) {
                     )}đ`}</td>
                     <td>
                       {value.price
-                        ? `Rent ${getMotorName(value.motor_id)} for ${innerTime(
-                            value.duration
-                          )}`
+                        ? `Rent ${getMotorName(
+                            value.motor_id
+                          )} for ${props.innerTime(value.duration)}`
                         : "Top up"}
                     </td>
                   </tr>

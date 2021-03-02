@@ -1,0 +1,47 @@
+.SpecificMotor-form {
+  max-width: 59%;
+  margin: auto;
+}
+
+.SpecificMotor-form-container {
+  width: 100%;
+  display: flex;
+  text-align: left;
+  justify-content: center;
+}
+
+.SpecificMotor-input {
+  height: 38px;
+  text-align: center;
+  line-height: 38px;
+  border-radius: 5px;
+}
+
+.SpecificMotor-form-container-col {
+  width: 50%;
+}
+
+.SpecificMotor-form-container-col-div {
+  margin: 12px 0px;
+  display: flex;
+  align-items: center;
+}
+
+.SpecificMotor-action {
+  margin: 12px;
+}
+
+.SpecificMotor-label {
+  display: inline-block;
+  min-width: 155px;
+  min-height: 44px;
+  line-height: 44px;
+}
+
+.SpecificMotor-history-div {
+  margin-top: 8.5379vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}

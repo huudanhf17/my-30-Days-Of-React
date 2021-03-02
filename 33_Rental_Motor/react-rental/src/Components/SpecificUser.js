@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import HistoryRentPay from "./HistoryRentPay";
 import "./SpecificUser.css";
 
@@ -8,7 +8,7 @@ function SpecificUser(props) {
   const [userUpdated, setUserUpdated] = useState({});
 
   useEffect(() => {
-    async function getCoinsAsync() {
+    async function getUsersAsync() {
       try {
         const url = "http://localhost:5000/users/" + id;
         const response = await fetch(url);
@@ -18,7 +18,7 @@ function SpecificUser(props) {
         console.log(`Fail to fetch User: ${err}`);
       }
     }
-    getCoinsAsync();
+    getUsersAsync();
   }, []);
 
   const { slug, id } = useParams();
@@ -95,8 +95,12 @@ function SpecificUser(props) {
         </div>
       </div>
       <div className="SpecificUser-action">
-        <button>Cancel</button>
-        <button onClick={() => updateUser(id)}>Update</button>
+        <Link to="/admin/user">
+          <button className="btn">Cancel</button>
+        </Link>
+        <button className="btn btn-green" onClick={() => updateUser(id)}>
+          Update
+        </button>
       </div>
       <HistoryRentPay
         coins={props.coins}
@@ -104,6 +108,7 @@ function SpecificUser(props) {
         formatCash={(str) => props.formatCash(str)}
         motorList={props.motorList}
         user={id}
+        innerTime={(sec) => props.innerTime(sec)}
       ></HistoryRentPay>
     </>
   );
