@@ -4,7 +4,7 @@ import "./App.scss";
 
 function App() {
   const [data, setData] = useState([]);
-  //let [weightMetric, setWeightMetric] = useState(0);
+  const [tempData, setTempData] = useState();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -53,6 +53,15 @@ function App() {
     return filteredCats;
   };
 
+  const handleCatFilter = (ori) => {
+    const res = data.filter((value) => value.origin === ori);
+    setTempData(res);
+  };
+
+  const handleAllCatFilter = () => {
+    setTempData(data);
+  };
+
   return (
     <div className="App">
       <h1>30 DAYS OF REACT</h1>
@@ -66,37 +75,68 @@ function App() {
 
       <div className="cats-nav">
         {filterCats().map((value) => (
-          <div key={value[0].origin}>
+          <div
+            key={value[0].origin}
+            onClick={() => handleCatFilter(value[0].origin)}
+          >
             {value[0].origin}({value.length})
           </div>
         ))}
+        <div onClick={() => handleAllCatFilter()}>All ({data.length})</div>
       </div>
-      {data.map((value) => (
-        <div className="cat-card" key={value.id}>
-          <div className="cat-card-image">
-            <img src={value.image?.url} alt={value.name}></img>
-          </div>
-          <div className="cat-card-body">
-            <div>
-              <h1 className="cat-name">{value.name}</h1>
-              <p className="cat-origin">
-                <strong>{value.origin}</strong>
-              </p>
+      {tempData
+        ? tempData.map((value) => (
+            <div className="cat-card" key={value.id}>
+              <div className="cat-card-image">
+                <img src={value.image?.url} alt={value.name}></img>
+              </div>
+              <div className="cat-card-body">
+                <div>
+                  <h1 className="cat-name">{value.name}</h1>
+                  <p className="cat-origin">
+                    <strong>{value.origin}</strong>
+                  </p>
+                </div>
+                <div className="cat-attributes">
+                  <p>Temperament: {value.temperament}</p>
+                  <p>Life Span: {value.life_span}</p>
+                  <p>Weight: {value.weight.metric}</p>
+                </div>
+                <div className="cat-desc">
+                  <p>
+                    <span>Description</span>
+                  </p>
+                  <p>{value.description}</p>
+                </div>
+              </div>
             </div>
-            <div className="cat-attributes">
-              <p>Temperament: {value.temperament}</p>
-              <p>Life Span: {value.life_span}</p>
-              <p>Weight: {value.weight.metric}</p>
+          ))
+        : data.map((value) => (
+            <div className="cat-card" key={value.id}>
+              <div className="cat-card-image">
+                <img src={value.image?.url} alt={value.name}></img>
+              </div>
+              <div className="cat-card-body">
+                <div>
+                  <h1 className="cat-name">{value.name}</h1>
+                  <p className="cat-origin">
+                    <strong>{value.origin}</strong>
+                  </p>
+                </div>
+                <div className="cat-attributes">
+                  <p>Temperament: {value.temperament}</p>
+                  <p>Life Span: {value.life_span}</p>
+                  <p>Weight: {value.weight.metric}</p>
+                </div>
+                <div className="cat-desc">
+                  <p>
+                    <span>Description</span>
+                  </p>
+                  <p>{value.description}</p>
+                </div>
+              </div>
             </div>
-            <div className="cat-desc">
-              <p>
-                <span>Description</span>
-              </p>
-              <p>{value.description}</p>
-            </div>
-          </div>
-        </div>
-      ))}
+          ))}
     </div>
   );
 }

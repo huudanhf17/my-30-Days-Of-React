@@ -160,6 +160,7 @@ function User(props) {
           Banned({countFilterUserList("banned")})
         </li>
       </ul>
+
       <table style={{ width: "100%" }}>
         <tbody>
           <tr>

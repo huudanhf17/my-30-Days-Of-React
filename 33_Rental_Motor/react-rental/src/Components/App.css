@@ -143,3 +143,7 @@ a:active {
   background: #00b000;
   box-shadow: inset 0 0 25px rgba(0, 0, 0, 0.05);
 }
+
+.text-left {
+  text-align: left;
+}

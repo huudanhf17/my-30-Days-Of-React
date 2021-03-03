@@ -271,7 +271,7 @@ function App() {
       .split("")
       .reverse()
       .reduce((prev, next, index) => {
-        return (index % 3 ? next : next + ",") + prev;
+        return (index % 3 ? next : next + ".") + prev;
       });
   };
 
@@ -358,6 +358,8 @@ function App() {
                 getRentInfo(motor, price, durationRent, index)
               }
               splitTime={(seconds, unit) => splitTime(seconds, unit)}
+              formatCash={(str) => formatCash(str)}
+              innerTime={(sec) => innerTime(sec)}
             ></Main>
           </Route>
         </Switch>

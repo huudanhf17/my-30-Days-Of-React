@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, NavLink, Route, Switch } from "react-router-dom";
 import "./Admin.css";
 import HistoryPayments from "./HistoryPayments";
+import HistoryRentals from "./HistoryRentals";
 import Motor from "./Motor";
 import RefreshMotor from "./RefreshMotor";
 import SpecificMotor from "./SpecificMotor";
@@ -82,7 +83,13 @@ function Admin(props) {
           >
             History of Payments
           </NavLink>
-          <li className="Admin-Link">History of Rentals</li>
+          <NavLink
+            to="/admin/rentals"
+            activeClassName=" text-danger bg-dark"
+            className="Admin-Link"
+          >
+            History of Rentals
+          </NavLink>
         </ul>
         <Switch>
           <Route path="/admin/user/:slug.:id">
@@ -110,7 +117,6 @@ function Admin(props) {
               formatCash={(str) => props.formatCash(str)}
               innerTime={(sec) => props.innerTime(sec)}
               handleUserEmail={(id) => handleUserEmail(id)}
-              innerTime={(sec) => props.innerTime(sec)}
               renderTime={(utc) => renderTime(utc)}
             ></SpecificMotor>
           </Route>
@@ -126,7 +132,21 @@ function Admin(props) {
             ></Motor>
           </Route>
           <Route path="/admin/payments">
-            <HistoryPayments coins={props.coins}></HistoryPayments>
+            <HistoryPayments
+              coins={props.coins}
+              renderTime={(utc) => renderTime(utc)}
+              formatCash={(str) => props.formatCash(str)}
+              handleUserEmail={(id) => handleUserEmail(id)}
+            ></HistoryPayments>
+          </Route>
+          <Route path="/admin/rentals">
+            <HistoryRentals
+              payments={props.payments}
+              renderTime={(utc) => renderTime(utc)}
+              formatCash={(str) => props.formatCash(str)}
+              handleUserEmail={(id) => handleUserEmail(id)}
+              innerTime={(sec) => props.innerTime(sec)}
+            ></HistoryRentals>
           </Route>
           <Route path="/admin">
             <RefreshMotor

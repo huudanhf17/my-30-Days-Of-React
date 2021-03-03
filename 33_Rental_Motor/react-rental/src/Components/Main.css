@@ -19,11 +19,13 @@
 .Main-img {
   max-width: 100%;
   max-height: 175px;
+  z-index: 2;
 }
 
 .Main-select {
   height: 40px;
   width: 62%;
+  border-radius: 5px;
 }
 
 .Main-span {
@@ -52,6 +54,37 @@
   align-items: center;
   width: 85%;
   margin: auto;
+}
+
+/* relevant styles */
+.img__wrap {
+  position: relative;
+  z-index: 2;
+}
+
+.img__description {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  top: 5%;
+  bottom: 5%;
+  left: 5%;
+  right: 5%;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  visibility: hidden;
+  opacity: 0;
+  line-height: 157.5px;
+
+  /* transition effect. not necessary */
+  transition: opacity 0.2s, visibility 0.2s;
+}
+
+.img__wrap:hover .img__description {
+  visibility: visible;
+  opacity: 1;
 }
 
 /* Medium devices (landscape tablets, 1024px and down) */
