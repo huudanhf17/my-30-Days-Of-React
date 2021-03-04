@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  background-color: #f1f3f4;
 }
 
 .App-logo {
@@ -66,6 +67,10 @@ a:active {
   color: white !important;
 }
 
+.text-center {
+  text-align: center;
+}
+
 .white-hover:hover {
   color: white !important;
 }
@@ -101,6 +106,10 @@ a:active {
   background-color: red;
 }
 
+.bg-info {
+  background-color: #3279a8;
+}
+
 .text-right {
   text-align: right;
 }
@@ -113,8 +122,16 @@ a:active {
   color: green;
 }
 
+.text-yellow {
+  color: #ebc934 !important;
+}
+
 .bg-dark {
   background-color: black !important;
+}
+
+.bg-yellow {
+  background-color: #ebc934 !important;
 }
 
 .no-margin-left {
@@ -131,10 +148,19 @@ a:active {
   border-radius: 5px;
   color: white;
   background-color: rgba(32, 35, 42, 0.5);
+  cursor: pointer;
 }
 
 .btn-danger {
   background-color: red;
+}
+
+.bg-green {
+  background-color: green;
+}
+
+.bg-green-disable {
+  background-color: rgba(0, 128, 0, 0.35);
 }
 
 .btn-green {
@@ -146,4 +172,52 @@ a:active {
 
 .text-left {
   text-align: left;
+}
+
+.btn-new {
+  display: inline-block;
+  padding: 0.3em 1.2em;
+  margin: 0 0.1em 0.1em 0;
+  border: 0.16em solid rgba(255, 255, 255, 0);
+  border-radius: 5px;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-weight: bolder;
+  color: #ffffff;
+  text-shadow: 0 0.04em 0.04em rgba(0, 0, 0, 0.35);
+  text-align: center;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.btn-new:hover {
+  border-color: rgba(255, 255, 255, 1);
+}
+
+@media all and (max-width: 30em) {
+  .btn-new {
+    display: block;
+    margin: 0.2em auto;
+  }
+}
+
+.no-hover {
+  pointer-events: none;
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+table {
+  animation: fadein 2s;
+}
+
+.fade-in {
+  animation: fadein 2s;
 }

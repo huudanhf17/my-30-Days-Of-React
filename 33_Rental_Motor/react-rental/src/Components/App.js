@@ -201,68 +201,64 @@ function App() {
   };
 
   const getRentInfo = async (motor, price, durationRent, index) => {
-    if (user.coins >= Number(price)) {
-      try {
-        let result = await fetch("http://localhost:5000/orders", {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            user_id: user._id,
-            motor_id: motor,
-            duration: durationRent,
-            price: price,
-          }),
-        });
-        result = await result.json();
-
-        let result2 = await fetch(`http://localhost:5000/motors/`, {
-          method: "PATCH",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            is_refresh: false,
-            motorId: motor,
-          }),
-        });
-        result2 = await result2.json();
-
-        let temp = JSON.parse(localStorage.getItem("user-info"));
-        temp.coins = temp.coins - price;
-        localStorage.setItem("user-info", JSON.stringify(temp));
-        setUser(temp);
-
-        motorList[index].left = durationRent;
-        setMotorList([...motorList]);
-
-        // Get UTC Time
-        let unix_timestamp = Math.floor(new Date().getTime() / 1000);
-        let date = new Date(unix_timestamp * 1000);
-        const year = date.getFullYear();
-        const month = `0${date.getUTCMonth() + 1}`;
-        const day = `0${date.getUTCDate()}`;
-        const hours = "0" + date.getUTCHours();
-        const minutes = "0" + date.getMinutes();
-        const seconds = "0" + date.getSeconds();
-        const formattedTime = `${year}-${month.substr(-2)}-${day.substr(
-          -2
-        )}T${hours.substr(-2)}:${minutes.substr(-2)}:${seconds.substr(-2)}`;
-
-        payments.push({
-          _id: unix_timestamp,
+    try {
+      let result = await fetch("http://localhost:5000/orders", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
           user_id: user._id,
-          start: formattedTime,
+          motor_id: motor,
+          duration: durationRent,
           price: price,
-        });
-      } catch (e) {
-        console.log(e);
-      }
-    } else {
-      console.log("Out of coins");
+        }),
+      });
+      result = await result.json();
+
+      let result2 = await fetch(`http://localhost:5000/motors/`, {
+        method: "PATCH",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          is_refresh: false,
+          motorId: motor,
+        }),
+      });
+      result2 = await result2.json();
+
+      let temp = JSON.parse(localStorage.getItem("user-info"));
+      temp.coins = temp.coins - price;
+      localStorage.setItem("user-info", JSON.stringify(temp));
+      setUser(temp);
+
+      motorList[index].left = durationRent;
+      setMotorList([...motorList]);
+
+      // Get UTC Time
+      let unix_timestamp = Math.floor(new Date().getTime() / 1000);
+      let date = new Date(unix_timestamp * 1000);
+      const year = date.getFullYear();
+      const month = `0${date.getUTCMonth() + 1}`;
+      const day = `0${date.getUTCDate()}`;
+      const hours = "0" + date.getUTCHours();
+      const minutes = "0" + date.getMinutes();
+      const seconds = "0" + date.getSeconds();
+      const formattedTime = `${year}-${month.substr(-2)}-${day.substr(
+        -2
+      )}T${hours.substr(-2)}:${minutes.substr(-2)}:${seconds.substr(-2)}`;
+
+      payments.push({
+        _id: unix_timestamp,
+        user_id: user._id,
+        start: formattedTime,
+        price: price,
+      });
+    } catch (e) {
+      console.log(e);
     }
   };
 
@@ -353,6 +349,7 @@ function App() {
             <AfterHeader></AfterHeader>
             <PreMain></PreMain>
             <Main
+              coin={user.coins}
               motorList={motorList}
               getRentInfo={(motor, price, durationRent, index) =>
                 getRentInfo(motor, price, durationRent, index)

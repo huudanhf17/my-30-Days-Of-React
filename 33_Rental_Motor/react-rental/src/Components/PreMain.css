@@ -1,6 +1,7 @@
 .PreMain-div {
   max-width: 1200px;
   margin: auto;
+  animation: fadein 2s;
 }
 
 .PreMain-div-div {

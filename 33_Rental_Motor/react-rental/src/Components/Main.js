@@ -3,13 +3,16 @@ import "./Main.css";
 import MotorStatus from "./MotorStatus";
 import RentModal from "./RentModal";
 import useModal from "./useModal";
+import OopsModal from "./OopsModal";
 
 function Main(props) {
   const [dataRent, setDataRent] = useState(0);
   const [durationRent, setDurationRent] = useState(0);
   const [dataModal, setDataModal] = useState({});
   const [indexMotor, setIndexMotor] = useState();
-  const { isShowing, toggle } = useModal();
+  const [isOops, setIsOops] = useState();
+  const [isShowing, toggle] = useModal();
+  const [isShowing2, toggle2] = useModal();
 
   const imgMotor = (name) => {
     if (name === "Dream") {
@@ -17,11 +20,6 @@ function Main(props) {
     } else {
       return <img src="../img/city.jpg" className="Main-img img__img" />;
     }
-  };
-
-  const rent = (motor, index) => {
-    props.getRentInfo(motor.motor_id, dataRent, durationRent, index);
-    //motor.status = checki(durationRent, motor.motor_id);
   };
 
   const checki = (i, id) => {
@@ -52,23 +50,46 @@ function Main(props) {
   };
 
   const rentClick = (data, index, ev) => {
-    const price = ev.target.parentNode.children[1].children[0].value;
-    if (price === "0") {
-      console.log("You have not chosen rent duration!");
-    } else {
-      const duration =
+    const price = ev.target.parentNode.children[1].children[0];
+    if (price.value === "0") {
+      setIsOops(price);
+      toggle2();
+      // ev.target.parentNode.children[1].children[0].focus();
+    } else if (props.coin < Number(price.value)) {
+      setIsOops(false);
+      toggle2();
+    } else if (props.coin >= Number(price.value)) {
+      const textDuration =
         ev.target.parentNode.children[1].children[0].selectedOptions[0].text;
-      setDataRent(price);
+      setDataRent(price.value);
       setIndexMotor(index);
-      if (duration.includes("day")) {
+      if (textDuration.includes("day")) {
+        var duration = 5;
         setDurationRent(5);
-      } else if (duration.includes("week")) {
+      } else if (textDuration.includes("week")) {
+        var duration = 604800;
         setDurationRent(604800);
       } else {
+        var duration = 2592000;
         setDurationRent(2592000);
       }
+      props.getRentInfo(data.motor_id, price.value, duration, index);
       setDataModal(data);
       toggle();
+    }
+  };
+
+  const classNameStatus = (sort) => {
+    switch (sort) {
+      case 0:
+        return "Main-span text-green";
+        break;
+      case 1:
+        return "Main-span text-yellow";
+        break;
+      case 2:
+        return "Main-span text-danger";
+        break;
     }
   };
 
@@ -94,7 +115,7 @@ function Main(props) {
                   1 month / {props.formatCash(`${motor.price_onemonth}`)}đ
                 </option>
               </select>
-              <span className={`Main-span`} id={motor.motor_id}>
+              <span className={classNameStatus(motor.sort)} id={motor.motor_id}>
                 <MotorStatus
                   status={motor}
                   initialDays={() => props.splitTime(motor.left, "days")}
@@ -104,21 +125,24 @@ function Main(props) {
                 ></MotorStatus>
               </span>
             </div>
-            <button className="Main-btn" onClick={() => rent(motor, index)}>
-              RENT
-            </button>
-            <button onClick={(ev) => rentClick(motor, index, ev)}>
-              Testing
-            </button>
+            {motor.sort === 0 ? (
+              <button
+                className="Main-btn btn-new bg-green"
+                onClick={(ev) => rentClick(motor, index, ev)}
+              >
+                RENT
+              </button>
+            ) : (
+              <button className="Main-btn btn-new bg-green-disable no-hover">
+                RENTING
+              </button>
+            )}
           </li>
         ))}
       </ul>
       <RentModal
         isShowing={isShowing}
         hide={toggle}
-        // removeClick={(uuidRemove) => removeClick(uuidRemove)}
-        // brand={motor.brand}
-        // name={motor.name}
         motor={dataModal}
         imgMotor={(data) => imgMotor(data)}
         dataRent={dataRent}
@@ -130,6 +154,11 @@ function Main(props) {
           props.getRentInfo(motor, price, durationRent, index)
         }
       />
+      <OopsModal
+        isShowing={isShowing2}
+        hide={toggle2}
+        isOops={isOops}
+      ></OopsModal>
     </div>
   );
 }

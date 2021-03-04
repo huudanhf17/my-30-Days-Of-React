@@ -46,9 +46,14 @@ function Admin(props) {
       utc.substr(17, 2)
     );
     d.setHours(d.getHours() + 7);
-    return `${d.getDate()}/${
-      d.getMonth() + 1
-    }/${d.getFullYear()} ${d.getHours()}:${d.getMinutes()}`;
+    const year = d.getFullYear();
+    const month = `0${d.getMonth() + 1}`;
+    const day = `0${d.getDate()}`;
+    const hours = "0" + d.getHours();
+    const minutes = "0" + d.getMinutes();
+    return `${hours.substr(-2)}:${minutes.substr(-2)} ${day.substr(
+      -2
+    )}/${month.substr(-2)}/${year}`;
   };
 
   return (

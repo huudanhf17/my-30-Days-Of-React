@@ -9,9 +9,14 @@ function RefreshMotor(props) {
   }, [props.motorListMaintance]);
 
   const innerTime = (time) => {
-    return `${time.getDate()}/${
-      time.getMonth() + 1
-    }/${time.getFullYear()} ${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`;
+    const year = time.getFullYear();
+    const month = `0${time.getMonth() + 1}`;
+    const day = `0${time.getDate()}`;
+    const hours = "0" + time.getHours();
+    const minutes = "0" + time.getMinutes();
+    return `${hours.substr(-2)}:${minutes.substr(-2)} ${day.substr(
+      -2
+    )}/${month.substr(-2)}/${year}`;
   };
 
   const refreshMotor = async (id, index) => {
@@ -38,7 +43,7 @@ function RefreshMotor(props) {
 
   return (
     <>
-      <h1>Refresh Motor</h1>
+      <h1 className="fade-in">Refresh Motor</h1>
       <table style={{ width: "100%" }}>
         <tbody>
           <tr>
@@ -56,7 +61,10 @@ function RefreshMotor(props) {
                   <td>{innerTime(value.expiration_time)}</td>
                   <td>{`${value.brand} ${value.name} ${value.cc} ${value.color}`}</td>
                   <td>
-                    <button onClick={() => refreshMotor(value.motor_id, index)}>
+                    <button
+                      className="btn-new bg-green"
+                      onClick={() => refreshMotor(value.motor_id, index)}
+                    >
                       Refresh
                     </button>
                   </td>

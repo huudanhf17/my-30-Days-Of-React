@@ -5,8 +5,8 @@ function HistoryPayments(props) {
 
   return (
     <div>
-      <h1>History of Payments</h1>
-      <p className="text-right HistoryRental-summary">
+      <h1 className="fade-in">History of Payments</h1>
+      <p className="text-right HistoryRental-summary fade-in">
         Total: <b>{coinsLength} times</b> -{" "}
         <b>
           {props.formatCash(

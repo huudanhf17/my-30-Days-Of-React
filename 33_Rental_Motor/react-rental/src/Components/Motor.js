@@ -54,8 +54,8 @@ function Motor(props) {
 
   return (
     <>
-      <h1>Motor</h1>
-      <ul className="User-submenu">
+      <h1 className="fade-in">Motor</h1>
+      <ul className="User-submenu fade-in">
         <li
           className="User-ul-li clickable"
           onClick={() => filterMotorList("")}
@@ -130,9 +130,9 @@ function Motor(props) {
                   ></MotorStatus>
                 )}
               </td>
-              <td>
+              <td className="text-center">
                 <Link to={`/admin/motor/id.${value.motor_id}`}>
-                  <button>More Details</button>
+                  <button className="btn-new bg-info">More Details</button>
                 </Link>
               </td>
             </tr>

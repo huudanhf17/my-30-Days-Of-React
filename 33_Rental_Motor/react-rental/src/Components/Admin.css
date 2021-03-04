@@ -3,8 +3,8 @@
   min-height: 82.9242vh;
   display: flex;
   align-items: center;
-  justify-content: center;
   flex-direction: column;
+  animation: fadein 1s;
 }
 
 .Admin-container {

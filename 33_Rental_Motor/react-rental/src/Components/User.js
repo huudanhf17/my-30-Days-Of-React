@@ -8,12 +8,12 @@ import "./User.css";
 
 function User(props) {
   const [userList, setUserList] = useState([]);
+  const [isActive, setIsActive] = useState();
+  const [isShowing, toggle] = useModal();
 
   useEffect(() => {
     setUserList(props.userList);
   }, [props.userList]);
-
-  const { isShowing, toggle } = useModal();
 
   const topUpList = props.coins.reduce(
     (acc, value) => acc.concat({ plus: value.plus, user_id: value.user_id }),
@@ -77,7 +77,7 @@ function User(props) {
     return res;
   };
 
-  const banUser = async (id) => {
+  const banUser = async (id, index) => {
     try {
       let result = await fetch(`http://localhost:5000/users/`, {
         method: "PATCH",
@@ -91,15 +91,15 @@ function User(props) {
         }),
       });
       result = await result.json();
-      // refresheMotorList.splice(index, 1);
-      // const temp = [...refresheMotorList];
-      // setRefreshMotorList(temp);
+      setIsActive(false);
+      toggle();
+      userList[index].type = "banned";
     } catch (err) {
       console.log("Fail to ban User " + err);
     }
   };
 
-  const activeUser = async (id) => {
+  const activeUser = async (id, index, ev) => {
     try {
       let result = await fetch(`http://localhost:5000/users/`, {
         method: "PATCH",
@@ -113,6 +113,11 @@ function User(props) {
         }),
       });
       result = await result.json();
+      setIsActive(true);
+      toggle();
+      userList[index].type = "active";
+
+      // ev.target.parentElement.parentElement.focus();
     } catch (err) {
       console.log("Fail to active User " + err);
     }
@@ -134,9 +139,34 @@ function User(props) {
     return res;
   };
 
+  const handleClassType = (type) => {
+    switch (type) {
+      case "active":
+        return <td className="text-green">{type}</td>;
+        break;
+      case "banned":
+        return <td className="text-danger">{type}</td>;
+        break;
+      case "unactive":
+        return (
+          <td>
+            <b>{type}</b>
+          </td>
+        );
+        break;
+      case "admin":
+        return (
+          <td className="text-green">
+            <b>{type}</b>
+          </td>
+        );
+        break;
+    }
+  };
+
   return (
     <>
-      <h1>User</h1>
+      <h1 className="User-h1">User</h1>
       <ul className="User-submenu">
         <li className="User-ul-li clickable" onClick={() => filterUserList("")}>
           All ({countFilterUserList("")})
@@ -145,7 +175,7 @@ function User(props) {
           className="User-ul-li clickable"
           onClick={() => filterUserList("unactive")}
         >
-          Unactive({countFilterUserList("unactive")})
+          Unactive(<b>{countFilterUserList("unactive")}</b>)
         </li>
         <li
           className="User-ul-li clickable"
@@ -167,8 +197,10 @@ function User(props) {
             <th>Qty</th>
             <th>Email</th>
             <th>Type</th>
-            <th>Description</th>
+            <th>Payments</th>
             <th>Balance</th>
+            <th>Rents</th>
+            <th>Counts</th>
             <th>Currently Rent</th>
             <th>Action</th>
           </tr>
@@ -176,16 +208,18 @@ function User(props) {
             <tr key={value.email}>
               <td>{index + 1}</td>
               <td>{value.email}</td>
-              <td>{value.type}</td>
-              <td>
-                Already top up{" "}
+              {handleClassType(value.type)}
+              <td className="text-right">
                 {props.formatCash(`${filterTopUpUser(value._id, topUpList)}`)}đ
-                | spent{" "}
-                {props.formatCash(`${filterOrderUser(value._id, orderList)}`)}đ
-                for {countOrderUser(value._id, orderList)} rents
               </td>
               <td className="text-right">
                 {props.formatCash(`${filterTransUser(value._id, transList)}`)}đ
+              </td>
+              <td className="text-right">
+                {props.formatCash(`${filterOrderUser(value._id, orderList)}`)}đ
+              </td>
+              <td className="text-right">
+                {countOrderUser(value._id, orderList)}
               </td>
               <td>
                 {motorBeingRentedList.map((motor) => {
@@ -215,17 +249,22 @@ function User(props) {
                   }
                 })}
               </td>
-              <td>
+              <td className="text-center">
                 <Link to={`/admin/user/${value.email}.${value._id}`}>
-                  <button
-                  // onClick={() => specificClick(value)}
-                  // userId={value._id}
-                  >
-                    Specific
-                  </button>
+                  <button className="btn-new bg-info User-spe">Specific</button>
                 </Link>
-                <button onClick={() => banUser(value._id)}>Ban</button>
-                <button onClick={() => activeUser(value._id)}>Active</button>
+                <button
+                  className="btn-new btn-danger User-ban"
+                  onClick={() => banUser(value._id, index)}
+                >
+                  Ban
+                </button>
+                <button
+                  className="btn-new bg-green User-act"
+                  onClick={(ev) => activeUser(value._id, index, ev)}
+                >
+                  Active
+                </button>
               </td>
             </tr>
           ))}
@@ -234,6 +273,7 @@ function User(props) {
       <SpecificModal
         isShowing={isShowing}
         hide={toggle}
+        isActive={isActive}
         // removeClick={(uuidRemove) => removeClick(uuidRemove)}
       />
     </>

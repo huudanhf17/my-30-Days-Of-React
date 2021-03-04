@@ -11,8 +11,6 @@ const RentModal = ({
   durationRent,
   formatCash,
   innerTime,
-  indexMotor,
-  getRentInfo,
 }) =>
   isShowing
     ? ReactDOM.createPortal(
@@ -55,25 +53,12 @@ const RentModal = ({
                   Duration: {innerTime(durationRent)}
                 </p>
                 <button
-                  className="btn clickable RentModal-btn"
+                  className="btn btn-danger clickable RentModal-btn"
                   data-dismiss="RentModal"
                   aria-label="Close"
                   onClick={hide}
                 >
-                  Cancel
-                </button>
-                <button
-                  className="btn btn-danger clickable RentModal-btn"
-                  onClick={() =>
-                    getRentInfo(
-                      motor.motor_id,
-                      dataRent,
-                      durationRent,
-                      indexMotor
-                    )
-                  }
-                >
-                  RENT
+                  OK
                 </button>
               </div>
             </div>

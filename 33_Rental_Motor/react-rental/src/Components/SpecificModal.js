@@ -2,55 +2,51 @@ import React from "react";
 import ReactDOM from "react-dom";
 import "./SpecificModal.css";
 
-const SpecificModal = ({ isShowing, hide, removeClick }) =>
-  isShowing
+const SpecificModal = ({ isShowing, hide, isActive }) => {
+  return isShowing
     ? ReactDOM.createPortal(
         <React.Fragment>
-          <div className="modal-overlay" />
+          <div className="SpecificModal-overlay" />
           <div
-            className="modal-wrapper"
+            className="SpecificModal-wrapper"
             aria-modal
             aria-hidden
             tabIndex={-1}
             role="dialog"
           >
-            <div className="modal">
-              <div className="modal-header">
-                <button
-                  type="button"
-                  className="modal-close-button clickable"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                  onClick={hide}
-                >
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div className="modal-body">
-                <img src="./img/warning.png" alt="warning"></img>
-                <h1>Are you sure?</h1>
-                <p>You won't be able to revert this!</p>
-
-                <button
-                  className="btn clickable"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                  onClick={hide}
-                >
-                  Cancel
-                </button>
-                <button
-                  className="btn btn-danger clickable"
-                  // onClick={() => removeClick()}
-                >
-                  Yes, delete it!
-                </button>
+            <div className="SpecificModal">
+              <div className="SpecificModal-header"></div>
+              <div className="SpecificModal-body">
+                {isActive ? (
+                  <p className="text-green SpecificModal-text">
+                    <b>
+                      Active User Success{" "}
+                      <img
+                        src="../img/success.png"
+                        alt="success"
+                        className="SpecificModal-img"
+                      ></img>
+                    </b>
+                  </p>
+                ) : (
+                  <p className="text-danger SpecificModal-text">
+                    <b>
+                      Ban User Success{" "}
+                      <img
+                        src="../img/success.png"
+                        alt="success"
+                        className="SpecificModal-img"
+                      ></img>
+                    </b>
+                  </p>
+                )}
               </div>
             </div>
+            {setTimeout(() => hide(), 500)}
           </div>
         </React.Fragment>,
         document.body
       )
     : null;
-
+};
 export default SpecificModal;
