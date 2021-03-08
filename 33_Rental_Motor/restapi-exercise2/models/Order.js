@@ -21,6 +21,10 @@ const schema = mongoose.Schema({
     type: Number,
     required: true,
   },
+  isBanned: {
+    type: String,
+    default: "no",
+  },
 });
 
 module.exports = mongoose.model("order", schema);

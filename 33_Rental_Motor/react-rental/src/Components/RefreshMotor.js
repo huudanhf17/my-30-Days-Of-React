@@ -2,43 +2,17 @@ import React, { useEffect, useState } from "react";
 import "./RefreshMotor.css";
 
 function RefreshMotor(props) {
-  const [refresheMotorList, setRefreshMotorList] = useState([]);
-
   useEffect(() => {
-    setRefreshMotorList(props.motorListMaintance);
-  }, [props.motorListMaintance]);
+    if (props.motorListMaintance.length === 0) {
+      const refresh = setInterval(() => {
+        console.log("chay interval");
 
-  useEffect(() => {
-    // do {
-    //   console.log("ko chay");
-    // } while (props.motorListMaintance.length === 0);
-    // if (props.motorListMaintance.length === 0) {
-    //    var refresh = setInterval(() => {
-    //     console.log("chay interval");
-    //     props.setRefreshData(Math.random());
-    //   }, 8000);
-    // } else if (props.motorListMaintance.length >= 0) {
-    //   clearInterval(refresh);
-    //   console.log("clear Interval");
-    // }
+        props.setRefreshData(Math.random());
+        console.log("clear Interval");
+        clearInterval(refresh);
+      }, 5000);
+    }
   }, [props.motorListMaintance]);
-
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     props.setRefreshData(Math.random());
-  //   }, props.reNewRefreshMotor * 1000);
-  // }, []);
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     console.log(props.motorListMaintance);
-  //     if (props.motorListMaintance.length === 0) {
-  //       console.log("kich hoat interval");
-  //       setInterval(() => {
-  //         props.setRefreshData(Math.random());
-  //       }, 8000);
-  //     }
-  //   }, 8000);
-  // }, []);
 
   const innerTime = (time) => {
     const year = time.getFullYear();
@@ -51,7 +25,7 @@ function RefreshMotor(props) {
     )}/${month.substr(-2)}/${year}`;
   };
 
-  const refreshMotor = async (id, index) => {
+  const refreshMotor = async (id, orderId) => {
     try {
       let result2 = await fetch(`http://localhost:5000/motors/`, {
         method: "PATCH",
@@ -64,10 +38,20 @@ function RefreshMotor(props) {
           motorId: id,
         }),
       });
-      result2 = await result2.json();
-      // refresheMotorList.splice(index, 1);
-      // const temp = [...refresheMotorList];
-      // setRefreshMotorList(temp);
+
+      if (orderId) {
+        let result = await fetch(`http://localhost:5000/orders/after`, {
+          method: "PATCH",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            orderId: orderId,
+          }),
+        });
+      }
+
       props.setRefreshData(Math.random());
     } catch (err) {
       console.log(err);
@@ -85,25 +69,30 @@ function RefreshMotor(props) {
             <th>Name</th>
             <th>Action</th>
           </tr>
-          {refresheMotorList
-            .sort((a, b) => a.left - b.left)
-            .map((value, index) => {
-              return (
-                <tr key={value.motor_id}>
-                  <td>{index + 1}</td>
-                  <td>{innerTime(value.expiration_time)}</td>
-                  <td>{`${value.brand} ${value.name} ${value.cc} ${value.color}`}</td>
-                  <td>
-                    <button
-                      className="btn-new bg-green"
-                      onClick={() => refreshMotor(value.motor_id, index)}
-                    >
-                      Refresh
-                    </button>
-                  </td>
-                </tr>
-              );
-            })}
+
+          {props.motorListMaintance.length > 0
+            ? props.motorListMaintance
+                .sort((a, b) => a.left - b.left)
+                .map((value, index) => {
+                  return (
+                    <tr key={value.motor_id}>
+                      <td>{index + 1}</td>
+                      <td>{innerTime(value.expiration_time)}</td>
+                      <td>{`${value.brand} ${value.name} ${value.cc} ${value.color}`}</td>
+                      <td>
+                        <button
+                          className="btn-new bg-green"
+                          onClick={() =>
+                            refreshMotor(value.motor_id, value.order_id)
+                          }
+                        >
+                          Refresh
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })
+            : null}
         </tbody>
       </table>
     </>

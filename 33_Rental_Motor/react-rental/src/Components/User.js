@@ -29,6 +29,8 @@ function User(props) {
 
   const motorBeingRentedList = props.motorList.filter((value) => value.user_id);
 
+  let orderId = "";
+
   const filterTopUpUser = (user_id, topUpList) => {
     const res = topUpList.reduce((acc, value) => {
       if (value.user_id === user_id && value.plus) {
@@ -77,7 +79,7 @@ function User(props) {
     return res;
   };
 
-  const banUser = async (id, index) => {
+  const banUser = async (id, index, orderId) => {
     try {
       let result = await fetch(`http://localhost:5000/users/`, {
         method: "PATCH",
@@ -90,10 +92,24 @@ function User(props) {
           type: "banned",
         }),
       });
-      result = await result.json();
+
+      let result2 = await fetch(`http://localhost:5000/orders/ban`, {
+        method: "PATCH",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          orderId: userList[index].orderId,
+        }),
+      });
+
       setIsActive(false);
       toggle();
       userList[index].type = "banned";
+
+      props.setRefreshData(Math.random());
+      props.setRefreshUserList(Math.random());
     } catch (err) {
       console.log("Fail to ban User " + err);
     }
@@ -224,6 +240,7 @@ function User(props) {
               <td>
                 {motorBeingRentedList.map((motor) => {
                   if (motor.user_id === value._id) {
+                    userList[index].orderId = motor.order_id;
                     return (
                       <p className="User-currently-rent" key={motor.motor_id}>
                         {motor.brand} {motor.name} for{" "}
@@ -244,8 +261,6 @@ function User(props) {
                         ></MotorStatus>
                       </p>
                     );
-                  } else {
-                    return `.`;
                   }
                 })}
               </td>
@@ -261,7 +276,7 @@ function User(props) {
                 </button>
                 <button
                   className="btn-new bg-green User-act"
-                  onClick={(ev) => activeUser(value._id, index, ev)}
+                  onClick={(ev) => activeUser(value._id, index, value.orderId)}
                 >
                   Active
                 </button>

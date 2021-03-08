@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import ModalMotorBan from "./ModalMotorBan";
 import "./Motor.css";
 import MotorStatus from "./MotorStatus";
+import useModal from "./useModal";
 
 function Motor(props) {
   const [motorList, setMotorList] = useState([]);
+  const [dataModalMotorBan, setDataModalMotorBan] = useState({});
+  const [isShowing, toggle] = useModal();
 
   useEffect(() => {
     setMotorList(props.motorList);
@@ -50,6 +54,13 @@ function Motor(props) {
       }
     }, 0);
     return res;
+  };
+
+  const handleBan = (value, email) => {
+    dataModalMotorBan.email = email;
+    dataModalMotorBan.motor = `${value.brand} ${value.name}`;
+    dataModalMotorBan.value = value;
+    toggle();
   };
 
   return (
@@ -139,14 +150,32 @@ function Motor(props) {
                 )}
               </td>
               <td className="text-center">
-                <Link to={`/admin/motor/id.${value.motor_id}`}>
+                <Link
+                  to={`/admin/motor/id.${value.motor_id}`}
+                  className="margin-right-6"
+                >
                   <button className="btn-new bg-info">More Details</button>
                 </Link>
+                <button
+                  className="btn-new bg-dg margin-left-6"
+                  onClick={() =>
+                    handleBan(value, props.handleUserEmail(value.user_id))
+                  }
+                >
+                  Ban
+                </button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+      <ModalMotorBan
+        isShowing={isShowing}
+        hide={toggle}
+        dataModalMotorBan={dataModalMotorBan}
+        setRefreshData={(num) => props.setRefreshData(num)}
+        setRefreshUserList={(num) => props.setRefreshUserList(num)}
+      ></ModalMotorBan>
     </>
   );
 }

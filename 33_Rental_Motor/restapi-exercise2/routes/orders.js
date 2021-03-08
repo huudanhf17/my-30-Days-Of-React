@@ -48,17 +48,31 @@ router.delete("/:orderId", async (req, res) => {
   }
 });
 
-//Update a order
-router.patch("/:orderId", async (req, res) => {
+//Ban an order
+router.patch("/ban", async (req, res) => {
   try {
     const updateOrder = await Order.updateOne(
-      { _id: req.params.orderId },
+      { _id: req.body.orderId },
       {
         $set: {
-          status: req.body.status,
-          user_id: req.body.user_id,
-          motor_id: req.body.motor_id,
-          duration: req.body.duration,
+          isBanned: "yes",
+        },
+      }
+    );
+    res.json(updateOrder);
+  } catch (err) {
+    res.json({ message: err });
+  }
+});
+
+//Update an order
+router.patch("/after", async (req, res) => {
+  try {
+    const updateOrder = await Order.updateOne(
+      { _id: req.body.orderId },
+      {
+        $set: {
+          isBanned: "after",
         },
       }
     );

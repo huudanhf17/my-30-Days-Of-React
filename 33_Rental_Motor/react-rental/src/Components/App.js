@@ -17,7 +17,7 @@ function App() {
   const [user, setUser] = useState([]);
   const [coins, setCoins] = useState([]);
   const [payments, setPayments] = useState([]);
-  const [motorListMaintance, setMotorListMaintance] = useState([]);
+  const [motorListMaintance, setMotorListMaintance] = useState(1);
   const [refreshData, setRefreshData] = useState(0);
   const [reNewRefreshMotor, setReNewRefreshMotor] = useState(0);
 
@@ -53,6 +53,8 @@ function App() {
             motor_id: value.motor_id,
             et: d,
             user_id: value.user_id,
+            isBanned: value.isBanned,
+            order_id: value._id,
           };
         });
 
@@ -69,7 +71,7 @@ function App() {
         const tempReNewRefreshMotor = [];
         responseJSON.forEach((value) => {
           def.forEach((order) => {
-            if (value._id === order.motor_id) {
+            if (value._id === order.motor_id && order.isBanned === "no") {
               let checkMotor = newMotorList.findIndex(
                 (motor) => motor.motor_id === value._id
               );
@@ -89,6 +91,7 @@ function App() {
                   price_onemonth: value.price_onemonth,
                   create_at: value.create_at,
                   user_id: order.user_id,
+                  order_id: order.order_id,
                 });
               } else {
                 newMotorList.push({
@@ -105,9 +108,38 @@ function App() {
                   price_onemonth: value.price_onemonth,
                   create_at: value.create_at,
                   user_id: order.user_id,
+                  order_id: order.order_id,
                 });
                 tempReNewRefreshMotor.push(order.left);
               }
+            } else if (
+              value._id === order.motor_id &&
+              order.isBanned === "yes"
+            ) {
+              newMotorList.push({
+                sort: 2,
+                motor_id: order.motor_id,
+                name: value.name,
+                color: value.color,
+                cc: value.cc,
+                brand: value.brand,
+                status: "MAINTANCE",
+                price_oneday: value.price_oneday,
+                price_oneweek: value.price_oneweek,
+                price_onemonth: value.price_onemonth,
+                create_at: value.create_at,
+              });
+
+              tempMotorListMaintance.push({
+                motor_id: value._id,
+                name: value.name,
+                color: value.color,
+                cc: value.cc,
+                brand: value.brand,
+                expiration_time: order.et,
+                left: order.left,
+                order_id: order.order_id,
+              });
             }
           });
           setReNewRefreshMotor(Math.min(...tempReNewRefreshMotor));

@@ -12,6 +12,7 @@ import User from "./User";
 
 function Admin(props) {
   const [userList, setUserList] = useState([]);
+  const [refreshUserList, setRefreshUserList] = useState(0);
 
   useEffect(() => {
     async function getUserListAsync() {
@@ -25,7 +26,7 @@ function Admin(props) {
       }
     }
     getUserListAsync();
-  }, []);
+  }, [refreshUserList]);
 
   const handleUserEmail = (userId) => {
     let res = "";
@@ -115,6 +116,8 @@ function Admin(props) {
               formatCash={(str) => props.formatCash(str)}
               motorList={props.motorList}
               splitTime={(seconds, unit) => props.splitTime(seconds, unit)}
+              setRefreshData={(num) => props.setRefreshData(num)}
+              setRefreshUserList={(num) => setRefreshUserList(num)}
             ></User>
           </Route>
           <Route path="/admin/motor/:slug.:id">
@@ -140,6 +143,8 @@ function Admin(props) {
               userList={userList}
               handleUserEmail={(id) => handleUserEmail(id)}
               renderTime={(utc) => renderTime(utc)}
+              setRefreshData={(num) => props.setRefreshData(num)}
+              setRefreshUserList={(num) => setRefreshUserList(num)}
             ></Motor>
           </Route>
           <Route path="/admin/payments">
