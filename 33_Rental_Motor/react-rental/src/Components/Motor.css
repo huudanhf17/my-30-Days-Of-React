@@ -1,0 +1,15 @@
+.Motor-submenu {
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  animation: fadein 2s;
+}
+
+.Motor-submenu-div {
+  display: flex;
+}
+
+.Motor-add {
+  min-height: 51px;
+  min-width: 51px;
+}

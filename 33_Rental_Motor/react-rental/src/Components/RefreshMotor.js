@@ -8,6 +8,38 @@ function RefreshMotor(props) {
     setRefreshMotorList(props.motorListMaintance);
   }, [props.motorListMaintance]);
 
+  useEffect(() => {
+    // do {
+    //   console.log("ko chay");
+    // } while (props.motorListMaintance.length === 0);
+    // if (props.motorListMaintance.length === 0) {
+    //    var refresh = setInterval(() => {
+    //     console.log("chay interval");
+    //     props.setRefreshData(Math.random());
+    //   }, 8000);
+    // } else if (props.motorListMaintance.length >= 0) {
+    //   clearInterval(refresh);
+    //   console.log("clear Interval");
+    // }
+  }, [props.motorListMaintance]);
+
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     props.setRefreshData(Math.random());
+  //   }, props.reNewRefreshMotor * 1000);
+  // }, []);
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     console.log(props.motorListMaintance);
+  //     if (props.motorListMaintance.length === 0) {
+  //       console.log("kich hoat interval");
+  //       setInterval(() => {
+  //         props.setRefreshData(Math.random());
+  //       }, 8000);
+  //     }
+  //   }, 8000);
+  // }, []);
+
   const innerTime = (time) => {
     const year = time.getFullYear();
     const month = `0${time.getMonth() + 1}`;
@@ -33,9 +65,10 @@ function RefreshMotor(props) {
         }),
       });
       result2 = await result2.json();
-      refresheMotorList.splice(index, 1);
-      const temp = [...refresheMotorList];
-      setRefreshMotorList(temp);
+      // refresheMotorList.splice(index, 1);
+      // const temp = [...refresheMotorList];
+      // setRefreshMotorList(temp);
+      props.setRefreshData(Math.random());
     } catch (err) {
       console.log(err);
     }

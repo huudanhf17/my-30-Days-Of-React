@@ -4,6 +4,7 @@ import "./Admin.css";
 import HistoryPayments from "./HistoryPayments";
 import HistoryRentals from "./HistoryRentals";
 import Motor from "./Motor";
+import NewMotor from "./NewMotor";
 import RefreshMotor from "./RefreshMotor";
 import SpecificMotor from "./SpecificMotor";
 import SpecificUser from "./SpecificUser";
@@ -125,6 +126,11 @@ function Admin(props) {
               renderTime={(utc) => renderTime(utc)}
             ></SpecificMotor>
           </Route>
+          <Route path="/admin/motor/add">
+            <NewMotor
+              setRefreshData={(num) => props.setRefreshData(num)}
+            ></NewMotor>
+          </Route>
           <Route path="/admin/motor">
             <Motor
               motorList={props.motorList}
@@ -156,6 +162,7 @@ function Admin(props) {
           <Route path="/admin">
             <RefreshMotor
               motorListMaintance={props.motorListMaintance}
+              setRefreshData={(num) => props.setRefreshData(num)}
             ></RefreshMotor>
           </Route>
         </Switch>

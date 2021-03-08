@@ -85,9 +85,12 @@ function Main(props) {
         return "Main-span text-green";
         break;
       case 1:
-        return "Main-span text-yellow";
+        return "Main-span text-green";
         break;
       case 2:
+        return "Main-span text-yellow";
+        break;
+      case 3:
         return "Main-span text-danger";
         break;
     }
@@ -125,7 +128,7 @@ function Main(props) {
                 ></MotorStatus>
               </span>
             </div>
-            {motor.sort === 0 ? (
+            {(motor.sort === 0) | (motor.sort === 1) ? (
               <button
                 className="Main-btn btn-new bg-green"
                 onClick={(ev) => rentClick(motor, index, ev)}

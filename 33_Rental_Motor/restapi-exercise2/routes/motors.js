@@ -1,4 +1,5 @@
 const express = require("express");
+const { now } = require("mongoose");
 const router = express.Router();
 const Motor = require("../models/Motors");
 
@@ -19,11 +20,12 @@ router.post("/", async (req, res) => {
     color: req.body.color,
     cc: req.body.cc,
     brand: req.body.brand,
-    status: "ready",
+    status: req.body.status,
+    is_refresh: req.body.is_refresh,
     price_oneday: req.body.price_oneday,
     price_oneweek: req.body.price_oneweek,
     price_onemonth: req.body.price_onemonth,
-    creat_at: Date.now(),
+    create_at: Date.now(),
   });
   try {
     const newMotor = await motor.save();

@@ -18,6 +18,8 @@ function App() {
   const [coins, setCoins] = useState([]);
   const [payments, setPayments] = useState([]);
   const [motorListMaintance, setMotorListMaintance] = useState([]);
+  const [refreshData, setRefreshData] = useState(0);
+  const [reNewRefreshMotor, setReNewRefreshMotor] = useState(0);
 
   useEffect(() => {
     async function getMotorAsync() {
@@ -63,6 +65,8 @@ function App() {
         });
 
         const newMotorList = [];
+        const tempMotorListMaintance = [];
+        const tempReNewRefreshMotor = [];
         responseJSON.forEach((value) => {
           def.forEach((order) => {
             if (value._id === order.motor_id) {
@@ -72,7 +76,7 @@ function App() {
               if (checkMotor > -1) {
                 newMotorList.splice(checkMotor, 1);
                 newMotorList.push({
-                  sort: 2,
+                  sort: 3,
                   motor_id: order.motor_id,
                   left: order.left,
                   name: value.name,
@@ -88,7 +92,7 @@ function App() {
                 });
               } else {
                 newMotorList.push({
-                  sort: 2,
+                  sort: 3,
                   motor_id: order.motor_id,
                   left: order.left,
                   name: value.name,
@@ -102,9 +106,11 @@ function App() {
                   create_at: value.create_at,
                   user_id: order.user_id,
                 });
+                tempReNewRefreshMotor.push(order.left);
               }
             }
           });
+          setReNewRefreshMotor(Math.min(...tempReNewRefreshMotor));
         });
 
         ghi.sort((a, b) => b.left - a.left);
@@ -114,7 +120,7 @@ function App() {
               if (!newMotorList.some((motor) => motor.motor_id === value._id)) {
                 if (!value.is_refresh) {
                   newMotorList.push({
-                    sort: 1,
+                    sort: 2,
                     motor_id: value._id,
                     name: value.name,
                     color: value.color,
@@ -128,7 +134,7 @@ function App() {
                     duration: order.duration,
                     expiration_time: order.et,
                   });
-                  motorListMaintance.push({
+                  tempMotorListMaintance.push({
                     motor_id: value._id,
                     name: value.name,
                     color: value.color,
@@ -155,7 +161,24 @@ function App() {
               }
             }
           });
+          if (!newMotorList.some((motor) => motor.motor_id === value._id)) {
+            newMotorList.push({
+              sort: 1,
+              motor_id: value._id,
+              name: value.name,
+              color: value.color,
+              cc: value.cc,
+              brand: value.brand,
+              status: "READY",
+              price_oneday: value.price_oneday,
+              price_oneweek: value.price_oneweek,
+              price_onemonth: value.price_onemonth,
+              create_at: value.create_at,
+            });
+          }
         });
+
+        setMotorListMaintance(tempMotorListMaintance);
 
         newMotorList.sort((a, b) => a.sort - b.sort);
         newMotorList.sort((a, b) => a.left - b.left);
@@ -165,7 +188,7 @@ function App() {
       }
     }
     getMotorAsync();
-  }, []);
+  }, [refreshData]);
 
   useEffect(() => {
     async function getCoinsAsync() {
@@ -235,8 +258,7 @@ function App() {
       localStorage.setItem("user-info", JSON.stringify(temp));
       setUser(temp);
 
-      motorList[index].left = durationRent;
-      setMotorList([...motorList]);
+      setRefreshData(Math.random());
 
       // Get UTC Time
       let unix_timestamp = Math.floor(new Date().getTime() / 1000);
@@ -343,6 +365,7 @@ function App() {
               motorList={motorList}
               splitTime={(seconds, unit) => splitTime(seconds, unit)}
               innerTime={(sec) => innerTime(sec)}
+              setRefreshData={(num) => setRefreshData(num)}
             ></Admin>
           </Route>
           <Route path="/">

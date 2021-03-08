@@ -55,31 +55,39 @@ function Motor(props) {
   return (
     <>
       <h1 className="fade-in">Motor</h1>
-      <ul className="User-submenu fade-in">
-        <li
-          className="User-ul-li clickable"
-          onClick={() => filterMotorList("")}
-        >
-          All ({countFilterMotorList("")})
-        </li>
-        <li
-          className="User-ul-li clickable"
-          onClick={() => filterMotorList("READY")}
-        >
-          Ready({countFilterMotorList("READY")})
-        </li>
-        <li
-          className="User-ul-li clickable"
-          onClick={() => filterMotorList("MAINTANCE")}
-        >
-          Maintance({countFilterMotorList("MAINTANCE")})
-        </li>
-        <li
-          className="User-ul-li clickable"
-          onClick={() => filterMotorList("RENTING")}
-        >
-          Renting({countFilterMotorList("RENTING")})
-        </li>
+      <ul className="Motor-submenu fade-in">
+        <div></div>
+        <div className="Motor-submenu-div">
+          <li
+            className="User-ul-li clickable"
+            onClick={() => filterMotorList("")}
+          >
+            All ({countFilterMotorList("")})
+          </li>
+          <li
+            className="User-ul-li clickable"
+            onClick={() => filterMotorList("READY")}
+          >
+            Ready({countFilterMotorList("READY")})
+          </li>
+          <li
+            className="User-ul-li clickable"
+            onClick={() => filterMotorList("MAINTANCE")}
+          >
+            Maintance({countFilterMotorList("MAINTANCE")})
+          </li>
+          <li
+            className="User-ul-li clickable"
+            onClick={() => filterMotorList("RENTING")}
+          >
+            Renting({countFilterMotorList("RENTING")})
+          </li>
+        </div>
+        <div>
+          <Link to={`/admin/motor/add`} className="btn-new bg-green Motor-add">
+            +
+          </Link>
+        </div>
       </ul>
       <table style={{ width: "100%" }}>
         <tbody>
