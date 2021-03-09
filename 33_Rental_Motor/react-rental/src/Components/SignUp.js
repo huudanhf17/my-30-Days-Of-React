@@ -6,7 +6,10 @@ import {
   Link,
   useHistory,
 } from "react-router-dom";
-import "./SignUp.css";
+import "./SignUp.scss";
+
+const axios = require("axios").default;
+const url = "http://localhost:5000/";
 
 function SignUp(props) {
   const [email, setEmail] = useState("");
@@ -15,16 +18,17 @@ function SignUp(props) {
 
   const postData = async () => {
     try {
-      let result = await fetch("http://localhost:5000/users", {
+      let result = await axios({
         method: "POST",
+        url: url + "users",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
+        data: {
           email: email,
           password: password,
-        }),
+        },
       });
       signIn();
     } catch (e) {
@@ -34,18 +38,19 @@ function SignUp(props) {
 
   const signIn = async () => {
     try {
-      let result = await fetch("http://localhost:5000/users/signin", {
+      let result = await axios({
         method: "POST",
+        url: url + "users/signin",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
+        data: {
           email: email,
           password: password,
-        }),
+        },
       });
-      result = await result.json();
+      result = await result.data;
       if (result.password === password) {
         props.getUser(result);
         history.push("/");

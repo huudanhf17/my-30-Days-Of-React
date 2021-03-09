@@ -1,5 +1,5 @@
 import React from "react";
-import "./PreMain.css";
+import "./PreMain.scss";
 
 function PreMain(props) {
   return (

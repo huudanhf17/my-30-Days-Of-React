@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import "./NewMotor.css";
+import "./NewMotor.scss";
+
+const axios = require("axios").default;
+const url = "http://localhost:5000/";
 
 function NewMotor(props) {
   const [newMotor, setNewMotor] = useState({});
@@ -8,13 +11,14 @@ function NewMotor(props) {
 
   const postData = async () => {
     try {
-      let result = await fetch("http://localhost:5000/motors", {
+      let result = await axios({
         method: "POST",
+        url: url + "motors",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
+        data: {
           name: newMotor.name,
           color: newMotor.color,
           cc: newMotor.cc,
@@ -24,7 +28,7 @@ function NewMotor(props) {
           price_oneday: newMotor.price_oneday,
           price_oneweek: newMotor.price_oneweek,
           price_onemonth: newMotor.price_onemonth,
-        }),
+        },
       });
       props.setRefreshData(Math.random());
       history.push("/admin/motor");

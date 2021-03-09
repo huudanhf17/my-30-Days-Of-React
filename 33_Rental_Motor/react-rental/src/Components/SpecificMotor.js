@@ -1,22 +1,26 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import "./SpecificMotor.css";
+import { Link, useHistory, useParams } from "react-router-dom";
+import "./SpecificMotor.scss";
+
+const axios = require("axios").default;
+const url = "http://localhost:5000/";
 
 function SpecificMotor(props) {
   const [motor, setMotor] = useState({});
   const [payment, setPayment] = useState([]);
   const [motorUpdated, setMotorUpdated] = useState({});
   const { slug, id } = useParams();
+  const history = useHistory();
 
   useEffect(() => {
     async function getMotorAsync() {
       try {
-        const url = "http://localhost:5000/motors/" + id;
-        const response = await fetch(url);
-        const responseJSON = await response.json();
+        const response = await axios(url + "motors/" + id);
+        const responseJSON = await response.data;
         setMotor(responseJSON);
+        setMotorUpdated(responseJSON);
       } catch (err) {
-        console.log(`Fail to fetch User: ${err}`);
+        console.log(`Fail to axios User: ${err}`);
       }
     }
     getMotorAsync();
@@ -39,13 +43,14 @@ function SpecificMotor(props) {
 
   const updateMotor = async (id) => {
     try {
-      let result = await fetch(`http://localhost:5000/motors/update`, {
+      let result = await axios({
         method: "PATCH",
+        url: url + "motors/update",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
+        data: {
           motorId: id,
           name: motorUpdated.name,
           cc: motorUpdated.cc,
@@ -54,9 +59,11 @@ function SpecificMotor(props) {
           price_onemonth: motorUpdated.price_onemonth,
           status: motorUpdated.status,
           is_refresh: true,
-        }),
+        },
       });
-      result = await result.json();
+      result = await result.data;
+      history.push("/admin/motor");
+      props.setRefreshData(Math.random());
     } catch (err) {
       console.log("Fail to update Motor" + err);
     }
@@ -144,12 +151,16 @@ function SpecificMotor(props) {
             <div className="SpecificMotor-form-container-col-div">
               {" "}
               <label className="SpecificMotor-label">Status: </label>
-              <input
+              <select
+                value={motorUpdated.status}
                 className="SpecificMotor-input"
-                defaultValue={motor.status}
                 name="status"
                 onChange={(e) => handleOnChange(e)}
-              />
+              >
+                <option value="ready">READY</option>
+                <option value="maintance">MAINTANCE</option>
+                <option value="renting">RENTING</option>
+              </select>
             </div>
           </div>
         </div>

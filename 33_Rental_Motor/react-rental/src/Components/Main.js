@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./Main.css";
+import "./Main.scss";
 import MotorStatus from "./MotorStatus";
 import RentModal from "./RentModal";
 import useModal from "./useModal";

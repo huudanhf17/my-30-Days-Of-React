@@ -3,8 +3,10 @@ import { Link } from "react-router-dom";
 import MotorStatus from "./MotorStatus";
 import SpecificModal from "./SpecificModal";
 import useModal from "./useModal";
+import "./User.scss";
 
-import "./User.css";
+const axios = require("axios").default;
+const url = "http://localhost:5000/";
 
 function User(props) {
   const [userList, setUserList] = useState([]);
@@ -81,27 +83,29 @@ function User(props) {
 
   const banUser = async (id, index, orderId) => {
     try {
-      let result = await fetch(`http://localhost:5000/users/`, {
+      let result = await axios({
         method: "PATCH",
+        url: url + "users/",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
+        data: {
           userId: id,
           type: "banned",
-        }),
+        },
       });
 
-      let result2 = await fetch(`http://localhost:5000/orders/ban`, {
+      let result2 = await axios({
         method: "PATCH",
+        url: url + "orders/ban",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
+        data: {
           orderId: userList[index].orderId,
-        }),
+        },
       });
 
       setIsActive(false);
@@ -117,18 +121,19 @@ function User(props) {
 
   const activeUser = async (id, index, ev) => {
     try {
-      let result = await fetch(`http://localhost:5000/users/`, {
+      let result = await axios({
         method: "PATCH",
+        url: url + "users/",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
+        data: {
           userId: id,
           type: "active",
-        }),
+        },
       });
-      result = await result.json();
+      result = await result.data;
       setIsActive(true);
       toggle();
       userList[index].type = "active";

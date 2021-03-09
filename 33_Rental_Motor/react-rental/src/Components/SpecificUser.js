@@ -1,46 +1,52 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useHistory, useParams } from "react-router-dom";
 import HistoryRentPay from "./HistoryRentPay";
-import "./SpecificUser.css";
+import "./SpecificUser.scss";
+
+const axios = require("axios").default;
+const url = "http://localhost:5000/";
 
 function SpecificUser(props) {
   const [user, setUser] = useState({});
   const [userUpdated, setUserUpdated] = useState({});
+  const history = useHistory();
+  const { slug, id } = useParams();
 
   useEffect(() => {
     async function getUsersAsync() {
       try {
-        const url = "http://localhost:5000/users/" + id;
-        const response = await fetch(url);
-        const responseJSON = await response.json();
+        const response = await axios(url + "users/" + id);
+        const responseJSON = await response.data;
         setUser(responseJSON);
+        setUserUpdated(responseJSON);
       } catch (err) {
-        console.log(`Fail to fetch User: ${err}`);
+        console.log(`Fail to axios User: ${err}`);
       }
     }
     getUsersAsync();
   }, []);
 
-  const { slug, id } = useParams();
-
   const updateUser = async (id) => {
     try {
-      let result = await fetch(`http://localhost:5000/users/modify`, {
+      let result = await axios({
         method: "PATCH",
+        url: url + "users/modify",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
+        data: {
           userId: id,
           email: userUpdated.email,
           password: userUpdated.password,
           type: userUpdated.type,
-        }),
+        },
       });
-      result = await result.json();
+      result = await result.data;
+      history.push("/admin/user");
+      props.setRefreshUserList(Math.random());
     } catch (err) {
-      console.log("Fail to active User " + err);
+      console.log("Fail to (axios) active User " + err);
     }
   };
 
@@ -79,17 +85,18 @@ function SpecificUser(props) {
             <div className="SpecificUser-form-container-col-div">
               {" "}
               <label className="SpecificUser-label">Type: </label>
-              <input
+              <select
+                value={userUpdated.type}
                 className="SpecificUser-input"
-                placeholder="Type"
-                defaultValue={user.type}
                 name="type"
                 onChange={(e) => handleOnChange(e)}
-              />
-            </div>
-            <div className="SpecificUser-form-container-col-div">
-              <label className="SpecificUser-label">xxx: </label>
-              <input className="SpecificUser-input" placeholder="xxx" />
+              >
+                <option value="admin">Admin</option>
+                <option value="active">Active</option>
+                <option value="banned">Banned</option>
+                <option value="unactive">Unactive</option>
+                <option value="deactivate">Deactivate</option>
+              </select>
             </div>
           </div>
         </div>

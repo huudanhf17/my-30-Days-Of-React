@@ -44,7 +44,7 @@ function MotorStatus(props) {
       return (
         <>
           {days === 0 && hours === 0 && minutes === 0 && seconds === 0 ? (
-            "MAINTANCE"
+            "MAINTENANCE"
           ) : (
             <>
               {days}:{hours < 10 ? `0${hours}` : hours}:

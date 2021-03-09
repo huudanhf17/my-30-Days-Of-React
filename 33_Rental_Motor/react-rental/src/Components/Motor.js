@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import ModalMotorBan from "./ModalMotorBan";
-import "./Motor.css";
+import "./Motor.scss";
 import MotorStatus from "./MotorStatus";
 import useModal from "./useModal";
 

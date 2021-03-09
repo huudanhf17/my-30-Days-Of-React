@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./SpecificModal.css";
+import "./SpecificModal.scss";
 
 const SpecificModal = ({ isShowing, hide, isActive }) => {
   return isShowing

@@ -1,5 +1,5 @@
 import React from "react";
-import "./HistoryRentals.css";
+import "./HistoryRentals.scss";
 
 function HistoryRentals(props) {
   let paymentsLength = props.payments.length;

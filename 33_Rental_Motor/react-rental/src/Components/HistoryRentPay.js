@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./HistoryRentPay.css";
+import "./HistoryRentPay.scss";
 
 function HistoryRentPay(props) {
   const [motorList, setMotorList] = useState([]);

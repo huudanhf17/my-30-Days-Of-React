@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
-import "./ModalMotorBan.css";
+import "./ModalMotorBan.scss";
 import SpecificModal from "./SpecificModal";
 import useModal from "./useModal";
+
+const axios = require("axios").default;
+const url = "http://localhost:5000/";
 
 const ModalMotorBan = ({
   isShowing,
@@ -16,27 +19,29 @@ const ModalMotorBan = ({
 
   const banClick = async () => {
     try {
-      let result = await fetch(`http://localhost:5000/users/`, {
+      let result = await axios({
         method: "PATCH",
+        url: url + "users",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
+        data: {
           userId: dataModalMotorBan.value.user_id,
           type: "banned",
-        }),
+        },
       });
 
-      let result2 = await fetch(`http://localhost:5000/orders/ban`, {
+      let result2 = await axios({
         method: "PATCH",
+        url: url + "orders/ban",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
+        data: {
           orderId: dataModalMotorBan.value.order_id,
-        }),
+        },
       });
 
       setRefreshData(Math.random());

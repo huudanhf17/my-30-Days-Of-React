@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
-import "./RefreshMotor.css";
+import "./RefreshMotor.scss";
+
+const axios = require("axios").default;
+const url = "http://localhost:5000/";
 
 function RefreshMotor(props) {
   useEffect(() => {
@@ -27,28 +30,30 @@ function RefreshMotor(props) {
 
   const refreshMotor = async (id, orderId) => {
     try {
-      let result2 = await fetch(`http://localhost:5000/motors/`, {
+      let result2 = await axios({
         method: "PATCH",
+        url: url + "motors",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
+        data: {
           is_refresh: true,
           motorId: id,
-        }),
+        },
       });
 
       if (orderId) {
-        let result = await fetch(`http://localhost:5000/orders/after`, {
+        let result = await axios({
           method: "PATCH",
+          url: url + "order/after",
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
+          data: {
             orderId: orderId,
-          }),
+          },
         });
       }
 

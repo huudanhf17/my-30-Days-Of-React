@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./RentModal.css";
+import "./RentModal.scss";
 
 const RentModal = ({
   isShowing,

@@ -1,5 +1,5 @@
 import React from "react";
-import "./AfterHeader.css";
+import "./AfterHeader.scss";
 
 function AfterHeader(props) {
   return <div className="AfterHeader-container"></div>;

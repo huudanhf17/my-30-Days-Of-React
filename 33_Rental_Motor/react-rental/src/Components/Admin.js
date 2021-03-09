@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, NavLink, Route, Switch } from "react-router-dom";
-import "./Admin.css";
+import "./Admin.scss";
 import HistoryPayments from "./HistoryPayments";
 import HistoryRentals from "./HistoryRentals";
 import Motor from "./Motor";
@@ -10,6 +10,9 @@ import SpecificMotor from "./SpecificMotor";
 import SpecificUser from "./SpecificUser";
 import User from "./User";
 
+const axios = require("axios").default;
+const url = "http://localhost:5000/";
+
 function Admin(props) {
   const [userList, setUserList] = useState([]);
   const [refreshUserList, setRefreshUserList] = useState(0);
@@ -17,12 +20,10 @@ function Admin(props) {
   useEffect(() => {
     async function getUserListAsync() {
       try {
-        const url = "http://localhost:5000/users/";
-        const response = await fetch(url);
-        const responseJSON = await response.json();
-        setUserList(responseJSON);
+        const response = await axios.get(url + "users");
+        setUserList(response.data);
       } catch (err) {
-        console.log(`Fail to fetch Coins List: ${err}`);
+        console.log(`Fail to axios Coins List: ${err}`);
       }
     }
     getUserListAsync();
@@ -106,6 +107,7 @@ function Admin(props) {
               formatCash={(str) => props.formatCash(str)}
               motorList={props.motorList}
               innerTime={(sec) => props.innerTime(sec)}
+              setRefreshUserList={(num) => setRefreshUserList(num)}
             ></SpecificUser>
           </Route>
           <Route path="/admin/user">
@@ -127,6 +129,7 @@ function Admin(props) {
               innerTime={(sec) => props.innerTime(sec)}
               handleUserEmail={(id) => handleUserEmail(id)}
               renderTime={(utc) => renderTime(utc)}
+              setRefreshData={(num) => props.setRefreshData(num)}
             ></SpecificMotor>
           </Route>
           <Route path="/admin/motor/add">

@@ -1,6 +1,12 @@
 import logo from "../logo.svg";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import "./App.css";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  Redirect,
+} from "react-router-dom";
+import "./App.scss";
 import Header from "./Header";
 import PreMain from "./PreMain";
 import AfterHeader from "./AfterHeader";
@@ -11,6 +17,11 @@ import SignUp from "./SignUp";
 import { useEffect, useState } from "react";
 import HistoryRentPay from "./HistoryRentPay";
 import Admin from "./Admin";
+import ProtectRoute from "./ProtectRoute";
+import Profile from "./Profile";
+
+const axios = require("axios").default;
+const url = "http://localhost:5000/";
 
 function App() {
   const [motorList, setMotorList] = useState([]);
@@ -20,17 +31,16 @@ function App() {
   const [motorListMaintance, setMotorListMaintance] = useState(1);
   const [refreshData, setRefreshData] = useState(0);
   const [reNewRefreshMotor, setReNewRefreshMotor] = useState(0);
+  const [isAuth, setIsAuth] = useState(false);
 
   useEffect(() => {
     async function getMotorAsync() {
       try {
-        const url = "http://localhost:5000/motors";
-        const response = await fetch(url);
-        const responseJSON = await response.json();
+        const response = await axios(url + "motors");
+        const responseJSON = await response.data;
 
-        const url2 = "http://localhost:5000/orders";
-        const response2 = await fetch(url2);
-        const responseJSON2 = await response2.json();
+        const response2 = await axios(url + "orders");
+        const responseJSON2 = await response2.data;
 
         setPayments(responseJSON2);
 
@@ -216,7 +226,7 @@ function App() {
         newMotorList.sort((a, b) => a.left - b.left);
         setMotorList(newMotorList);
       } catch (err) {
-        console.log(`Fail to fetch Motor List: ${err}`);
+        console.log(`Fail to axios Motor List: ${err}`);
       }
     }
     getMotorAsync();
@@ -225,12 +235,11 @@ function App() {
   useEffect(() => {
     async function getCoinsAsync() {
       try {
-        const url = "http://localhost:5000/transactions";
-        const response = await fetch(url);
-        const responseJSON = await response.json();
+        const response = await axios(url + "transactions");
+        const responseJSON = await response.data;
         setCoins(responseJSON);
       } catch (err) {
-        console.log(`Fail to fetch Coins List: ${err}`);
+        console.log(`Fail to axios Coins List: ${err}`);
       }
     }
     getCoinsAsync();
@@ -241,6 +250,14 @@ function App() {
       let temp = JSON.parse(localStorage.getItem("user-info"));
       setUser(temp);
     }
+  }, []);
+
+  useEffect(() => {
+    async function checkAuth() {
+      const isAuthen = true;
+      setIsAuth(isAuthen);
+    }
+    checkAuth();
   }, []);
 
   const getUser = (data) => {
@@ -257,33 +274,35 @@ function App() {
 
   const getRentInfo = async (motor, price, durationRent, index) => {
     try {
-      let result = await fetch("http://localhost:5000/orders", {
+      let result = await axios({
         method: "POST",
+        url: url + "orders",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
+        data: {
           user_id: user._id,
           motor_id: motor,
           duration: durationRent,
           price: price,
-        }),
+        },
       });
-      result = await result.json();
+      result = await result.data;
 
-      let result2 = await fetch(`http://localhost:5000/motors/`, {
+      let result2 = await axios({
         method: "PATCH",
+        url: url + "motors",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
+        data: {
           is_refresh: false,
           motorId: motor,
-        }),
+        },
       });
-      result2 = await result2.json();
+      result2 = await result2.data;
 
       let temp = JSON.parse(localStorage.getItem("user-info"));
       temp.coins = temp.coins - price;
@@ -367,8 +386,35 @@ function App() {
     }
   };
 
+  const fakeAuth = {
+    isAuthenticated: user._id,
+    signin(cb) {
+      fakeAuth.isAuthenticated = true;
+      setTimeout(cb, 100); // fake async
+    },
+    signout(cb) {
+      fakeAuth.isAuthenticated = false;
+      setTimeout(cb, 100);
+    },
+  };
+
+  function PrivateRoute({ children, ...rest }) {
+    return (
+      <Route
+        {...rest}
+        render={({}) =>
+          fakeAuth.isAuthenticated ? children : <Redirect to="/signin" />
+        }
+      />
+    );
+  }
+
+  const Protected = () => <h3>Protected</h3>;
+
   return (
     <div className="App">
+      {/* {user.type ? console.log(user.type) : console.log(user.type)} */}
+      {/* {console.log(isAuth)} */}
       <Router>
         <Header user={user} formatCash={(str) => formatCash(str)}></Header>
         <Switch>
@@ -416,6 +462,14 @@ function App() {
           </Route>
         </Switch>
         <Footer></Footer>
+        <PrivateRoute path="/protected">
+          <Protected></Protected>
+        </PrivateRoute>
+        <ProtectRoute
+          path="/profile"
+          component={Profile}
+          isAuth={isAuth}
+        ></ProtectRoute>
       </Router>
     </div>
   );
