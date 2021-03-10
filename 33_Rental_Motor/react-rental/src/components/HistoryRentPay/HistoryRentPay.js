@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./HistoryRentPay.scss";
+import PropTypes from "prop-types";
 
 function HistoryRentPay(props) {
   const [motorList, setMotorList] = useState([]);
@@ -132,5 +133,14 @@ function HistoryRentPay(props) {
     return null;
   }
 }
+
+HistoryRentPay.propTypes = {
+  coins: PropTypes.array,
+  formatCash: PropTypes.func,
+  innerTime: PropTypes.func,
+  motorList: PropTypes.array,
+  payments: PropTypes.array,
+  user: PropTypes.string,
+};
 
 export default HistoryRentPay;

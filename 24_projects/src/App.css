@@ -1,0 +1,137 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+.country-header {
+  text-align: center;
+  padding: 1.5rem;
+  background: #f0f0f0;
+}
+
+.country-header h2 {
+  font-size: 4rem;
+  margin: 0.5rem auto;
+  letter-spacing: 0.25rem;
+  font-weight: 600;
+  color: orange;
+}
+
+.subtitle {
+  color: #555;
+  font-weight: 600;
+  font-size: 1.6rem;
+}
+
+.controls {
+  width: 100%;
+  text-align: center;
+}
+
+.search-input {
+  color: orange;
+  width: 50%;
+  height: 5rem;
+  margin: 3rem auto;
+  text-indent: 2rem;
+  outline: none;
+  border: 0.2rem solid #f8e7e7;
+  font-size: 2rem;
+  border-radius: 3rem;
+  background: #faf6f6;
+}
+
+.countries-wrapper {
+  background: #f0f0f0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  justify-items: center;
+  margin: 1rem 0 3rem;
+  padding: 1rem;
+}
+
+.country {
+  max-width: 25rem;
+  min-width: 25rem;
+  text-align: center;
+  margin: 0.5rem;
+  padding: 2rem;
+  border-radius: 0.2rem;
+  background: #fff;
+}
+
+.country_flag {
+  height: 12rem;
+  width: 20rem;
+  text-align: center;
+  margin: auto;
+}
+
+.country_name {
+  font-size: 1.6rem;
+  color: orange;
+  letter-spacing: 0.075rem;
+  font-weight: bolder;
+  margin-bottom: 1rem;
+}
+
+.country p {
+  font-size: 1.6rem;
+  font-weight: 500;
+  padding: 0.2rem;
+  color: #747474;
+  text-align: left;
+  letter-spacing: 0.05rem;
+}
+
+.country_flag img {
+  display: block;
+  margin: auto;
+  max-width: 75%;
+  max-height: 75%;
+  min-width: 75%;
+  min-height: 75%;
+  border-radius: 0.3rem;
+  box-shadow: 0 0 0.6rem 0.2rem #f1e1e1;
+}

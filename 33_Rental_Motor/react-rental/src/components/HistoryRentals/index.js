@@ -1,5 +1,6 @@
 import React from "react";
 import "./HistoryRentals.scss";
+import PropTypes from "prop-types";
 
 function HistoryRentals(props) {
   let paymentsLength = props.payments.length;
@@ -47,5 +48,13 @@ function HistoryRentals(props) {
     </>
   );
 }
+
+HistoryRentals.propTypes = {
+  payments: PropTypes.array,
+  formatCash: PropTypes.func,
+  handleUserEmail: PropTypes.func,
+  renderTime: PropTypes.func,
+  innerTime: PropTypes.func,
+};
 
 export default HistoryRentals;

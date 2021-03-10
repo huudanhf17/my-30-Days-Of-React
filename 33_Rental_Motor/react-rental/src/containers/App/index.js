@@ -1,3 +1,4 @@
+import moment from "moment";
 import { useEffect, useState } from "react";
 import {
   BrowserRouter as Router,
@@ -6,24 +7,24 @@ import {
   Switch,
 } from "react-router-dom";
 import AfterHeader from "../../components/AfterHeader";
-import Footer from "../../components/Footer/Footer";
-import Header from "../../components/Header/Header";
+import Footer from "../../components/Footer/";
+import Header from "../../components/Header/";
 import HistoryRentPay from "../../components/HistoryRentPay/HistoryRentPay";
 import PreMain from "../../components/PreMain";
 import Profile from "../../components/Profile";
 import ProtectRoute from "../../components/ProtectRoute";
 import Admin from "../Admin";
-import "./App.scss";
 import Main from "../Main";
 import SignIn from "../SignIn";
 import SignUp from "../SignUp";
+import "./App.scss";
 
 const axios = require("axios").default;
 const url = "http://localhost:5000/";
 
 function App() {
   const [motorList, setMotorList] = useState([]);
-  const [user, setUser] = useState([]);
+  const [user, setUser] = useState({});
   const [coins, setCoins] = useState([]);
   const [payments, setPayments] = useState([]);
   const [motorListMaintance, setMotorListMaintance] = useState(1);
@@ -41,20 +42,25 @@ function App() {
         const responseJSON2 = await response2.data;
 
         setPayments(responseJSON2);
-
         let n = new Date();
         let abc = responseJSON2.map((value) => {
-          let utc = value.start;
-          let d = new Date(
-            utc.substr(0, 4),
-            utc.substr(5, 2) - 1,
-            utc.substr(8, 2),
-            utc.substr(11, 2),
-            utc.substr(14, 2),
-            utc.substr(17, 2)
-          );
-          d.setHours(d.getHours() + 7);
-          d.setSeconds(d.getSeconds() + value.duration);
+          //Pure JS
+          // let utc = value.start;
+          // let d = new Date(
+          //   utc.substr(0, 4),
+          //   utc.substr(5, 2) - 1,
+          //   utc.substr(8, 2),
+          //   utc.substr(11, 2),
+          //   utc.substr(14, 2),
+          //   utc.substr(17, 2)
+          // );
+          // d.setHours(d.getHours() + 7);
+          // d.setSeconds(d.getSeconds() + value.duration);
+
+          //MomentJS
+          let d = moment.utc(value.start).add(value.duration, "seconds").local()
+            ._d;
+
           let temp = Math.floor((d - n) / 1000);
           return {
             left: temp,
@@ -309,21 +315,26 @@ function App() {
 
       setRefreshData(Math.random());
 
-      // Get UTC Time
-      let unix_timestamp = Math.floor(new Date().getTime() / 1000);
-      let date = new Date(unix_timestamp * 1000);
-      const year = date.getFullYear();
-      const month = `0${date.getUTCMonth() + 1}`;
-      const day = `0${date.getUTCDate()}`;
-      const hours = "0" + date.getUTCHours();
-      const minutes = "0" + date.getMinutes();
-      const seconds = "0" + date.getSeconds();
-      const formattedTime = `${year}-${month.substr(-2)}-${day.substr(
-        -2
-      )}T${hours.substr(-2)}:${minutes.substr(-2)}:${seconds.substr(-2)}`;
+      // PureJS -- Get UTC Time
+      // let unix_timestamp = Math.floor(new Date().getTime() / 1000);
+      // let date = new Date(unix_timestamp * 1000);
+      // const year = date.getFullYear();
+      // const month = `0${date.getUTCMonth() + 1}`;
+      // const day = `0${date.getUTCDate()}`;
+      // const hours = "0" + date.getUTCHours();
+      // const minutes = "0" + date.getMinutes();
+      // const seconds = "0" + date.getSeconds();
+      // const formattedTime = `${year}-${month.substr(-2)}-${day.substr(
+      //   -2
+      // )}T${hours.substr(-2)}:${minutes.substr(-2)}:${seconds.substr(-2)}`;
+
+      //MomentJS
+      let formattedTime = moment
+        .utc()
+        .format(moment.HTML5_FMT.DATETIME_LOCAL_SECONDS);
 
       payments.push({
-        _id: unix_timestamp,
+        _id: formattedTime,
         user_id: user._id,
         start: formattedTime,
         price: price,

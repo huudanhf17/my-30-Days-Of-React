@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 function HistoryPayments(props) {
   let coinsLength = props.coins.length;
@@ -40,5 +41,12 @@ function HistoryPayments(props) {
     </div>
   );
 }
+
+HistoryPayments.propTypes = {
+  coins: PropTypes.array,
+  formatCash: PropTypes.func,
+  handleUserEmail: PropTypes.func,
+  renderTime: PropTypes.func,
+};
 
 export default HistoryPayments;

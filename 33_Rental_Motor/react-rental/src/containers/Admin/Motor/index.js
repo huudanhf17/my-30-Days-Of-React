@@ -4,6 +4,7 @@ import ModalMotorBan from "../../../components/Modal/ModalMotorBan";
 import MotorStatus from "../../../components/MotorStatus";
 import useModal from "../../../utils/useModal";
 import "./Motor.scss";
+import PropTypes from "prop-types";
 
 function Motor(props) {
   const [motorList, setMotorList] = useState([]);
@@ -138,14 +139,10 @@ function Motor(props) {
                 {handleCountDown(
                   <MotorStatus
                     status={value}
-                    initialDays={() => props.splitTime(value.left, "days")}
-                    initialHours={() => props.splitTime(value.left, "hours")}
-                    initialMinutes={() =>
-                      props.splitTime(value.left, "minutes")
-                    }
-                    initialSeconds={() =>
-                      props.splitTime(value.left, "seconds")
-                    }
+                    initialDays={props.splitTime(value.left, "days")}
+                    initialHours={props.splitTime(value.left, "hours")}
+                    initialMinutes={props.splitTime(value.left, "minutes")}
+                    initialSeconds={props.splitTime(value.left, "seconds")}
                   ></MotorStatus>
                 )}
               </td>
@@ -179,5 +176,17 @@ function Motor(props) {
     </>
   );
 }
+
+Motor.propTypes = {
+  formatCash: PropTypes.func,
+  handleUserEmail: PropTypes.func,
+  motorList: PropTypes.array,
+  payments: PropTypes.array,
+  renderTime: PropTypes.func,
+  setRefreshData: PropTypes.func,
+  setRefreshUserList: PropTypes.func,
+  splitTime: PropTypes.func,
+  userList: PropTypes.array,
+};
 
 export default Motor;

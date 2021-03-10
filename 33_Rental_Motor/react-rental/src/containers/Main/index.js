@@ -4,6 +4,7 @@ import RentModal from "../../components/Modal/RentModal";
 import MotorStatus from "../../components/MotorStatus";
 import useModal from "../../utils/useModal";
 import "./Main.scss";
+import PropTypes from "prop-types";
 
 function Main(props) {
   const [dataRent, setDataRent] = useState(0);
@@ -121,10 +122,10 @@ function Main(props) {
               <span className={classNameStatus(motor.sort)} id={motor.motor_id}>
                 <MotorStatus
                   status={motor}
-                  initialDays={() => props.splitTime(motor.left, "days")}
-                  initialHours={() => props.splitTime(motor.left, "hours")}
-                  initialMinutes={() => props.splitTime(motor.left, "minutes")}
-                  initialSeconds={() => props.splitTime(motor.left, "seconds")}
+                  initialDays={props.splitTime(motor.left, "days")}
+                  initialHours={props.splitTime(motor.left, "hours")}
+                  initialMinutes={props.splitTime(motor.left, "minutes")}
+                  initialSeconds={props.splitTime(motor.left, "seconds")}
                 ></MotorStatus>
               </span>
             </div>
@@ -165,5 +166,14 @@ function Main(props) {
     </div>
   );
 }
+
+Main.propTypes = {
+  coins: PropTypes.number,
+  formatCash: PropTypes.func,
+  getRentInfo: PropTypes.func,
+  innerTime: PropTypes.func,
+  motorList: PropTypes.array,
+  splitTime: PropTypes.func,
+};
 
 export default Main;

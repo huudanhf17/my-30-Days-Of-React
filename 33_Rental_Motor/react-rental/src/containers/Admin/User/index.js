@@ -4,6 +4,7 @@ import MotorStatus from "../../../components/MotorStatus";
 import useModal from "../../../utils/useModal";
 import SpecificModal from "../../../components/Modal/SpecificModal";
 import "./User.scss";
+import PropTypes from "prop-types";
 
 const axios = require("axios").default;
 const url = "http://localhost:5000/";
@@ -299,5 +300,16 @@ function User(props) {
     </>
   );
 }
+
+User.propTypes = {
+  coins: PropTypes.array,
+  formatCash: PropTypes.func,
+  motorList: PropTypes.array,
+  payments: PropTypes.array,
+  setRefreshData: PropTypes.func,
+  setRefreshUserList: PropTypes.func,
+  splitTime: PropTypes.func,
+  userList: PropTypes.array,
+};
 
 export default User;

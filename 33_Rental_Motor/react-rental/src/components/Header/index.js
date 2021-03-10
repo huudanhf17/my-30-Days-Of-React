@@ -1,8 +1,9 @@
-import React, { useState } from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import React from "react";
+import { Link } from "react-router-dom";
 import "./Header.scss";
+import PropTypes from "prop-types";
 
-function Header(props) {
+const Header = (props) => {
   const logOut = () => {
     localStorage.clear();
     window.location.reload();
@@ -52,6 +53,20 @@ function Header(props) {
       </ul>
     </header>
   );
-}
+};
+
+Header.propTypes = {
+  user: PropTypes.shape({
+    __v: PropTypes.number,
+    _id: PropTypes.string,
+    coins: PropTypes.number,
+    created_at: PropTypes.string,
+    email: PropTypes.string,
+    password: PropTypes.string,
+    type: PropTypes.string,
+    updated_at: PropTypes.string,
+  }),
+  formatCash: PropTypes.func,
+};
 
 export default Header;

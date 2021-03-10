@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
 import "./SpecificMotor.scss";
+import PropTypes from "prop-types";
 
 const axios = require("axios").default;
 const url = "http://localhost:5000/";
@@ -205,5 +206,14 @@ function SpecificMotor(props) {
     </>
   );
 }
+
+SpecificMotor.propTypes = {
+  formatCash: PropTypes.func,
+  handleUserEmail: PropTypes.func,
+  innerTime: PropTypes.func,
+  payments: PropTypes.array,
+  renderTime: PropTypes.func,
+  setRefreshData: PropTypes.func,
+};
 
 export default SpecificMotor;

@@ -9,6 +9,8 @@ import RefreshMotor from "./RefreshMotor";
 import SpecificMotor from "./SpecificMotor";
 import SpecificUser from "./SpecificUser";
 import User from "./User";
+import moment from "moment";
+import PropTypes from "prop-types";
 
 const axios = require("axios").default;
 const url = "http://localhost:5000/";
@@ -40,23 +42,27 @@ function Admin(props) {
   };
 
   const renderTime = (utc) => {
-    let d = new Date(
-      utc.substr(0, 4),
-      utc.substr(5, 2) - 1,
-      utc.substr(8, 2),
-      utc.substr(11, 2),
-      utc.substr(14, 2),
-      utc.substr(17, 2)
-    );
-    d.setHours(d.getHours() + 7);
-    const year = d.getFullYear();
-    const month = `0${d.getMonth() + 1}`;
-    const day = `0${d.getDate()}`;
-    const hours = "0" + d.getHours();
-    const minutes = "0" + d.getMinutes();
-    return `${hours.substr(-2)}:${minutes.substr(-2)} ${day.substr(
-      -2
-    )}/${month.substr(-2)}/${year}`;
+    /* -------PureJs--------- */
+    // let d = new Date(
+    //   utc.substr(0, 4),
+    //   utc.substr(5, 2) - 1,
+    //   utc.substr(8, 2),
+    //   utc.substr(11, 2),
+    //   utc.substr(14, 2),
+    //   utc.substr(17, 2)
+    // );
+    // d.setHours(d.getHours() + 7);
+    // const year = d.getFullYear();
+    // const month = `0${d.getMonth() + 1}`;
+    // const day = `0${d.getDate()}`;
+    // const hours = "0" + d.getHours();
+    // const minutes = "0" + d.getMinutes();
+    // return `${hours.substr(-2)}:${minutes.substr(-2)} ${day.substr(
+    //   -2
+    // )}/${month.substr(-2)}/${year}`;
+
+    //MomentJs
+    return moment.utc(utc).local().format("HH:mm DD-MM-YYYY");
   };
 
   return (
@@ -179,5 +185,16 @@ function Admin(props) {
     </div>
   );
 }
+
+Admin.propTypes = {
+  coins: PropTypes.array,
+  formatCash: PropTypes.func,
+  innerTime: PropTypes.func,
+  motorList: PropTypes.array,
+  motorListMaintance: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
+  payments: PropTypes.array,
+  setRefreshData: PropTypes.func,
+  splitTime: PropTypes.func,
+};
 
 export default Admin;

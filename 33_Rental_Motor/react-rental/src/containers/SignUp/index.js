@@ -7,6 +7,7 @@ import {
   useHistory,
 } from "react-router-dom";
 import "./SignUp.scss";
+import PropTypes from "prop-types";
 
 const axios = require("axios").default;
 const url = "http://localhost:5000/";
@@ -91,5 +92,9 @@ function SignUp(props) {
     </div>
   );
 }
+
+SignUp.propTypes = {
+  getUser: PropTypes.func,
+};
 
 export default SignUp;

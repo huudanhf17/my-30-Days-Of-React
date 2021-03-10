@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
 import HistoryRentPay from "../../../components/HistoryRentPay/HistoryRentPay";
 import "./SpecificUser.scss";
+import PropTypes from "prop-types";
 
 const axios = require("axios").default;
 const url = "http://localhost:5000/";
@@ -120,5 +121,14 @@ function SpecificUser(props) {
     </>
   );
 }
+
+SpecificUser.propTypes = {
+  coins: PropTypes.array,
+  formatCash: PropTypes.func,
+  innerTime: PropTypes.func,
+  motorList: PropTypes.array,
+  payments: PropTypes.array,
+  setRefreshUserList: PropTypes.func,
+};
 
 export default SpecificUser;

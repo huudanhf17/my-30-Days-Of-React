@@ -8,6 +8,7 @@ import {
   Redirect,
 } from "react-router-dom";
 import "./SignIn.scss";
+import PropTypes from "prop-types";
 
 const axios = require("axios").default;
 const url = "http://localhost:5000/";
@@ -95,5 +96,9 @@ function SignIn(props) {
     </div>
   );
 }
+
+SignIn.propTypes = {
+  getUser: PropTypes.func,
+};
 
 export default SignIn;

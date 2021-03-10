@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./RefreshMotor.scss";
+import PropTypes from "prop-types";
 
 const axios = require("axios").default;
 const url = "http://localhost:5000/";
@@ -103,5 +104,10 @@ function RefreshMotor(props) {
     </>
   );
 }
+
+RefreshMotor.propTypes = {
+  motorListMaintance: PropTypes.oneOfType([PropTypes.array, PropTypes.number]),
+  setRefreshData: PropTypes.func,
+};
 
 export default RefreshMotor;

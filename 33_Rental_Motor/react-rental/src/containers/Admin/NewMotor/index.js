@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import "./NewMotor.scss";
+import PropTypes from "prop-types";
 
 const axios = require("axios").default;
 const url = "http://localhost:5000/";
@@ -157,5 +158,9 @@ function NewMotor(props) {
     </div>
   );
 }
+
+NewMotor.propTypes = {
+  setRefreshData: PropTypes.func,
+};
 
 export default NewMotor;

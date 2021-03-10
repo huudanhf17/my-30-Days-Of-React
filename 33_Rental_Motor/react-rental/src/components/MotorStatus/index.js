@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 
 function MotorStatus(props) {
   const { initialDays, initialHours, initialMinutes, initialSeconds } = props;
@@ -54,6 +55,8 @@ function MotorStatus(props) {
           )}
         </>
       );
+    } else if (props.status.status === "MAINTANCE") {
+      return "MAINTENANCE";
     } else {
       return <>{props.status.status}</>;
     }
@@ -61,5 +64,13 @@ function MotorStatus(props) {
 
   return checkIsCd(props.status.left);
 }
+
+MotorStatus.propTypes = {
+  initialDays: PropTypes.number,
+  initialHours: PropTypes.number,
+  initialMinutes: PropTypes.number,
+  initialSeconds: PropTypes.number,
+  status: PropTypes.object,
+};
 
 export default MotorStatus;
