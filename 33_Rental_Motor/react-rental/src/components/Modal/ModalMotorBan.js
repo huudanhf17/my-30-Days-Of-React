@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
+import useModal from "../../utils/useModal";
 import "./ModalMotorBan.scss";
 import SpecificModal from "./SpecificModal";
-import useModal from "./useModal";
 
 const axios = require("axios").default;
 const url = "http://localhost:5000/";

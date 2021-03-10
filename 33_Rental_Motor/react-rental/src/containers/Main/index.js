@@ -1,9 +1,9 @@
 import React, { useState } from "react";
+import OopsModal from "../../components/Modal/OopsModal";
+import RentModal from "../../components/Modal/RentModal";
+import MotorStatus from "../../components/MotorStatus";
+import useModal from "../../utils/useModal";
 import "./Main.scss";
-import MotorStatus from "./MotorStatus";
-import RentModal from "./RentModal";
-import useModal from "./useModal";
-import OopsModal from "./OopsModal";
 
 function Main(props) {
   const [dataRent, setDataRent] = useState(0);

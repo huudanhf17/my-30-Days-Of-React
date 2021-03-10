@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import MotorStatus from "./MotorStatus";
-import SpecificModal from "./SpecificModal";
-import useModal from "./useModal";
+import MotorStatus from "../../../components/MotorStatus";
+import useModal from "../../../utils/useModal";
+import SpecificModal from "../../../components/Modal/SpecificModal";
 import "./User.scss";
 
 const axios = require("axios").default;

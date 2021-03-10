@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useHistory, useParams } from "react-router-dom";
-import HistoryRentPay from "./HistoryRentPay";
+import HistoryRentPay from "../../../components/HistoryRentPay/HistoryRentPay";
 import "./SpecificUser.scss";
 
 const axios = require("axios").default;

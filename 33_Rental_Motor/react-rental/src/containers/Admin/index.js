@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Link, NavLink, Route, Switch } from "react-router-dom";
+import { NavLink, Route, Switch } from "react-router-dom";
+import HistoryPayments from "../../components/HistoryPayments";
+import HistoryRentals from "../../components/HistoryRentals";
 import "./Admin.scss";
-import HistoryPayments from "./HistoryPayments";
-import HistoryRentals from "./HistoryRentals";
 import Motor from "./Motor";
 import NewMotor from "./NewMotor";
 import RefreshMotor from "./RefreshMotor";

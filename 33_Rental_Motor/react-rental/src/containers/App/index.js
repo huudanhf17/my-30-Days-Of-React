@@ -1,24 +1,22 @@
-import logo from "../logo.svg";
+import { useEffect, useState } from "react";
 import {
   BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
   Redirect,
+  Route,
+  Switch,
 } from "react-router-dom";
+import AfterHeader from "../../components/AfterHeader";
+import Footer from "../../components/Footer/Footer";
+import Header from "../../components/Header/Header";
+import HistoryRentPay from "../../components/HistoryRentPay/HistoryRentPay";
+import PreMain from "../../components/PreMain";
+import Profile from "../../components/Profile";
+import ProtectRoute from "../../components/ProtectRoute";
+import Admin from "../Admin";
 import "./App.scss";
-import Header from "./Header";
-import PreMain from "./PreMain";
-import AfterHeader from "./AfterHeader";
-import Main from "./Main";
-import Footer from "./Footer";
-import SignIn from "./SignIn";
-import SignUp from "./SignUp";
-import { useEffect, useState } from "react";
-import HistoryRentPay from "./HistoryRentPay";
-import Admin from "./Admin";
-import ProtectRoute from "./ProtectRoute";
-import Profile from "./Profile";
+import Main from "../Main";
+import SignIn from "../SignIn";
+import SignUp from "../SignUp";
 
 const axios = require("axios").default;
 const url = "http://localhost:5000/";

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import ModalMotorBan from "./ModalMotorBan";
+import ModalMotorBan from "../../../components/Modal/ModalMotorBan";
+import MotorStatus from "../../../components/MotorStatus";
+import useModal from "../../../utils/useModal";
 import "./Motor.scss";
-import MotorStatus from "./MotorStatus";
-import useModal from "./useModal";
 
 function Motor(props) {
   const [motorList, setMotorList] = useState([]);
