@@ -135,3 +135,8 @@
   border-radius: 0.3rem;
   box-shadow: 0 0 0.6rem 0.2rem #f1e1e1;
 }
+
+.country_text p span {
+  font-weight: bolder;
+  color: black;
+}

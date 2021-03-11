@@ -5,6 +5,7 @@ import MotorStatus from "../../components/MotorStatus";
 import useModal from "../../utils/useModal";
 import "./Main.scss";
 import PropTypes from "prop-types";
+import Normal from "../../components/Modal/Normal";
 
 function Main(props) {
   const [dataRent, setDataRent] = useState(0);
@@ -14,6 +15,7 @@ function Main(props) {
   const [isOops, setIsOops] = useState();
   const [isShowing, toggle] = useModal();
   const [isShowing2, toggle2] = useModal();
+  const [isShowing3, toggle3] = useModal();
 
   const imgMotor = (name) => {
     if (name === "Dream") {
@@ -51,32 +53,38 @@ function Main(props) {
   };
 
   const rentClick = (data, index, ev) => {
-    const price = ev.target.parentNode.children[1].children[0];
-    if (price.value === "0") {
-      setIsOops(price);
-      toggle2();
-      // ev.target.parentNode.children[1].children[0].focus();
-    } else if (props.coin < Number(price.value)) {
-      setIsOops(false);
-      toggle2();
-    } else if (props.coin >= Number(price.value)) {
-      const textDuration =
-        ev.target.parentNode.children[1].children[0].selectedOptions[0].text;
-      setDataRent(price.value);
-      setIndexMotor(index);
-      if (textDuration.includes("day")) {
-        var duration = 5;
-        setDurationRent(5);
-      } else if (textDuration.includes("week")) {
-        var duration = 604800;
-        setDurationRent(604800);
-      } else {
-        var duration = 2592000;
-        setDurationRent(2592000);
+    if (props.type === undefined) {
+      toggle3();
+    } else if (props.type === "unactive") {
+      toggle3();
+    } else {
+      const price = ev.target.parentNode.children[1].children[0];
+      if (price.value === "0") {
+        setIsOops(price);
+        toggle2();
+        // ev.target.parentNode.children[1].children[0].focus();
+      } else if (props.coin < Number(price.value)) {
+        setIsOops(false);
+        toggle2();
+      } else if (props.coin >= Number(price.value)) {
+        const textDuration =
+          ev.target.parentNode.children[1].children[0].selectedOptions[0].text;
+        setDataRent(price.value);
+        setIndexMotor(index);
+        if (textDuration.includes("day")) {
+          var duration = 5;
+          setDurationRent(5);
+        } else if (textDuration.includes("week")) {
+          var duration = 604800;
+          setDurationRent(604800);
+        } else {
+          var duration = 2592000;
+          setDurationRent(2592000);
+        }
+        props.getRentInfo(data.motor_id, price.value, duration, index);
+        setDataModal(data);
+        toggle();
       }
-      props.getRentInfo(data.motor_id, price.value, duration, index);
-      setDataModal(data);
-      toggle();
     }
   };
 
@@ -129,16 +137,16 @@ function Main(props) {
                 ></MotorStatus>
               </span>
             </div>
-            {(motor.sort === 0) | (motor.sort === 1) ? (
+            {motor.sort === 2 || motor.sort === 3 || props.type === "banned" ? (
+              <button className="Main-btn btn-new bg-green-disable no-hover">
+                RENTING
+              </button>
+            ) : (
               <button
                 className="Main-btn btn-new bg-green"
                 onClick={(ev) => rentClick(motor, index, ev)}
               >
                 RENT
-              </button>
-            ) : (
-              <button className="Main-btn btn-new bg-green-disable no-hover">
-                RENTING
               </button>
             )}
           </li>
@@ -163,6 +171,7 @@ function Main(props) {
         hide={toggle2}
         isOops={isOops}
       ></OopsModal>
+      <Normal isShowing={isShowing3} hide={toggle3} type={props.type}></Normal>
     </div>
   );
 }

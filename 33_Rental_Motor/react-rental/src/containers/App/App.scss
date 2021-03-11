@@ -103,7 +103,11 @@ a:active {
 }
 
 .bg-dg {
-  background-color: red;
+  background-color: red !important;
+}
+
+.bg-trans {
+  background-color: transparent !important;
 }
 
 .bg-info {

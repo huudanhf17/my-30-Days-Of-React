@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./HistoryRentPay.scss";
 import PropTypes from "prop-types";
+import { withRouter } from "react-router";
 
 function HistoryRentPay(props) {
   const [motorList, setMotorList] = useState([]);
@@ -143,4 +144,4 @@ HistoryRentPay.propTypes = {
   user: PropTypes.string,
 };
 
-export default HistoryRentPay;
+export default withRouter(HistoryRentPay);

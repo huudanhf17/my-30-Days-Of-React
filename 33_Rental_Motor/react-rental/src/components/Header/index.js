@@ -18,18 +18,22 @@ const Header = (props) => {
         <li className="Header-li clickable">PAY IN</li>
         {localStorage.getItem("user-info") ? (
           <li className="Header-li Header-user clickable">
-            <button className="Header-btn" key={props.user.coins}>
-              {props.user.email}{" "}
-              <span className="Header-coins">
-                {" "}
-                {props.formatCash(`${props.user.coins}`)}đ
-              </span>
-            </button>
-            <img src="./img/caret.png" className="Header-caret" alt="" />
+            <div className="Header-user-div">
+              <button className="Header-btn" key={props.user.coins}>
+                {props.user.email}{" "}
+                <span className="Header-coins">
+                  {" "}
+                  {props.formatCash(`${props.user.coins}`)}đ
+                </span>
+              </button>
+              <img src="./img/caret.png" className="Header-caret" alt="" />
+            </div>
             <ul className="dropdown-content">
-              <Link to="/admin/">
-                <li>Admin</li>
-              </Link>
+              {props.user.type === "admin" ? (
+                <Link to="/admin/">
+                  <li>Admin</li>
+                </Link>
+              ) : null}
               <Link to="/history-rent-pay">
                 <li>History</li>
               </Link>
@@ -40,12 +44,12 @@ const Header = (props) => {
           <ul className="Header-ul-ul">
             <Link to="/signup">
               <li className="Header-li Header-user">
-                <div className="clickable">SIGN UP</div>
+                <div className="text-center clickable">SIGN UP</div>
               </li>
             </Link>
             <Link to="/signin">
               <li className="Header-li Header-user bg-dg">
-                <div className="clickable">SIGN IN</div>
+                <div className="text-center clickable">SIGN IN</div>
               </li>
             </Link>
           </ul>

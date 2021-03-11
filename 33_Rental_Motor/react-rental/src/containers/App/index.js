@@ -11,7 +11,6 @@ import Footer from "../../components/Footer/";
 import Header from "../../components/Header/";
 import HistoryRentPay from "../../components/HistoryRentPay/HistoryRentPay";
 import PreMain from "../../components/PreMain";
-import Profile from "../../components/Profile";
 import ProtectRoute from "../../components/ProtectRoute";
 import Admin from "../Admin";
 import Main from "../Main";
@@ -30,7 +29,8 @@ function App() {
   const [motorListMaintance, setMotorListMaintance] = useState(1);
   const [refreshData, setRefreshData] = useState(0);
   const [reNewRefreshMotor, setReNewRefreshMotor] = useState(0);
-  const [isAuth, setIsAuth] = useState(false);
+  const [isAuth, setIsAuth] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(null);
 
   useEffect(() => {
     async function getMotorAsync() {
@@ -253,15 +253,11 @@ function App() {
     if (localStorage.getItem("user-info")) {
       let temp = JSON.parse(localStorage.getItem("user-info"));
       setUser(temp);
+      setIsAuth(true);
+      temp.type === "admin" ? setIsAdmin(true) : setIsAdmin(1);
+    } else {
+      setIsAuth(false);
     }
-  }, []);
-
-  useEffect(() => {
-    async function checkAuth() {
-      const isAuthen = true;
-      setIsAuth(isAuthen);
-    }
-    checkAuth();
   }, []);
 
   const getUser = (data) => {
@@ -274,6 +270,8 @@ function App() {
     data.coins = userCoin - userPayment;
     localStorage.setItem("user-info", JSON.stringify(data));
     setUser(data);
+    setIsAuth(true);
+    data.type === "admin" ? setIsAdmin(true) : setIsAdmin(1);
   };
 
   const getRentInfo = async (motor, price, durationRent, index) => {
@@ -395,35 +393,8 @@ function App() {
     }
   };
 
-  const fakeAuth = {
-    isAuthenticated: user._id,
-    signin(cb) {
-      fakeAuth.isAuthenticated = true;
-      setTimeout(cb, 100); // fake async
-    },
-    signout(cb) {
-      fakeAuth.isAuthenticated = false;
-      setTimeout(cb, 100);
-    },
-  };
-
-  function PrivateRoute({ children, ...rest }) {
-    return (
-      <Route
-        {...rest}
-        render={({}) =>
-          fakeAuth.isAuthenticated ? children : <Redirect to="/signin" />
-        }
-      />
-    );
-  }
-
-  const Protected = () => <h3>Protected</h3>;
-
   return (
     <div className="App">
-      {/* {user.type ? console.log(user.type) : console.log(user.type)} */}
-      {/* {console.log(isAuth)} */}
       <Router>
         <Header user={user} formatCash={(str) => formatCash(str)}></Header>
         <Switch>
@@ -433,18 +404,32 @@ function App() {
           <Route path="/signin">
             <SignIn getUser={(data) => getUser(data)}></SignIn>
           </Route>
-          <Route path="/history-rent-pay">
-            <HistoryRentPay
-              coins={coins}
-              payments={payments}
-              user={user._id}
-              motorList={motorList}
-              formatCash={(str) => formatCash(str)}
-              innerTime={(sec) => innerTime(sec)}
-            ></HistoryRentPay>
-          </Route>
+          <ProtectRoute
+            path="/history-rent-pay"
+            component={HistoryRentPay}
+            isAuth={isAuth}
+            coins={coins}
+            payments={payments}
+            user={user._id}
+            motorList={motorList}
+            formatCash={(str) => formatCash(str)}
+            innerTime={(sec) => innerTime(sec)}
+          ></ProtectRoute>
+          <ProtectRoute
+            path="/admin/"
+            component={Admin}
+            isAuth={isAdmin}
+            motorListMaintance={motorListMaintance}
+            coins={coins}
+            payments={payments}
+            formatCash={(str) => formatCash(str)}
+            motorList={motorList}
+            splitTime={(seconds, unit) => splitTime(seconds, unit)}
+            innerTime={(sec) => innerTime(sec)}
+            setRefreshData={(num) => setRefreshData(num)}
+          ></ProtectRoute>
           <Route path="/admin/">
-            <Admin
+            {/* <Admin
               motorListMaintance={motorListMaintance}
               coins={coins}
               payments={payments}
@@ -453,13 +438,14 @@ function App() {
               splitTime={(seconds, unit) => splitTime(seconds, unit)}
               innerTime={(sec) => innerTime(sec)}
               setRefreshData={(num) => setRefreshData(num)}
-            ></Admin>
+            ></Admin> */}
           </Route>
           <Route path="/">
             <AfterHeader></AfterHeader>
             <PreMain></PreMain>
             <Main
               coin={user.coins}
+              type={user.type}
               motorList={motorList}
               getRentInfo={(motor, price, durationRent, index) =>
                 getRentInfo(motor, price, durationRent, index)
@@ -471,14 +457,6 @@ function App() {
           </Route>
         </Switch>
         <Footer></Footer>
-        <PrivateRoute path="/protected">
-          <Protected></Protected>
-        </PrivateRoute>
-        <ProtectRoute
-          path="/profile"
-          component={Profile}
-          isAuth={isAuth}
-        ></ProtectRoute>
       </Router>
     </div>
   );

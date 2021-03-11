@@ -1,14 +1,7 @@
-import React, { useEffect, useState } from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  useHistory,
-  Redirect,
-} from "react-router-dom";
-import "./SignIn.scss";
 import PropTypes from "prop-types";
+import React, { useState } from "react";
+import { Link, useHistory } from "react-router-dom";
+import "./SignIn.scss";
 
 const axios = require("axios").default;
 const url = "http://localhost:5000/";
@@ -17,7 +10,6 @@ function SignIn(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const history = useHistory();
-  const [redirectToReferrer, setRedirectToReferrer] = useState(false);
 
   const postData = async () => {
     try {
@@ -36,7 +28,9 @@ function SignIn(props) {
       result = await result.data;
       if (result.password === password) {
         props.getUser(result);
-        history.push("/");
+        history.location.state
+          ? history.push(history.location.state.from.pathname)
+          : history.push("/");
       } else {
         console.log(result);
       }

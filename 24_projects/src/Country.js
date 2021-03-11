@@ -1,27 +1,34 @@
-import React from "react";
+import React, { useDebugValue } from "react";
 import PropTypes from "prop-types";
 
 Country.propTypes = {};
 
 function Country(props) {
+  const formattedLanguage =
+    props.languages.length > 1 ? `Languages` : `Language`;
+
   return (
     <div className="country">
       <div className="country_flag">
-        <img src="https://restcountries.eu/data/afg.svg" alt="Afghanistan" />
+        <img src={props.flag} alt="Afghanistan" />
       </div>
-      <h3 className="country_name">AFGHANISTAN</h3>
+      <h3 className="country_name">{props.name}</h3>
       <div className="country_text">
         <p>
-          <span>Capital: </span>Kabul
+          <span>Capital: </span>
+          {props.capital}
         </p>
         <p>
-          <span>Languages: </span>Pashto, Uzbek, Turkmen
+          <span>{formattedLanguage}: </span>
+          {props.languages.map((value) => value.name).join(", ")}
         </p>
         <p>
-          <span>Population: </span>27.657.145
+          <span>Population: </span>
+          {props.population.toLocaleString()}
         </p>
         <p>
           <span>Currency: </span>
+          {props.currencies.map((value) => value.name).join(", ")}
         </p>
       </div>
     </div>
