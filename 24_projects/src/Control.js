@@ -13,7 +13,7 @@ function Control(props) {
         className="search-input"
         type="text"
         placeholder="Search countries by name, city and languages"
-        onChange={(e) => handleOnChangeSearch(e)}
+        onChange={handleOnChangeSearch}
       />
       <div>
         <a href="#stat">

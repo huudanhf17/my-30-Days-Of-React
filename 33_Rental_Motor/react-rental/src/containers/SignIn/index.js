@@ -1,9 +1,14 @@
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
+import Facebook from "../../components/Facebook/Facebook";
+// import Cookies from "universal-cookie";
 import "./SignIn.scss";
 
+// const cookies = new Cookies();
+
 const axios = require("axios").default;
+axios.withCredentials = true;
 const url = "http://localhost:5000/";
 
 function SignIn(props) {
@@ -39,27 +44,42 @@ function SignIn(props) {
     }
   };
 
-  // const fakeAuth = {
-  //   isAuthenticated: false,
-  //   signin(cb) {
-  //     fakeAuth.isAuthenticated = true;
-  //     setTimeout(cb, 100); // fake async
-  //   },
-  //   signout(cb) {
-  //     fakeAuth.isAuthenticated = false;
-  //     setTimeout(cb, 100);
-  //   },
-  // };
+  const postData2 = async () => {
+    try {
+      let result = await axios({
+        method: "POST",
+        url: url + "api/user/login",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        data: {
+          email: email,
+          password: password,
+        },
+      });
+      result = await result.data;
+      console.log(result);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
-  // const login = () => {
-  //   fakeAuth.authenticate(()=>{
-  //     setRedirectToReferrer(true)
-  //   })
-  // }
+  const createCookie = () => {
+    axios
+      .get("http://localhost:5000", { withCredentials: true })
+      .then((res) => {
+        console.log(res.data);
+      });
+  };
 
-  // if (redirectToReferrer){
-  //   return <Redirect to ="/"></Redirect>
-  // }
+  const clearCookie = () => {
+    axios
+      .get("http://localhost:5000/clearCookie", { withCredentials: true })
+      .then((res) => {
+        console.log(res.data);
+      });
+  };
 
   return (
     <div className="SignIn-div">
@@ -86,7 +106,13 @@ function SignIn(props) {
           </li>
         </ul>
       </div>
-      <div className="SignIn-div2">.....</div>
+      <div className="SignIn-div2">
+        <h2>Facebook</h2>
+        <Facebook></Facebook>
+      </div>
+      <button onClick={postData2}>Test</button>
+      <button onClick={createCookie}>Create Cookie</button>
+      <button onClick={clearCookie}>Clear Cookie</button>
     </div>
   );
 }

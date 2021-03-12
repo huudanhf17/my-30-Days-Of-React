@@ -1,4 +1,3 @@
-import { getDefaultNormalizer } from "@testing-library/dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import "./App.css";
@@ -7,12 +6,15 @@ import Country from "./Country";
 
 function App() {
   const [data, setData] = useState([]);
+  const [tempData, setTempData] = useState([]);
 
   useEffect(() => {
     async function getData() {
       try {
         const res = await axios.get("https://restcountries.eu/rest/v2/all");
-        setData(res.data);
+        const finalRes = res.data;
+        setData(finalRes);
+        setTempData(finalRes);
       } catch (err) {
         console.log("Fail to Get Data from API " + err);
       }
@@ -22,6 +24,10 @@ function App() {
 
   const getSearchStr = (str) => {
     console.log(str);
+    let res = tempData.filter((value) =>
+      value.name.toLowerCase().includes(str.toLowerCase())
+    );
+    setData(res);
   };
   return (
     <div className="App">
@@ -29,7 +35,7 @@ function App() {
         <h2 className="">World Countries Data</h2>
         <p className="subtitle">Currently, we have 250 countries</p>
       </header>
-      <Control getSearchStr={(str) => getSearchStr(str)}></Control>
+      <Control getSearchStr={getSearchStr}></Control>
       <div className="countries-wrapper">
         {data.map((value) => (
           <Country
