@@ -5,7 +5,6 @@ function ProtectRoute({ isAuth: isAuth, component: Component, ...rest }) {
   function checkNull() {
     return (
       <Route
-        {...rest}
         render={(props) => {
           if (isAuth === null) {
             checkNull();

@@ -7,6 +7,7 @@ import Country from "./Country";
 function App() {
   const [data, setData] = useState([]);
   const [tempData, setTempData] = useState([]);
+  const [topTenPopulation, setTopTenPopulation] = useState([]);
 
   useEffect(() => {
     async function getData() {
@@ -15,6 +16,11 @@ function App() {
         const finalRes = res.data;
         setData(finalRes);
         setTempData(finalRes);
+        const highestPopulation = finalRes.sort(
+          (a, b) => b.population - a.population
+        );
+        highestPopulation.length = 10;
+        setTopTenPopulation(highestPopulation);
       } catch (err) {
         console.log("Fail to Get Data from API " + err);
       }
@@ -48,6 +54,33 @@ function App() {
             currencies={value.currencies}
           ></Country>
         ))}
+      </div>
+
+      <div className="graph-wrapper">
+        <div className="graph-buttons">
+          <button className="population">Population</button>
+          <button className="languages">Languages</button>
+        </div>
+        <h4 className="graph-title">
+          {/* {graph === 'population' && value === ''
+            ? '10 Most populated countries in the world'
+            : '10 Most spoken languages in the world'} */}
+        </h4>
+        <div className="graphs">
+          <div className="graph-wrapper" id="stat">
+            {/* {graph === 'population' ? (
+              <PopulationGraphBars
+                populations={mostPopulatedCountries}
+                className={graph}
+              />
+            ) : (
+              <LanguageGraphBars
+                languages={mostSpokenLanguages}
+                className={graph}
+              />
+            )} */}
+          </div>
+        </div>
       </div>
     </div>
   );

@@ -1,16 +1,34 @@
 const express = require("express");
+const { restart } = require("nodemon");
 const router = express.Router();
 const Order = require("../models/Order");
 
-//Get Orders
+//Get Lasted Orders
+//https://stackoverflow.com/questions/43374112/filter-unique-values-from-an-array-of-objects
 router.get("/", async (req, res) => {
   try {
     const orders = await Order.find();
-    res.json(orders);
+    const lastedOrders = [];
+    orders.reverse().forEach((value) => {
+      if (!lastedOrders.includes({ motor_id: value.motor_id })) {
+        lastedOrders.push(value);
+      }
+    });
+    res.json(lastedOrders);
   } catch (err) {
     res.json({ message: err });
   }
 });
+
+//Get Orders
+// router.get("/", async (req, res) => {
+//   try {
+//     const orders = await Order.find();
+//     res.json(orders);
+//   } catch (err) {
+//     res.json({ message: err });
+//   }
+// });
 
 //SUBMITS An Order
 router.post("/", async (req, res) => {

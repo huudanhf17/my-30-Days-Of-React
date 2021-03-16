@@ -3,10 +3,19 @@ import { Link } from "react-router-dom";
 import "./Header.scss";
 import PropTypes from "prop-types";
 
+const axios = require("axios").default;
+// axios.withCredentials = true;
+const url = "http://localhost:5000/";
+
 const Header = (props) => {
-  const logOut = () => {
-    localStorage.clear();
-    window.location.reload();
+  const logOut = async () => {
+    try {
+      await axios.get(`${url}api/user/logout`, { withCredentials: true });
+      localStorage.clear();
+      window.location.reload();
+    } catch (err) {
+      console.log(`Fail to Log Out ${err}`);
+    }
   };
 
   return (

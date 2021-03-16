@@ -3,6 +3,9 @@ import "./HistoryRentPay.scss";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router";
 
+const axios = require("axios").default;
+const url = "http://localhost:5000/";
+
 function HistoryRentPay(props) {
   const [motorList, setMotorList] = useState([]);
   const [coinList, setCoinList] = useState([]);

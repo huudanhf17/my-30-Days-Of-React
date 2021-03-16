@@ -16,38 +16,11 @@ function SignIn(props) {
   const [password, setPassword] = useState("");
   const history = useHistory();
 
-  const postData = async () => {
+  const postSignIn = async () => {
     try {
       let result = await axios({
         method: "POST",
-        url: url + "users/signin",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        data: {
-          email: email,
-          password: password,
-        },
-      });
-      result = await result.data;
-      if (result.password === password) {
-        props.getUser(result);
-        history.location.state
-          ? history.push(history.location.state.from.pathname)
-          : history.push("/");
-      } else {
-        console.log(result);
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  const postData2 = async () => {
-    try {
-      let result = await axios({
-        method: "POST",
+        withCredentials: true,
         url: url + "api/user/login",
         headers: {
           Accept: "application/json",
@@ -59,7 +32,10 @@ function SignIn(props) {
         },
       });
       result = await result.data;
-      console.log(result);
+      props.getUser(result);
+      history.location.state
+        ? history.push(history.location.state.from.pathname)
+        : history.push("/");
     } catch (e) {
       console.log(e);
     }
@@ -101,7 +77,7 @@ function SignIn(props) {
           <Link to="/signup">
             <li className="btn-dg">Create Account</li>
           </Link>
-          <li className="btn-bg-dg" onClick={() => postData()}>
+          <li className="btn-bg-dg" onClick={postSignIn}>
             Sign In
           </li>
         </ul>
@@ -110,7 +86,6 @@ function SignIn(props) {
         <h2>Facebook</h2>
         <Facebook></Facebook>
       </div>
-      <button onClick={postData2}>Test</button>
       <button onClick={createCookie}>Create Cookie</button>
       <button onClick={clearCookie}>Clear Cookie</button>
     </div>

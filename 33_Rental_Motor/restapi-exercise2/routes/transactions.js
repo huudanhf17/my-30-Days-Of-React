@@ -1,9 +1,14 @@
 const express = require("express");
 const router = express.Router();
 const Transaction = require("../models/Transactions");
+const cookieParser = require("cookie-parser");
+const verify = require("./verifyToken");
+
+//Middlewares
+router.use(cookieParser());
 
 //Get TRANSACTIONS
-router.get("/", async (req, res) => {
+router.get("/", verify, async (req, res) => {
   try {
     const transactions = await Transaction.find();
     res.json(transactions);

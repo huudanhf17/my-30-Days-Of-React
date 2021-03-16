@@ -252,18 +252,16 @@ function User(props) {
                         {motor.brand} {motor.name} for{" "}
                         <MotorStatus
                           status={motor}
-                          initialDays={() =>
-                            props.splitTime(motor.left, "days")
-                          }
-                          initialHours={() =>
-                            props.splitTime(motor.left, "hours")
-                          }
-                          initialMinutes={() =>
-                            props.splitTime(motor.left, "minutes")
-                          }
-                          initialSeconds={() =>
-                            props.splitTime(motor.left, "seconds")
-                          }
+                          initialDays={props.splitTime(motor.left, "days")}
+                          initialHours={props.splitTime(motor.left, "hours")}
+                          initialMinutes={props.splitTime(
+                            motor.left,
+                            "minutes"
+                          )}
+                          initialSeconds={props.splitTime(
+                            motor.left,
+                            "seconds"
+                          )}
                         ></MotorStatus>
                       </p>
                     );

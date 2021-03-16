@@ -236,18 +236,20 @@ function App() {
     getMotorAsync();
   }, [refreshData]);
 
-  useEffect(() => {
-    async function getCoinsAsync() {
-      try {
-        const response = await axios(url + "transactions");
-        const responseJSON = await response.data;
-        setCoins(responseJSON);
-      } catch (err) {
-        console.log(`Fail to axios Coins List: ${err}`);
-      }
-    }
-    getCoinsAsync();
-  }, []);
+  // useEffect(() => {
+  //   async function getCoinsAsync() {
+  //     try {
+  //       const response = await axios(url + "transactions", {
+  //         withCredentials: true,
+  //       });
+  //       const responseJSON = await response.data;
+  //       setCoins(responseJSON);
+  //     } catch (err) {
+  //       console.log(`Fail to axios Coins List: ${err}`);
+  //     }
+  //   }
+  //   getCoinsAsync();
+  // }, [user]);
 
   useEffect(() => {
     if (localStorage.getItem("user-info")) {
@@ -260,18 +262,35 @@ function App() {
     }
   }, []);
 
-  const getUser = (data) => {
-    const userCoins = coins.filter((value) => value.user_id === data._id);
-    const userCoin = userCoins.reduce((a, b) => a + b.plus, data.coins);
+  const getUser = async (data) => {
+    try {
+      const response = await axios(url + "transactions", {
+        withCredentials: true,
+      });
+      const responseJSON = await response.data;
+      setCoins(responseJSON);
 
-    const userPayments = payments.filter((value) => value.user_id === data._id);
-    const userPayment = userPayments.reduce((a, b) => a + b.price, data.coins);
+      const userCoins = responseJSON.filter(
+        (value) => value.user_id === data._id
+      );
+      const userCoin = userCoins.reduce((a, b) => a + b.plus, data.coins);
 
-    data.coins = userCoin - userPayment;
-    localStorage.setItem("user-info", JSON.stringify(data));
-    setUser(data);
-    setIsAuth(true);
-    data.type === "admin" ? setIsAdmin(true) : setIsAdmin(1);
+      const userPayments = payments.filter(
+        (value) => value.user_id === data._id
+      );
+      const userPayment = userPayments.reduce(
+        (a, b) => a + b.price,
+        data.coins
+      );
+
+      data.coins = userCoin - userPayment;
+      localStorage.setItem("user-info", JSON.stringify(data));
+      setUser(data);
+      setIsAuth(true);
+      data.type === "admin" ? setIsAdmin(true) : setIsAdmin(1);
+    } catch (err) {
+      console.log(`Fail to axios Coins List: ${err}`);
+    }
   };
 
   const getRentInfo = async (motor, price, durationRent, index) => {

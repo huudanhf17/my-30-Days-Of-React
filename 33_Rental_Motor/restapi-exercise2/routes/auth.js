@@ -3,7 +3,11 @@ const router = express.Router();
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+const cookieParser = require("cookie-parser");
 const { registerValidation, loginValidation } = require("../validation");
+
+//Middlewares
+router.use(cookieParser());
 
 //api Register user
 router.post("/register", async (req, res) => {
@@ -41,8 +45,8 @@ router.post("/login", async (req, res) => {
   const { error } = loginValidation(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  //Checking if the email exists
-  const user = await User.findOne({ email: req.body.email });
+  //Checking if the email exists - change to PLAIN OBJECT
+  const user = await User.findOne({ email: req.body.email }).lean();
   if (!user) return res.status(400).send("Email or password is wrong!");
 
   //Password is correct
@@ -51,16 +55,21 @@ router.post("/login", async (req, res) => {
 
   //Create and assign a token
   const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
-  res.header("auth-token", token).send(token);
-  // res.cookie("token", token, {
-  //   sameSite: "strict",
-  //   path: "/",
-  //   expires: new Date(new Date().getTime() + 30 * 1000),
-  //   httpOnly: true,
-  //   secure: true,
-  // });
+  // res.header("auth-token", token).send(token);
+  res.cookie("token", token, {
+    sameSite: "strict",
+    path: "/",
+    expires: new Date(new Date().getTime() + 7776000 * 1000),
+    httpOnly: true,
+    secure: true,
+  });
+  delete user.password;
+  res.json(user);
+});
 
-  // res.send("Success");
+//Logout
+router.get("/logout", async (req, res) => {
+  res.status(202).clearCookie("token").send("Clear Token");
 });
 
 module.exports = router;
