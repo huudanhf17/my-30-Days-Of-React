@@ -1,16 +1,22 @@
 const express = require("express");
-const { restart } = require("nodemon");
 const router = express.Router();
 const Order = require("../models/Order");
+const cookieParser = require("cookie-parser");
+const verify = require("./verifyToken");
+
+//Middlewares
+router.use(cookieParser());
 
 //Get Lasted Orders
-//https://stackoverflow.com/questions/43374112/filter-unique-values-from-an-array-of-objects
-router.get("/", async (req, res) => {
+router.get("/lasted", async (req, res) => {
   try {
     const orders = await Order.find();
     const lastedOrders = [];
     orders.reverse().forEach((value) => {
-      if (!lastedOrders.includes({ motor_id: value.motor_id })) {
+      let checkOrders = lastedOrders.findIndex(
+        (order) => order.motor_id === value.motor_id
+      );
+      if (checkOrders < 0) {
         lastedOrders.push(value);
       }
     });
@@ -20,15 +26,25 @@ router.get("/", async (req, res) => {
   }
 });
 
+//Get Orders by UserID
+router.post("/userid", verify, async (req, res) => {
+  try {
+    const orders = await Order.find({ user_id: req.body.user_id });
+    res.json(orders);
+  } catch (err) {
+    res.json({ message: err });
+  }
+});
+
 //Get Orders
-// router.get("/", async (req, res) => {
-//   try {
-//     const orders = await Order.find();
-//     res.json(orders);
-//   } catch (err) {
-//     res.json({ message: err });
-//   }
-// });
+router.get("/", async (req, res) => {
+  try {
+    const orders = await Order.find();
+    res.json(orders);
+  } catch (err) {
+    res.json({ message: err });
+  }
+});
 
 //SUBMITS An Order
 router.post("/", async (req, res) => {

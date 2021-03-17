@@ -7,10 +7,10 @@ const verify = require("./verifyToken");
 //Middlewares
 router.use(cookieParser());
 
-//Get TRANSACTIONS
-router.get("/", verify, async (req, res) => {
+//Get TRANSACTIONS by UserID
+router.post("/", verify, async (req, res) => {
   try {
-    const transactions = await Transaction.find();
+    const transactions = await Transaction.find({ user_id: req.body.user_id });
     res.json(transactions);
   } catch (err) {
     res.json({ message: err });

@@ -21,7 +21,7 @@ function SignUp(props) {
     try {
       let result = await axios({
         method: "POST",
-        url: url + "users",
+        url: url + "api/user/register",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
@@ -41,7 +41,8 @@ function SignUp(props) {
     try {
       let result = await axios({
         method: "POST",
-        url: url + "users/signin",
+        withCredentials: true,
+        url: url + "api/user/login",
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
@@ -52,12 +53,9 @@ function SignUp(props) {
         },
       });
       result = await result.data;
-      if (result.password === password) {
-        props.getUser(result);
-        history.push("/");
-      } else {
-        console.log(result);
-      }
+
+      props.getUser(result);
+      history.push("/");
     } catch (e) {
       console.log(e);
     }

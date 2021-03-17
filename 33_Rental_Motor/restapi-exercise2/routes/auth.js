@@ -4,6 +4,7 @@ const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const cookieParser = require("cookie-parser");
+const verify = require("./verifyToken");
 const { registerValidation, loginValidation } = require("../validation");
 
 //Middlewares
@@ -65,6 +66,35 @@ router.post("/login", async (req, res) => {
   });
   delete user.password;
   res.json(user);
+});
+
+//Get User By ID
+router.post("/id", verify, async (req, res) => {
+  try {
+    const user = await User.findById(req.body.user_id).lean();
+    delete user.password;
+    res.json(user);
+  } catch (err) {
+    res.json({ message: err });
+  }
+});
+
+//Update User - Order
+router.patch("/order", async (req, res) => {
+  try {
+    const updateUser = await User.updateOne(
+      { _id: req.body.userId },
+      {
+        $set: {
+          coins: User.coins - req.body.price,
+          updated_at: Date.now(),
+        },
+      }
+    );
+    res.json(updateUser);
+  } catch (err) {
+    res.json({ message: err });
+  }
 });
 
 //Logout

@@ -38,10 +38,10 @@ function App() {
         const response = await axios(url + "motors");
         const responseJSON = await response.data;
 
-        const response2 = await axios(url + "orders");
+        const response2 = await axios(url + "orders/lasted");
         const responseJSON2 = await response2.data;
 
-        setPayments(responseJSON2);
+        // setPayments(responseJSON2);
         let n = new Date();
         let abc = responseJSON2.map((value) => {
           //Pure JS
@@ -254,9 +254,12 @@ function App() {
   useEffect(() => {
     if (localStorage.getItem("user-info")) {
       let temp = JSON.parse(localStorage.getItem("user-info"));
-      setUser(temp);
-      setIsAuth(true);
-      temp.type === "admin" ? setIsAdmin(true) : setIsAdmin(1);
+      // setIsAuth(true);
+      // temp.type === "admin" ? setIsAdmin(true) : setIsAdmin(1);
+      // axiosPaymentListAsync(temp._id);
+      // axiosOrderListAsync(temp._id);
+      // axiosUserAsync(temp._id);
+      getUser(temp);
     } else {
       setIsAuth(false);
     }
@@ -264,32 +267,60 @@ function App() {
 
   const getUser = async (data) => {
     try {
-      const response = await axios(url + "transactions", {
+      const response = await axios({
+        method: "POST",
         withCredentials: true,
+        url: url + "transactions/",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        data: {
+          user_id: data._id,
+        },
       });
-      const responseJSON = await response.data;
-      setCoins(responseJSON);
+      let paymentData = response.data;
+      setCoins(paymentData);
 
-      const userCoins = responseJSON.filter(
-        (value) => value.user_id === data._id
-      );
-      const userCoin = userCoins.reduce((a, b) => a + b.plus, data.coins);
+      const response2 = await axios({
+        method: "POST",
+        withCredentials: true,
+        url: url + "orders/userid",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        data: {
+          user_id: data._id,
+        },
+      });
+      let orderData = response2.data;
+      setPayments(orderData);
 
-      const userPayments = payments.filter(
-        (value) => value.user_id === data._id
-      );
-      const userPayment = userPayments.reduce(
-        (a, b) => a + b.price,
-        data.coins
-      );
+      const response3 = await axios({
+        method: "POST",
+        withCredentials: true,
+        url: url + "api/user/id",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        data: {
+          user_id: data._id,
+        },
+      });
+      let userData = response3.data;
 
-      data.coins = userCoin - userPayment;
+      const userCoin = paymentData.reduce((a, b) => a + b.plus, data.coins);
+      const userPayment = orderData.reduce((a, b) => a + b.price, data.coins);
+
+      userData.coins = userCoin - userPayment;
       localStorage.setItem("user-info", JSON.stringify(data));
-      setUser(data);
+      setUser(userData);
       setIsAuth(true);
       data.type === "admin" ? setIsAdmin(true) : setIsAdmin(1);
     } catch (err) {
-      console.log(`Fail to axios Coins List: ${err}`);
+      console.log(`Fail to get User async ${err}`);
     }
   };
 

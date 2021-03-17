@@ -8,6 +8,7 @@ function App() {
   const [data, setData] = useState([]);
   const [tempData, setTempData] = useState([]);
   const [topTenPopulation, setTopTenPopulation] = useState([]);
+  const [topTenLanguages, setTopTenLanguages] = useState([]);
 
   useEffect(() => {
     async function getData() {
@@ -16,11 +17,23 @@ function App() {
         const finalRes = res.data;
         setData(finalRes);
         setTempData(finalRes);
-        const highestPopulation = finalRes.sort(
+
+        const highestPopulation = [...finalRes].sort(
           (a, b) => b.population - a.population
         );
         highestPopulation.length = 10;
         setTopTenPopulation(highestPopulation);
+
+        const mostLanguages = finalRes.map((value) => value.languages);
+        const languagesList = mostLanguages.flat().map((value) => value.name);
+        const languageList = new Set(languagesList);
+        const mostLanguageList = [];
+
+        for (let l of languageList) {
+          const country = languagesList.filter((value) => value === l);
+          mostLanguageList.push({ language: l, count: country.length });
+        }
+        console.log(mostLanguageList);
       } catch (err) {
         console.log("Fail to Get Data from API " + err);
       }
