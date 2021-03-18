@@ -5,8 +5,12 @@ const schema = mongoose.Schema({
     type: String,
     required: true,
   },
-  plus: {
+  amount: {
     type: Number,
+    required: true,
+  },
+  description: {
+    type: String,
     required: true,
   },
   /*  subtraction: {

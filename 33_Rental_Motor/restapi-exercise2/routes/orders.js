@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const Order = require("../models/Order");
+const Transactions = require("../models/Transactions");
+const User = require("../models/User");
 const cookieParser = require("cookie-parser");
 const verify = require("./verifyToken");
 
@@ -55,7 +57,21 @@ router.post("/", async (req, res) => {
     price: req.body.price,
   });
   try {
+    const user = await User.findById(order.user_id);
+    if (!user) {
+      res.json({
+        message: `User with id ${order.user_id} does not exist`,
+      });
+      return;
+    }
     const newOrder = await order.save();
+    const transaction = new Transactions({
+      user_id: order.user_id,
+      amount: -order.price,
+      description: `Pay for order ${newOrder._id}`,
+    });
+    transaction.save();
+    // update user
     res.json(newOrder);
   } catch (err) {
     res.json({ message: err });
