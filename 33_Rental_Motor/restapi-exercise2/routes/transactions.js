@@ -19,23 +19,28 @@ router.post("/", verify, async (req, res) => {
 });
 
 //SUBMITS A TRANSACTION
-router.post("/", async (req, res) => {
+router.post("/test", async (req, res) => {
   const transaction = new Transaction({
     user_id: req.body.user_id,
     amount: req.body.plus,
+    description: "plus",
     created_at: Date.now(),
   });
   try {
-    const user = await User.findById(transaction.user_id);
+    const user = await User.findById(req.body.user_id);
     if (!user) {
       res.json({
-        message: `User with id ${transaction.user_id} does not exist`,
+        message: `User with id ${req.body.user_id} does not exist`,
       });
       return;
     }
     await user.updateOne(
-      { _id: transaction.user_id },
-      { coins: user.coins + transaction.amount }
+      { _id: req.body.user_id },
+      {
+        $set: {
+          coins: user.coins + req.body.plus,
+        },
+      }
     );
     const newTransaction = await transaction.save();
     res.json(newTransaction);

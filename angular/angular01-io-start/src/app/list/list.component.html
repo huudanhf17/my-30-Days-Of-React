@@ -1,0 +1,9 @@
+<h1>Lists</h1>
+
+<ul *ngIf="lists">
+  <li *ngFor="let list of lists">
+    <p class="name">{{ list.name }}</p>
+    <p class="country">{{ list.country }}</p>
+    <a href="{{ list.website_url }}" class="site">Site</a>
+  </li>
+</ul>
