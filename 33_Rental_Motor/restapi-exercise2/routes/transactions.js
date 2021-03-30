@@ -34,7 +34,8 @@ router.post("/test", async (req, res) => {
       });
       return;
     }
-    await user.updateOne(
+
+    await User.updateOne(
       { _id: req.body.user_id },
       {
         $set: {
@@ -42,6 +43,7 @@ router.post("/test", async (req, res) => {
         },
       }
     );
+
     const newTransaction = await transaction.save();
     res.json(newTransaction);
   } catch (err) {

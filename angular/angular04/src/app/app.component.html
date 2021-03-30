@@ -1,0 +1,8 @@
+<button (click)="isDanger = !isDanger">Toogle Danger</button>
+<button (click)="isWarning = !isWarning">Toogle Warning</button>
+
+<div
+  class="box"
+  [class.red-border]="isDanger"
+  [class.yellow-background]="isWarning"
+></div>
