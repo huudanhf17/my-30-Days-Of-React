@@ -21,6 +21,7 @@ function SignIn(props) {
       let result = await axios({
         method: "POST",
         withCredentials: true,
+        credentials: "include",
         url: url + "api/user/login",
         headers: {
           Accept: "application/json",

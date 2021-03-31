@@ -1,3 +1,4 @@
+<h1>Hello {{ name }}</h1>
 <button (click)="isDanger = !isDanger">Toogle Danger</button>
 <button (click)="isWarning = !isWarning">Toogle Warning</button>
 
@@ -6,3 +7,57 @@
   [class.red-border]="isDanger"
   [class.yellow-background]="isWarning"
 ></div>
+
+<app-progress-bar></app-progress-bar>
+<br />
+<app-progress-bar
+  [progress]="currentProgress"
+  [progressColor]="'dodgerblue'"
+></app-progress-bar>
+<br />
+<button (click)="currentProgress = currentProgress + 1">
+  Increase Progress
+</button>
+<br />
+<br />
+<app-author-list></app-author-list>
+<hr />
+<app-toggle [(checked)]="checked">
+  <h3>Question 1</h3>
+  <label>Abc 1....</label>
+  xyz1....
+</app-toggle>
+<br />
+<app-toggle [(checked)]="checked2">
+  <h3>Question 2</h3>
+  <ng-container ngProjectAs="label">Abc 2....</ng-container>
+  xyz2....
+  <button>Skip</button>
+</app-toggle>
+<hr />
+<div class="card mx-4">
+  <div class="card-header">
+    You have selected
+    <ng-container [ngTemplateOutlet]="counterTmpl"></ng-container>.
+  </div>
+  <div class="card-body">
+    There are <ng-container [ngTemplateOutlet]="counterTmpl"></ng-container> was
+    selected.
+  </div>
+  <div class="card-footer">
+    You have selected
+    <ng-container [ngTemplateOutlet]="counterTmpl"></ng-container>.
+  </div>
+</div>
+
+<!-- ngTemplateOutlet -->
+<ng-template #counterTmpl>
+  <span class="badge badge-primary">{{ counter }}</span> item(s)
+</ng-template>
+
+<hr />
+
+<app-tabs [navs]="navs" [linkTemplate]="linkTemplate"></app-tabs>
+<ng-template #linkTemplate let-l
+  ><h4>{{ l }}</h4></ng-template
+>

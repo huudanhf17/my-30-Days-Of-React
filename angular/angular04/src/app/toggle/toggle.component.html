@@ -1,0 +1,13 @@
+<header><ng-content select="h3"></ng-content></header>
+<div
+  class="toggle-wrapper"
+  [class.checked]="checked"
+  tabindex="0"
+  (click)="checkedChange.emit(!checked)"
+>
+  <div class="toggle"></div>
+</div>
+<main>
+  <ng-content select="label"></ng-content><br /><ng-content></ng-content>
+</main>
+<footer><ng-content select="button"></ng-content></footer>

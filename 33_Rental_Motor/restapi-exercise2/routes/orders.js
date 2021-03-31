@@ -29,7 +29,7 @@ router.get("/lasted", async (req, res) => {
 });
 
 //Get Orders by UserID
-router.post("/userid", verify, async (req, res) => {
+router.post("/userid", async (req, res) => {
   try {
     const orders = await Order.find({ user_id: req.body.user_id });
     res.json(orders);
@@ -49,7 +49,7 @@ router.get("/", async (req, res) => {
 });
 
 //SUBMITS An Order
-router.post("/", async (req, res) => {
+router.post("/", verify, async (req, res) => {
   const order = new Order({
     user_id: req.body.user_id,
     motor_id: req.body.motor_id,
@@ -64,6 +64,12 @@ router.post("/", async (req, res) => {
       });
       return;
     }
+    if (user.coins < req.body.price) {
+      res.json({
+        message: `User don't have enough ${req.body.price}đ to rent`,
+      });
+      return;
+    }
     const newOrder = await order.save();
     const transaction = new Transactions({
       user_id: order.user_id,
@@ -71,7 +77,17 @@ router.post("/", async (req, res) => {
       description: `Pay for order ${newOrder._id}`,
     });
     transaction.save();
-    // update user
+
+    // Update User Coins
+    await User.updateOne(
+      { _id: req.body.user_id },
+      {
+        $set: {
+          coins: user.coins - req.body.price,
+        },
+      }
+    );
+
     res.json(newOrder);
   } catch (err) {
     res.json({ message: err });

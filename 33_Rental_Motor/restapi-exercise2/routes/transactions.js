@@ -9,7 +9,7 @@ const verify = require("./verifyToken");
 router.use(cookieParser());
 
 //Get TRANSACTIONS by UserID
-router.post("/", verify, async (req, res) => {
+router.post("/", async (req, res) => {
   try {
     const transactions = await Transaction.find({ user_id: req.body.user_id });
     res.json(transactions);
@@ -19,7 +19,7 @@ router.post("/", verify, async (req, res) => {
 });
 
 //SUBMITS A TRANSACTION
-router.post("/test", async (req, res) => {
+router.post("/test", verify, async (req, res) => {
   const transaction = new Transaction({
     user_id: req.body.user_id,
     amount: req.body.plus,

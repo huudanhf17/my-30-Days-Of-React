@@ -7,8 +7,12 @@ const cookieParser = require("cookie-parser");
 const verify = require("./verifyToken");
 const { registerValidation, loginValidation } = require("../validation");
 
+const app = express();
+const cors = require("cors");
+
 //Middlewares
 router.use(cookieParser());
+app.use(cors({ credential: true, origin: "https://localhost:3000" }));
 
 //api Register user
 router.post("/register", async (req, res) => {
@@ -64,12 +68,13 @@ router.post("/login", async (req, res) => {
     httpOnly: true,
     secure: true,
   });
+
   delete user.password;
   res.json(user);
 });
 
 //Get User By ID
-router.post("/id", verify, async (req, res) => {
+router.post("/id", async (req, res) => {
   try {
     const user = await User.findById(req.body.user_id).lean();
     delete user.password;
