@@ -22,11 +22,12 @@
 <br />
 <app-author-list></app-author-list>
 <hr />
-<app-toggle [(checked)]="checked">
+<app-toggle #toggleComp [(checked)]="checked">
   <h3>Question 1</h3>
   <label>Abc 1....</label>
   xyz1....
 </app-toggle>
+<button #toggleButton (click)="toggleComp.toggle()">Toggle Me</button>
 <br />
 <app-toggle [(checked)]="checked2">
   <h3>Question 2</h3>

@@ -8,6 +8,8 @@ import { AuthorListComponent } from './author-list/author-list.component';
 import { AuthorDetailComponent } from './author-detail/author-detail.component';
 import { ToggleComponent } from './toggle/toggle.component';
 import { TabsComponent } from './tabs/tabs.component';
+import { TabGroupComponent } from './tab-group/tab-group.component';
+import { TabPanelComponent } from './tab-panel/tab-panel.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +18,9 @@ import { TabsComponent } from './tabs/tabs.component';
     AuthorListComponent,
     AuthorDetailComponent,
     ToggleComponent,
-    TabsComponent
+    TabsComponent,
+    TabGroupComponent,
+    TabPanelComponent
   ],
   imports: [
     BrowserModule,

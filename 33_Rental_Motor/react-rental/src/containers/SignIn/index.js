@@ -2,13 +2,13 @@ import PropTypes from "prop-types";
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import Facebook from "../../components/Facebook/Facebook";
-// import Cookies from "universal-cookie";
+import axios from "axios";
+
 import "./SignIn.scss";
 
 // const cookies = new Cookies();
 
-const axios = require("axios").default;
-axios.withCredentials = true;
+axios.defaults.withCredentials = true;
 const url = "http://localhost:5000/";
 
 function SignIn(props) {
@@ -44,7 +44,7 @@ function SignIn(props) {
 
   const createCookie = () => {
     axios
-      .get("http://localhost:5000", { withCredentials: true })
+      .get("http://localhost:5000/testc", { withCredentials: true })
       .then((res) => {
         console.log(res.data);
       });

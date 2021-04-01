@@ -1,4 +1,5 @@
-import { Component, VERSION } from '@angular/core';
+import { Component, VERSION, ViewChild } from '@angular/core';
+import { ToggleComponent } from './toggle/toggle.component';
 
 @Component({
   selector: 'app-root',
@@ -6,6 +7,8 @@ import { Component, VERSION } from '@angular/core';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
+  @ViewChild(ToggleComponent) toggleComp!: ToggleComponent;
+
   title = 'angular04';
   name = 'Angular ' + VERSION.major;
   isDanger = false;
@@ -15,4 +18,8 @@ export class AppComponent {
   checked2 = true;
   counter = 1;
   navs = ['Active', 'Link 1', 'Link 2'];
+
+  ngAfterViewInit() {
+    console.log(this.toggleComp);
+  }
 }
