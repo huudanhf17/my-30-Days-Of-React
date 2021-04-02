@@ -1,0 +1,21 @@
+<p>my-tab-group works!</p>
+
+<div class="tab-headers">
+  <div
+    class="tab-header-item"
+    *ngFor="let tab of panelList; let idx = index"
+    (click)="selectedIndexChange.emit(idx)"
+    [class.active]="selectedIndex === idx"
+  >
+    {{ tab.title }}
+    <button (click)="removeTab(tab)">x</button>
+  </div>
+</div>
+
+<div class="tab-body" *ngIf="panelList.length; else noTabs">
+  <ng-container
+    *ngTemplateOutlet="panelList[selectedIndex].panelBody"
+  ></ng-container>
+</div>
+
+<ng-template #noTabs>No more tabs!</ng-template>

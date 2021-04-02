@@ -104,7 +104,10 @@ router.patch("/order", async (req, res) => {
 
 //Logout
 router.get("/logout", async (req, res) => {
-  res.status(202).clearCookie("token").send("Clear Token");
+  res
+    .status(202)
+    .clearCookie("token", { sameSite: "none", secure: true })
+    .send("Clear Token");
 });
 
 module.exports = router;

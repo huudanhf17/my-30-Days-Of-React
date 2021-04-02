@@ -18,6 +18,8 @@ export class AppComponent {
   checked2 = true;
   counter = 1;
   navs = ['Active', 'Link 1', 'Link 2'];
+  currentIndex = 0;
+  myCurrentIndex = 0;
 
   ngAfterViewInit() {
     console.log(this.toggleComp);

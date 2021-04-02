@@ -62,3 +62,43 @@
 <ng-template #linkTemplate let-l
   ><h4>{{ l }}</h4></ng-template
 >
+<hr />
+
+<app-tab-group [(activeIndex)]="currentIndex">
+  <app-tab-panel title="First Tab">First tab content</app-tab-panel>
+  <app-tab-panel title="Second Tab">Second tab content</app-tab-panel>
+  <app-tab-panel title="Third Tab">Third tab content</app-tab-panel>
+  <app-tab-panel title="Fourth Tab">Fourth tab content</app-tab-panel>
+  <app-tab-panel title="Fifth Tab">Fifth tab content</app-tab-panel>
+</app-tab-group>
+
+<hr />
+
+<app-my-tab-group [(selectedIndex)]="myCurrentIndex">
+  <app-my-tab-panel title="My 1st Tab">
+    <ng-template appTabContent>
+      My 1st tab content
+      <app-counter></app-counter>
+    </ng-template>
+  </app-my-tab-panel>
+  <app-my-tab-panel title="My 2nd Tab">
+    <ng-template appTabContent
+      >My 2nd tab content <app-counter></app-counter
+    ></ng-template>
+  </app-my-tab-panel>
+  <app-my-tab-panel title="My 3rd Tab">
+    <ng-template appTabContent
+      >My 3rd tab content <app-counter></app-counter
+    ></ng-template>
+  </app-my-tab-panel>
+  <app-my-tab-panel title="My 4th Tab">
+    <ng-template appTabContent
+      >My 4th tab content <app-counter></app-counter
+    ></ng-template>
+  </app-my-tab-panel>
+  <app-my-tab-panel title="My 5th Tab">
+    <ng-template appTabContent
+      >My 5th tab content <app-counter></app-counter
+    ></ng-template>
+  </app-my-tab-panel>
+</app-my-tab-group>

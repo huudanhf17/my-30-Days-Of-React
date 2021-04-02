@@ -10,6 +10,10 @@ import { ToggleComponent } from './toggle/toggle.component';
 import { TabsComponent } from './tabs/tabs.component';
 import { TabGroupComponent } from './tab-group/tab-group.component';
 import { TabPanelComponent } from './tab-panel/tab-panel.component';
+import { MyTabPanelComponent } from './my-tab-panel/my-tab-panel.component';
+import { MyTabGroupComponent } from './my-tab-group/my-tab-group.component';
+import { CounterComponent } from './counter/counter.component';
+import { TabContentDirective } from './tab-content.directive';
 
 @NgModule({
   declarations: [
@@ -20,13 +24,14 @@ import { TabPanelComponent } from './tab-panel/tab-panel.component';
     ToggleComponent,
     TabsComponent,
     TabGroupComponent,
-    TabPanelComponent
+    TabPanelComponent,
+    MyTabPanelComponent,
+    MyTabGroupComponent,
+    CounterComponent,
+    TabContentDirective,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule
-  ],
+  imports: [BrowserModule, AppRoutingModule],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
