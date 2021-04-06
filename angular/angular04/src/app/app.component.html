@@ -102,3 +102,13 @@
     ></ng-template>
   </app-my-tab-panel>
 </app-my-tab-group>
+<hr />
+{{ date | date }}
+<br />
+{{ date | date: "dd/MM/yyyy hh:mm a" }}
+<br />
+<p>B: {{ 250000 | currency: "VND" }}</p>
+<br />
+{{ user | json }}
+<br />
+{{ intervals | async }}

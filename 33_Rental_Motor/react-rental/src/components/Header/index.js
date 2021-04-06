@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./Header.scss";
 import PropTypes from "prop-types";
@@ -8,6 +8,13 @@ const axios = require("axios").default;
 const url = "http://localhost:5000/";
 
 const Header = (props) => {
+  useEffect(() => {
+    if (localStorage.getItem("user-info")) {
+      let temp = JSON.parse(localStorage.getItem("user-info"));
+      console.log(temp.exp);
+    }
+  }, []);
+
   const logOut = async () => {
     try {
       await axios.get(`${url}api/user/logout`, { withCredentials: true });

@@ -134,7 +134,28 @@ function HistoryRentPay(props) {
       </div>
     );
   } else {
-    return null;
+    return (
+      <div className="HistoryRentPay-div">
+        <div className="HistoryRentPay-container">
+          <h1>History of Rent - Payment </h1>
+          <table style={{ width: "100%" }} className="HistoryRentPay-table">
+            <tbody>
+              <tr>
+                <th>Qty</th>
+                <th>Time</th>
+                <th>+ / -</th>
+                <th>Balance</th>
+                <th>Description</th>
+              </tr>
+              <tr>
+                <td>You have 0 trasacistion</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div className="HistoryRentPay-div2">.....</div>
+      </div>
+    );
   }
 }
 

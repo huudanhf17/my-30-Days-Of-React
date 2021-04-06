@@ -14,6 +14,7 @@ import { MyTabPanelComponent } from './my-tab-panel/my-tab-panel.component';
 import { MyTabGroupComponent } from './my-tab-group/my-tab-group.component';
 import { CounterComponent } from './counter/counter.component';
 import { TabContentDirective } from './tab-content.directive';
+import { FormatAddressPipe } from './format-address.pipe';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { TabContentDirective } from './tab-content.directive';
     MyTabGroupComponent,
     CounterComponent,
     TabContentDirective,
+    FormatAddressPipe,
   ],
   imports: [BrowserModule, AppRoutingModule],
   providers: [],
