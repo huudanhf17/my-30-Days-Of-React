@@ -53,7 +53,7 @@ function SignUp(props) {
         },
       });
       result = await result.data;
-
+      result.exp = new Date(Date.now() + 7889231000);
       props.getUser(result);
       history.push("/");
     } catch (e) {

@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./Header.scss";
 import PropTypes from "prop-types";
+import moment from "moment";
 
 const axios = require("axios").default;
 // axios.withCredentials = true;
@@ -11,9 +12,15 @@ const Header = (props) => {
   useEffect(() => {
     if (localStorage.getItem("user-info")) {
       let temp = JSON.parse(localStorage.getItem("user-info"));
-      console.log(temp.exp);
+      let exp = moment(temp.exp);
+      let now = moment(Date.now());
+      console.log(exp.diff(now));
+      setTimeout(() => {
+        localStorage.clear();
+        window.location.reload();
+      }, exp.diff(now));
     }
-  }, []);
+  }, [props.user]);
 
   const logOut = async () => {
     try {
