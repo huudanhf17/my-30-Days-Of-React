@@ -15,6 +15,9 @@ import { MyTabGroupComponent } from './my-tab-group/my-tab-group.component';
 import { CounterComponent } from './counter/counter.component';
 import { TabContentDirective } from './tab-content.directive';
 import { FormatAddressPipe } from './format-address.pipe';
+import { HomeComponent } from './home/home.component';
+import { ChildComponent } from './home/child/child.component';
+import { ArticleDetailComponent } from './article-detail/article-detail.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +34,9 @@ import { FormatAddressPipe } from './format-address.pipe';
     CounterComponent,
     TabContentDirective,
     FormatAddressPipe,
+    HomeComponent,
+    ChildComponent,
+    ArticleDetailComponent,
   ],
   imports: [BrowserModule, AppRoutingModule],
   providers: [],

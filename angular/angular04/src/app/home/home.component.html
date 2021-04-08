@@ -1,0 +1,9 @@
+<p>home works!</p>
+<ul>
+  <li *ngFor="let article of articles$ | async" class="home-li">
+    <h2>{{ article.title }}</h2>
+    <a href="" [routerLink]="['/detail', article.slug]">Read more...</a>
+    <p>{{ article.slug }}</p>
+  </li>
+</ul>
+<router-outlet></router-outlet>
