@@ -10,7 +10,7 @@ function ProtectRoute({ isAuth: isAuth, component: Component, ...rest }) {
             checkNull();
           } else if (isAuth === true) {
             return <Component {...props} {...rest} />;
-          } else if (isAuth === 1) {
+          } else if (isAuth === 1 || isAuth === false) {
             return <Redirect to="/" />;
           } else {
             return (

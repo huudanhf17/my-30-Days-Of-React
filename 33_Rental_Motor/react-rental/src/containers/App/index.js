@@ -448,9 +448,11 @@ function App() {
       <Router>
         <Header user={user} formatCash={(str) => formatCash(str)}></Header>
         <Switch>
+          {/* Need protect after Login */}
           <Route path="/signup">
-            <SignUp getUser={(data) => getUser(data)}></SignUp>
+            <SignIn getUser={(data) => getUser(data)}></SignIn>
           </Route>
+          {/* Need protect after Login */}
           <Route path="/signin">
             <SignIn getUser={(data) => getUser(data)}></SignIn>
           </Route>

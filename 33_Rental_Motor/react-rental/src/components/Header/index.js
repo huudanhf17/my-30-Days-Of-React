@@ -36,7 +36,7 @@ const Header = (props) => {
     <header className="Header">
       <ul className="Header-ul">
         <Link to="/" className="Header-li Header-home">
-          <li className="clickable">HOME</li>{" "}
+        <div className="clickable">HOME</div>
         </Link>
         <li className="Header-li clickable">PAY IN</li>
         {localStorage.getItem("user-info") ? (

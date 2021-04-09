@@ -1,0 +1,13 @@
+<ng-container *ngIf="hero">
+  <h1>{{ hero.name }} details!</h1>
+  <div>
+    <label for="hero-id">id:</label>
+    <span id="hero-id">{{ hero.id }}</span>
+  </div>
+  <div>
+    <label for="hero-name">name:</label>
+    <input id="hero-name" [(ngModel)]="hero.name" placeholder="name" />
+  </div>
+  <button (click)="save()">Save</button>
+  <button (click)="goBack()">Back</button>
+</ng-container>

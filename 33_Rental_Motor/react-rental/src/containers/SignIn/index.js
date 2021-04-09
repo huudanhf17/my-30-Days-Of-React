@@ -33,7 +33,7 @@ function SignIn(props) {
         },
       });
       result = await result.data;
-      result.exp = new Date(Date.now() + 7_889_231_000);
+      result.exp = new Date(Date.now() + 1_889_231_000);
       props.getUser(result);
       history.location.state
         ? history.push(history.location.state.from.pathname)
