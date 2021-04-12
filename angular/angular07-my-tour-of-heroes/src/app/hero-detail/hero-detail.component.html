@@ -1,0 +1,17 @@
+<ng-container *ngIf="hero">
+  <h2>{{ hero.name }} details!</h2>
+  <div>
+    <label>id: </label>
+    <span>{{ hero.id }}</span>
+  </div>
+
+  <div>
+    <label>name: </label>
+    <input type="text" [(ngModel)]="hero.name" />
+  </div>
+
+  <div>
+    <button (click)="save(hero)">Save</button>
+    <button (click)="back()">Back</button>
+  </div>
+</ng-container>
