@@ -1,0 +1,53 @@
+<div class="container">
+  <form
+    novalidate
+    #signInForm="ngForm"
+    (ngSubmit)="onSubmit(signInForm)"
+    class="sign-in-form"
+  >
+    <h2>Sign in</h2>
+    <div class="row-control">
+      <mat-form-field appearance="outline">
+        <mat-label>Username</mat-label>
+        <input
+          ngModel
+          matInput
+          placeholder="Username"
+          name="username"
+          required
+        />
+      </mat-form-field>
+    </div>
+    <div class="row-control">
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input
+          ngModel
+          type="password"
+          matInput
+          placeholder="Password"
+          name="password"
+          required
+        />
+      </mat-form-field>
+    </div>
+    <div class="row-control">
+      <mat-checkbox ngModel name="rememberMe">Remember me</mat-checkbox>
+    </div>
+    <div class="row-control row-actions">
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="!signInForm.form.valid"
+      >
+        Sign in
+      </button>
+    </div>
+  </form>
+  <hr />
+  <pre>
+    {{ signInForm.value | json }}
+    </pre
+  >
+</div>

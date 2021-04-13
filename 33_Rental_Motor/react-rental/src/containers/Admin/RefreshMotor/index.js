@@ -76,7 +76,7 @@ function RefreshMotor(props) {
             <th>Action</th>
           </tr>
 
-          {props.motorListMaintance.length > 0
+          {props.motorListMaintance.length
             ? props.motorListMaintance
                 .sort((a, b) => a.left - b.left)
                 .map((value, index) => {

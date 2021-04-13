@@ -448,19 +448,20 @@ function App() {
       <Router>
         <Header user={user} formatCash={(str) => formatCash(str)}></Header>
         <Switch>
-          {/* Need protect after Login */}
-
           <ProtectRoute
             path="/signup"
+            component={SignUp}
+            isAuth={!isAuth}
+            getUser={(data) => getUser(data)}
+          ></ProtectRoute>
+
+          <ProtectRoute
+            path="/signin"
             component={SignIn}
             isAuth={!isAuth}
             getUser={(data) => getUser(data)}
           ></ProtectRoute>
 
-          {/* Need protect after Login */}
-          <Route path="/signin">
-            <SignIn getUser={(data) => getUser(data)}></SignIn>
-          </Route>
           <ProtectRoute
             path="/history-rent-pay"
             component={HistoryRentPay}
@@ -472,6 +473,7 @@ function App() {
             formatCash={(str) => formatCash(str)}
             innerTime={(sec) => innerTime(sec)}
           ></ProtectRoute>
+
           <ProtectRoute
             path="/admin/"
             component={Admin}

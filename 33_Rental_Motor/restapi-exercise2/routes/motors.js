@@ -2,6 +2,11 @@ const express = require("express");
 const { now } = require("mongoose");
 const router = express.Router();
 const Motor = require("../models/Motors");
+const cookieParser = require("cookie-parser");
+const verify = require("./verifyToken");
+
+//Middlewares
+router.use(cookieParser());
 
 //Get Motor
 router.get("/", async (req, res) => {
@@ -56,7 +61,7 @@ router.delete("/:motorId", async (req, res) => {
 });
 
 //Refresh a Motor
-router.patch("/", async (req, res) => {
+router.patch("/", verify, async (req, res) => {
   try {
     const updateMotor = await Motor.updateOne(
       { _id: req.body.motorId },

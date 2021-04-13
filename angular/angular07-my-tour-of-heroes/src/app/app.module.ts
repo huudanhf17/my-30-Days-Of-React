@@ -13,6 +13,15 @@ import { HeroesComponent } from './heroes/heroes.component';
 import { HeroDetailComponent } from './hero-detail/hero-detail.component';
 import { MessagesComponent } from './messages/messages.component';
 import { FormsModule } from '@angular/forms';
+import { SearchComponent } from './search/search.component';
+import { AdminComponent } from './admin/admin.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SignInComponent } from './sign-in/sign-in.component';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatButtonModule } from '@angular/material/button';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -20,6 +29,9 @@ import { FormsModule } from '@angular/forms';
     HeroesComponent,
     HeroDetailComponent,
     MessagesComponent,
+    SearchComponent,
+    AdminComponent,
+    SignInComponent,
   ],
   imports: [
     BrowserModule,
@@ -33,6 +45,12 @@ import { FormsModule } from '@angular/forms';
     HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, {
       dataEncapsulation: false,
     }),
+
+    BrowserAnimationsModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCheckboxModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
