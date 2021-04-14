@@ -12,7 +12,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { HeroesComponent } from './heroes/heroes.component';
 import { HeroDetailComponent } from './hero-detail/hero-detail.component';
 import { MessagesComponent } from './messages/messages.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SearchComponent } from './search/search.component';
 import { AdminComponent } from './admin/admin.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -21,6 +21,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatButtonModule } from '@angular/material/button';
+import { SignInRfComponent } from './sign-in-rf/sign-in-rf.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { MatButtonModule } from '@angular/material/button';
     SearchComponent,
     AdminComponent,
     SignInComponent,
+    SignInRfComponent,
   ],
   imports: [
     BrowserModule,
@@ -51,6 +53,7 @@ import { MatButtonModule } from '@angular/material/button';
     MatFormFieldModule,
     MatInputModule,
     MatCheckboxModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

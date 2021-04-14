@@ -4,6 +4,7 @@ const router = express.Router();
 const Motor = require("../models/Motors");
 const cookieParser = require("cookie-parser");
 const verify = require("./verifyToken");
+const User = require("../models/User");
 
 //Middlewares
 router.use(cookieParser());
@@ -63,6 +64,14 @@ router.delete("/:motorId", async (req, res) => {
 //Refresh a Motor
 router.patch("/", verify, async (req, res) => {
   try {
+    const user = User.findById(req.user._id);
+    if (user.type !== "admin") {
+      res.status(401).json({
+        message: "You don't have permission!",
+      });
+      return;
+    }
+
     const updateMotor = await Motor.updateOne(
       { _id: req.body.motorId },
       {
