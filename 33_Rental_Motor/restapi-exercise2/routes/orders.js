@@ -5,6 +5,7 @@ const Transactions = require("../models/Transactions");
 const User = require("../models/User");
 const cookieParser = require("cookie-parser");
 const verify = require("./verifyToken");
+const verifyAd = require("./verifyTokenAd");
 
 //Middlewares
 router.use(cookieParser());
@@ -115,7 +116,7 @@ router.delete("/:orderId", async (req, res) => {
 });
 
 //Ban an order
-router.patch("/ban", async (req, res) => {
+router.patch("/ban", verifyAd, async (req, res) => {
   try {
     const updateOrder = await Order.updateOne(
       { _id: req.body.orderId },

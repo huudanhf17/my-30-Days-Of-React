@@ -64,7 +64,7 @@ router.delete("/:motorId", async (req, res) => {
 //Refresh a Motor
 router.patch("/", verify, async (req, res) => {
   try {
-    const user = User.findById(req.user._id);
+    const user = await User.findById(req.user._id);
     if (user.type !== "admin") {
       res.status(401).json({
         message: "You don't have permission!",

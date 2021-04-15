@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
+const verifyAd = require("./verifyTokenAd");
 
 //api Get users
 router.get("/", async (req, res) => {
@@ -105,7 +106,7 @@ router.patch("/:userId", async (req, res) => {
 });
 
 //api Change Type user
-router.patch("/", async (req, res) => {
+router.patch("/", verifyAd, async (req, res) => {
   try {
     const updateUser = await User.updateOne(
       { _id: req.body.userId },
