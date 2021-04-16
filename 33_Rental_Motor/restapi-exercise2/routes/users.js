@@ -48,7 +48,7 @@ router.post("/signin", async (req, res) => {
 });
 
 //api Specific user
-router.get("/:userId", async (req, res) => {
+router.get("/:userId", verifyAd, async (req, res) => {
   try {
     const user = await User.findById(req.params.userId);
     res.json(user);
@@ -68,7 +68,7 @@ router.delete("/:userId", async (req, res) => {
 });
 
 //api Update user
-router.patch("/modify", async (req, res) => {
+router.patch("/modify", verifyAd, async (req, res) => {
   try {
     const updateUser = await User.updateOne(
       { _id: req.body.userId },

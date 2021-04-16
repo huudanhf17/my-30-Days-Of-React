@@ -5,6 +5,7 @@ const Motor = require("../models/Motors");
 const cookieParser = require("cookie-parser");
 const verify = require("./verifyToken");
 const User = require("../models/User");
+const verifyAd = require("./verifyTokenAd");
 
 //Middlewares
 router.use(cookieParser());
@@ -20,7 +21,7 @@ router.get("/", async (req, res) => {
 });
 
 //SUBMITS A Motor
-router.post("/", async (req, res) => {
+router.post("/", verifyAd, async (req, res) => {
   const motor = new Motor({
     name: req.body.name,
     color: req.body.color,
@@ -42,7 +43,7 @@ router.post("/", async (req, res) => {
 });
 
 //Specific Motor
-router.get("/:motorId", async (req, res) => {
+router.get("/:motorId", verifyAd, async (req, res) => {
   try {
     const motor = await Motor.findById(req.params.motorId);
     res.json(motor);
@@ -88,7 +89,7 @@ router.patch("/", verify, async (req, res) => {
 });
 
 //Update a Motor
-router.patch("/update", async (req, res) => {
+router.patch("/update", verifyAd, async (req, res) => {
   try {
     const updateMotor = await Motor.updateOne(
       { _id: req.body.motorId },

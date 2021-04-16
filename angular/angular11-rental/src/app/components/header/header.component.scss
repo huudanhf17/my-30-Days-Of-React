@@ -1,0 +1,10 @@
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  background: black;
+  color: white;
+
+  header-col {
+    flex: 1;
+  }
+}
