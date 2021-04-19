@@ -2,9 +2,34 @@
   display: flex;
   justify-content: space-between;
   background: black;
-  color: white;
+  min-height: 80px;
+  align-items: center;
 
-  header-col {
+  .header-col {
     flex: 1;
+    display: flex;
+    height: 80px;
+  }
+
+  .justify-content-center {
+    justify-content: center;
+  }
+
+  .justify-content-end {
+    justify-content: flex-end;
+  }
+
+  button {
+    height: 80px;
+    font-size: 1.2rem;
+    padding: 12px;
+    background: black;
+    color: white;
+    box-shadow: 0px 0px 0px 0px;
+  }
+
+  .warn {
+    background: #f44336;
+    color: #fff;
   }
 }

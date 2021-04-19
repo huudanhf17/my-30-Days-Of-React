@@ -12,6 +12,7 @@ import Header from "../../components/Header/";
 import HistoryRentPay from "../../components/HistoryRentPay/HistoryRentPay";
 import PreMain from "../../components/PreMain";
 import ProtectRoute from "../../components/ProtectRoute";
+import UserContextProvider from "../../contexts/UserContext";
 import Admin from "../Admin";
 import Main from "../Main";
 import SignIn from "../SignIn";
@@ -445,50 +446,52 @@ function App() {
 
   return (
     <div className="App">
-      <Router>
-        <Header user={user} formatCash={(str) => formatCash(str)}></Header>
-        <Switch>
-          <ProtectRoute
-            path="/signup"
-            component={SignUp}
-            isAuth={!isAuth}
-            getUser={(data) => getUser(data)}
-          ></ProtectRoute>
+      <UserContextProvider>
+        <Router>
+          <Header user={user} formatCash={(str) => formatCash(str)}></Header>
 
-          <ProtectRoute
-            path="/signin"
-            component={SignIn}
-            isAuth={!isAuth}
-            getUser={(data) => getUser(data)}
-          ></ProtectRoute>
+          <Switch>
+            <ProtectRoute
+              path="/signup"
+              component={SignUp}
+              isAuth={!isAuth}
+              getUser={(data) => getUser(data)}
+            ></ProtectRoute>
 
-          <ProtectRoute
-            path="/history-rent-pay"
-            component={HistoryRentPay}
-            isAuth={isAuth}
-            coins={coins}
-            payments={payments}
-            user={user._id}
-            motorList={motorList}
-            formatCash={(str) => formatCash(str)}
-            innerTime={(sec) => innerTime(sec)}
-          ></ProtectRoute>
+            <ProtectRoute
+              path="/signin"
+              component={SignIn}
+              isAuth={!isAuth}
+              getUser={(data) => getUser(data)}
+            ></ProtectRoute>
 
-          <ProtectRoute
-            path="/admin/"
-            component={Admin}
-            isAuth={isAdmin}
-            motorListMaintance={motorListMaintance}
-            coins={coins}
-            payments={payments}
-            formatCash={(str) => formatCash(str)}
-            motorList={motorList}
-            splitTime={(seconds, unit) => splitTime(seconds, unit)}
-            innerTime={(sec) => innerTime(sec)}
-            setRefreshData={(num) => setRefreshData(num)}
-          ></ProtectRoute>
-          <Route path="/admin/">
-            {/* <Admin
+            <ProtectRoute
+              path="/history-rent-pay"
+              component={HistoryRentPay}
+              isAuth={isAuth}
+              coins={coins}
+              payments={payments}
+              user={user._id}
+              motorList={motorList}
+              formatCash={(str) => formatCash(str)}
+              innerTime={(sec) => innerTime(sec)}
+            ></ProtectRoute>
+
+            <ProtectRoute
+              path="/admin/"
+              component={Admin}
+              isAuth={isAdmin}
+              motorListMaintance={motorListMaintance}
+              coins={coins}
+              payments={payments}
+              formatCash={(str) => formatCash(str)}
+              motorList={motorList}
+              splitTime={(seconds, unit) => splitTime(seconds, unit)}
+              innerTime={(sec) => innerTime(sec)}
+              setRefreshData={(num) => setRefreshData(num)}
+            ></ProtectRoute>
+            <Route path="/admin/">
+              {/* <Admin
               motorListMaintance={motorListMaintance}
               coins={coins}
               payments={payments}
@@ -498,25 +501,26 @@ function App() {
               innerTime={(sec) => innerTime(sec)}
               setRefreshData={(num) => setRefreshData(num)}
             ></Admin> */}
-          </Route>
-          <Route path="/">
-            <AfterHeader></AfterHeader>
-            <PreMain></PreMain>
-            <Main
-              coin={user.coins}
-              type={user.type}
-              motorList={motorList}
-              getRentInfo={(motor, price, durationRent, index) =>
-                getRentInfo(motor, price, durationRent, index)
-              }
-              splitTime={(seconds, unit) => splitTime(seconds, unit)}
-              formatCash={(str) => formatCash(str)}
-              innerTime={(sec) => innerTime(sec)}
-            ></Main>
-          </Route>
-        </Switch>
-        <Footer></Footer>
-      </Router>
+            </Route>
+            <Route path="/">
+              <AfterHeader></AfterHeader>
+              <PreMain></PreMain>
+              <Main
+                coin={user.coins}
+                type={user.type}
+                motorList={motorList}
+                getRentInfo={(motor, price, durationRent, index) =>
+                  getRentInfo(motor, price, durationRent, index)
+                }
+                splitTime={(seconds, unit) => splitTime(seconds, unit)}
+                formatCash={(str) => formatCash(str)}
+                innerTime={(sec) => innerTime(sec)}
+              ></Main>
+            </Route>
+          </Switch>
+          <Footer></Footer>
+        </Router>
+      </UserContextProvider>
     </div>
   );
 }

@@ -1,8 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./Header.scss";
 import PropTypes from "prop-types";
 import moment from "moment";
+import { UserContext } from "../../contexts/UserContext";
+import { GET_USER, LOGOUT_USER } from "../../reducers/type";
 
 const axios = require("axios").default;
 // axios.withCredentials = true;
@@ -32,12 +34,23 @@ const Header = (props) => {
     }
   };
 
+  const testContext = useContext(UserContext);
+
+  const clickTestContext = () => {
+    console.log(testContext);
+    testContext.dispatch({
+      type: LOGOUT_USER,
+    });
+    console.log(testContext);
+  };
+
   return (
     <header className="Header">
       <ul className="Header-ul">
         <Link to="/" className="Header-li Header-home">
-        <div className="clickable">HOME</div>
+          <div className="clickable">HOME</div>
         </Link>
+        <button onClick={clickTestContext}></button>
         <li className="Header-li clickable">PAY IN</li>
         {localStorage.getItem("user-info") ? (
           <li className="Header-li Header-user clickable">
