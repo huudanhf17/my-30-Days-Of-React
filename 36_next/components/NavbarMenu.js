@@ -17,6 +17,18 @@ function NavBarMenu(props) {
       </Nav>
 
       <Nav>
+        <Link href="/jokes/random" passHref>
+          <Nav.Link>Jokes</Nav.Link>
+        </Link>
+      </Nav>
+
+      <Nav>
+        <Link href="/books" passHref>
+          <Nav.Link>Books</Nav.Link>
+        </Link>
+      </Nav>
+
+      <Nav>
         <Link href="/about" passHref>
           <Nav.Link>About</Nav.Link>
         </Link>

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Card } from "react-bootstrap";
 import Layout from "../../components/Layout";
 import { getPosts } from "../../lib/post";
@@ -7,14 +8,19 @@ import { getPosts } from "../../lib/post";
 //   { id: 2, title: "Post 2", body: "My Post 2 body" },
 // ];
 
-function index(posts) {
+function index({ posts }) {
   return (
     <Layout>
       {posts.map((post) => (
-        <Card key={post.id}>
+        <Card key={post.id} className="my-3 shadow rounded">
           <Card.Body>
-            <Card.Title>{post.title}</Card.Title>
+            <Card.Title>
+              {post.id} -- {post.title}
+            </Card.Title>
             <Card.Text>{post.body}</Card.Text>
+            <Link href={`/posts/${post.id}`} passHref>
+              <Card.Link>See more</Card.Link>
+            </Link>
           </Card.Body>
         </Card>
       ))}
@@ -24,7 +30,7 @@ function index(posts) {
 
 //GET static data from backend /db /api
 export const getStaticProps = async () => {
-  const posts = await getPosts();
+  const posts = await getPosts(10);
 
   return {
     props: {
