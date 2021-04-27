@@ -1,7 +1,7 @@
-import { ApolloClient, InMemoryCache } from "@apollo/client";
+import { ApolloClient, gql, InMemoryCache } from "@apollo/client";
 
 const client = new ApolloClient({
-  uri: "https://rickandmortyapi.com/graphql",
+  uri: "https://rickandmortyapi.com/graphql/",
   cache: new InMemoryCache(),
 });
 
@@ -12,7 +12,7 @@ export default async (req, res) => {
       query: gql`
       # Write your query or mutation here
 query {
-  characters(filter: {name: ${search}}){
+  characters(filter: {name: "${search}"}){
     info {
       count
       pages
@@ -39,7 +39,7 @@ query {
 }
       `,
     });
-    res.status(200).json({ characters: data.characters.result, error: null });
+    res.status(200).json({ characters: data.characters.results, error: null });
   } catch (error) {
     if (error.message === "404: Not Found") {
       res.status(404).json({ characters: null, error: "No Characters found" });
